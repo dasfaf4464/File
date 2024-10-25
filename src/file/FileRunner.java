@@ -1,5 +1,8 @@
 package file;
 
+import ide.IDE;
+import ide.Mode;
+
 import java.io.File;
 
 public class FileRunner {
@@ -21,16 +24,6 @@ public class FileRunner {
         } else {
             return null;
         }
-    }
-
-    /**
-     *
-     * @param fileName
-     * @return
-     */
-    public File selectFile(String fileName) {
-        File file = new File(fileName);
-        return file;
     }
 
     /**

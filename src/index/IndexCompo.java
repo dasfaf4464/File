@@ -43,15 +43,15 @@ public class IndexCompo extends IDEComponent {
      */
     @Override
     public void setMode(Mode m) {
-        if(m == Mode.indNOFILE || m == Mode.indHAVEFILE) {
-            runableMode = m;
-            mode = runableMode;
-        } else {
+        int modeValue = m.getValue();
+        if(0x10 < modeValue && modeValue <= 0x12) {
+            indexMode = m;
+        } else if(0x1C < modeValue && modeValue <= 0x1F) {
             viewingMode = m;
-            mode = viewingMode;
         }
+        mode = m;
     }
 
     public static IndexViewer indexViewer = new IndexViewer();
-    //public static IndexRunner indexRunner = new IndexRunner();
+    public static IndexRunner indexRunner = new IndexRunner();
 }

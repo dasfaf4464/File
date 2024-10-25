@@ -3,9 +3,6 @@ package index;
 import java.io.File;
 
 public class IndexViewer {
-    public IndexViewer() {
-
-    }
 
     public void showStartProgram() {
         System.out.println("##############################");
