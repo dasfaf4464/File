@@ -1,9 +1,8 @@
 package manager;
 
 import java.io.*;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.Properties;
+import java.util.Scanner;
 
 /**
  *
@@ -11,70 +10,117 @@ import java.util.StringTokenizer;
 public class ManagerRunner {
 
     /**
-     * check having "setting.txt" in program folder.
-     * @param settingPath is the folder where IDE is installed at.
+     * check having "settings.properties" in program folder.
+     * @param settingFilePath is basically the folder where IDE is installed at.
+     * @return true if a setting file exits.
      */
-    public void checkSettingFile(String settingPath) {
-        File file = new File(settingPath+"\\setting.txt");
-        if(!file.exists()) {
-            try{
-                file.createNewFile();
-                installIDE();
-            } catch (IOException e) {
-                System.out.println("Error occur while making setting file");
-            }
-        }
-    }
-
-    public void installIDE() {
-
+    public boolean settingFileExits(String settingFilePath) {
+        File settingFile = new File(settingFilePath + "\\settings.properties");
+        return settingFile.exists();
     }
 
     /**
-     * @param settingPath is the folder where IDE is installed at.
-     * @return all statements of setting file
+     * @param settingFilePath is the folder where IDE is installed at.
+     * @return property is IDE system Property.
      */
-    public LinkedList<String> getSettingFile(String settingPath) {
-        LinkedList<String> file = new LinkedList<>();
-        String line;
+    public Properties getSettingFile(String settingFilePath) {
+        try {
+            FileInputStream settingFileStream = new FileInputStream(settingFilePath + "\\settings.properties");
+            Properties properties = new Properties();
+            properties.load(settingFileStream);
+
+            return properties;
+        } catch (FileNotFoundException e) {
+            System.out.println("setting file not found");
+            return null;
+        } catch (IOException e) {
+            System.out.println("setting file read error");
+            return null;
+        }
+    }
+
+    /**
+     *
+     * @param settingFilePath is location that "settings.properties" is saved at.
+     * @param settingFile is IDE setting instance. it might be changed.
+     * @return save success?
+     */
+    public boolean saveSettingFile(String settingFilePath, Properties settingFile) {
+        try {
+            FileOutputStream settingFileStream = new FileOutputStream(settingFilePath + "\\settings.properties");
+            settingFile.store(settingFileStream, null);
+        } catch (FileNotFoundException e) {
+            System.out.println("setting file not found");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+
+    /**
+     * set key of properties. all values are empty. excepts file searching dir.
+     * @param settingFilePath is absolute path.
+     * @return absolute path - "setting.properties"
+     */
+    public Properties installIDE(String settingFilePath) {
+        Scanner scanner = new Scanner(System.in);
+        File settingFile = makeSettingFile(settingFilePath);
+        FileInputStream settingFileStream;
+        Properties settings = new Properties();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(settingPath + "\\setting.txt"));
-            while((line = br.readLine()) != null) {
-                file.add(line);
+            settingFileStream = new FileInputStream(settingFile);
+            settings.load(settingFileStream);
+
+            System.out.println("##############################");
+            System.out.println("put dir to use in IDE. this values are saved in IDE folder : " + settingFile);
+            for(Keys keyValue : Keys.values()) {
+                System.out.print(keyValue.getKeyString() + ":");
+                settings.setProperty(keyValue.getKeyString(), scanner.nextLine());
             }
+
+            changeProperties("file", System.getProperty("user.dir"), settings);
+
+            saveSettingFile(settingFilePath, settings);
+        } catch (FileNotFoundException e) {
+            System.out.println("setting file not found");
+            System.exit(1);
         } catch (IOException e) {
-            System.out.println("Error occur while have finding setting file");
+            System.out.println("setting file read error");
+            System.exit(1);
         }
-
-        return file;
+        return settings;
     }
 
-    /**
-     * @param settingFile is List of lines.
-     * @param category is setting category such as JDK, GCC.
-     * @return List of lines which are under the category.
-     */
-    public LinkedList<String> getLinesOfCategory(LinkedList<String> settingFile, String category) {
-        Iterator<String> lineIterator = settingFile.iterator();
-        LinkedList<String> lines = new LinkedList<>();
+    private File makeSettingFile(String settingFilePath) {
+        File settingFile = new File(settingFilePath + "settings.properties");
 
-        while (lineIterator.hasNext()) {
-            if (lineIterator.next().equals("[" + category + "]")) {
-                while(lineIterator.hasNext()) {
-                    lines.add(lineIterator.next());
-                    if(lineIterator.next().contains("[")){
-                        break;
-                    }
-                }
-                break;
+        if(!settingFile.exists()) {
+            try {
+                settingFile.createNewFile();
+            } catch (IOException e) {
+                System.out.println("setting file creation error");
+                System.exit(1);
             }
         }
 
-        return lines;
+        return settingFile;
     }
 
-    public void tokenizePropertyAndOption(String options, LinkedList<String> category) {
-        StringTokenizer st = new StringTokenizer(category.peek(), "=");
+    private boolean addProperties(String propertyKey, String propertyValue, Properties settings) {
+        return settings.setProperty(propertyKey, propertyValue) != null;
+    }
+
+    private boolean deleteProperties(String propertyKey, Properties settings) {
+        return settings.remove(propertyKey) != null;
+    }
+
+    private String getValue(String propertyKey, Properties settings) {
+        return settings.getProperty(propertyKey);
+    }
+
+    private boolean changeProperties(String propertyKey, String newValues, Properties settings) {
+        return settings.replace(propertyKey, newValues) != null;
     }
 }

@@ -20,9 +20,10 @@ public class IDE {
     public static void main(String[] args) {
         //these lines run flow 1 to flow 2
         compoCaller.callComponent(new ManagerCompo(Mode.managerCHECK));
-        compoCaller.runComponent();
+        compoCaller.runComponent(); //check "settings.properties"
+        compoCaller.runComponent(); //install or get setting file.
         compoCaller.returnComponent();
-        //Manager Component 미구현
+        //end checking.
 
         // test
 

@@ -32,8 +32,14 @@ public abstract class IDEComponent {
      * changing between mode
      */
 
+    public int setErrorCode(int code){
+        errorCode = code;
+        return errorCode;
+    }
+
     protected Mode mode = null;
     protected Mode runableMode = null;
     protected Mode viewingMode = null;
     protected Mode indexMode = null;
+    protected int errorCode = 0;
 }

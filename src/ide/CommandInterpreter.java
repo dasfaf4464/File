@@ -88,7 +88,7 @@ public class CommandInterpreter {
     private void interpretIndex(IDEComponent component) {
         if(component.mode.equals(Mode.indNOFILE)){
             switch (command) {
-                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.basicFileStarting, Mode.fileNOFILE)); break;
+                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileNOFILE)); break;
                 case "2": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.basicErrorFolderPath, Mode.fileLIST)); break;
                 //case '3': IDE.compoCaller.callComponent(new TextEditorCompo()); break;
                 case "4", "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
@@ -98,7 +98,7 @@ public class CommandInterpreter {
             }
         } else if (component.mode.equals(Mode.indHAVEFILE)) {
             switch (command) {
-                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.basicFileStarting, Mode.fileHAVEUP)); break;
+                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileHAVEUP)); break;
                 case "2": IDE.compoCaller.callComponent(new CompilerCompo(Mode.compileHAVEFILE)); break;
                 case "3": IDE.compoCaller.callComponent(new RunnerCompo(FileCompo.getUploadedFile(), Mode.runHAVEFILE)); break;
                 case "4": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.basicErrorFolderPath, Mode.fileLIST)); break;
@@ -180,7 +180,7 @@ public class CommandInterpreter {
     private void interpretCompiler(IDEComponent component) {
         if(component.mode.equals(Mode.compileNOFILE)) {
             switch (command) {
-                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.basicFileStarting, Mode.fileLIST)); break;
+                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileLIST)); break;
                 case "2", "exit": IDE.compoCaller.returnComponent(Mode.indHAVEFILE); break;
             }
         } else if(component.mode.equals(Mode.compileHAVEFILE)) {
@@ -228,7 +228,7 @@ public class CommandInterpreter {
     private void interpretTextEditor(IDEComponent component) {
         if(component.mode.equals(Mode.textNOFILE)){
             switch (command) {
-                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.basicFileStarting, Mode.fileLIST)); break;
+                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileLIST)); break;
                 case "read", "2": component.setMode(Mode.textREAD);
                 case "3", "exit": IDE.compoCaller.returnComponent(); break;
             }

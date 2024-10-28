@@ -2,8 +2,7 @@ package manager;
 
 import ide.IDEComponent;
 import ide.Mode;
-import java.util.LinkedList;
-
+import java.util.Properties;
 
 /**
  *
@@ -12,16 +11,24 @@ public class ManagerCompo extends IDEComponent {
 
     public ManagerCompo(Mode mode) {
         setMode(mode);
+        indexMode = Mode.managerHAVE;
     }
 
     @Override
     public void executeComponent() {
         switch(mode) {
             case Mode.managerCHECK: {
-                managerRunner.checkSettingFile(settingFilePath); break;
+                if(managerRunner.settingFileExits(System.getProperty("user.dir"))){
+                    setMode(Mode.managerHAVE);
+                } else {
+                    setMode(Mode.managerINSTALLER);
+                } break;
             }
             case Mode.managerHAVE: {
-                managerRunner.getSettingFile(settingFilePath); break;
+                settings = managerRunner.getSettingFile(System.getProperty("user.dir")); break;
+            }
+            case Mode.managerINSTALLER: {
+                settings = managerRunner.installIDE(System.getProperty("user.dir")); break;
             }
             case Mode.managerSETPATH: {
                 break;
@@ -36,7 +43,7 @@ public class ManagerCompo extends IDEComponent {
                 managerViewer.showChecking(); break;
             }
             case managerHAVE: {
-                managerViewer.showPropertyList(); break;
+
             }
         }
     }
@@ -54,16 +61,16 @@ public class ManagerCompo extends IDEComponent {
         mode = m;
     }
 
+    public static String getPropertyValue(String PropertyName) {
+        return settings.getProperty(PropertyName);
+    }
+
+    private static Properties settings;
     //임시 설정
-    public static LinkedList<String> settingFileLines;
     public static String basicGCC = "C:\\Custom\\Compiler\\MinGW";
     public static String basicJavaJDK = "C:\\Custom\\Library\\JAVA\\jdk-21.0.3";
     public static String basicErrorFolderPath = "C:\\Custom\\Data\\oop\\TP\\File\\insert\\Error";
     public static String basicCompileFolder = "C:\\Custom\\Data\\oop\\TP\\File\\insert\\Compile";
-    public static LinkedList<String> javaJDK = new LinkedList<>();
-    public static LinkedList<String> CCompiler  = new LinkedList<>();
-    public static String settingFilePath = System.getProperty("user.dir");
-    public static String basicFileStarting = System.getProperty("user.dir");
 
     public static ManagerViewer managerViewer = new ManagerViewer();
     public static ManagerRunner managerRunner = new ManagerRunner();

@@ -68,6 +68,7 @@ public enum Mode {
     textERROR(0x6D), textHELP(0x6E),textVER(0x6F)
 
     /*####################################################*/;
+
     Mode (int v) {
         this.value = v;
     }
