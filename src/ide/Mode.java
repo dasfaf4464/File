@@ -51,7 +51,7 @@ public enum Mode {
     managerHAVE(0x51),//
 
     //executing
-    managerCHECK(0x52), managerINSTALLER(0x53), managerSETPATH(0x54),//
+    managerLIST(0x52), managerCHECK(0x53), managerINSTALLER(0x54), managerSETPATH(0x55),//
 
     //view only
     managerERROR(0x5D), managerHELP(0x5E), managerVER(0x5F),

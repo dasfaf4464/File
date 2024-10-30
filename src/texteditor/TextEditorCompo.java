@@ -20,8 +20,13 @@ public class TextEditorCompo extends IDEComponent {
         editingFile = readFile;
     }
 
+    public TextEditorCompo(Mode mode) {
+        setMode(mode);
+    }
+
     public void executeComponent() {
         switch (mode) {
+            case Mode.textHAVE: setMode(Mode.textREAD); break;
             case Mode.textREAD: fileLine = textEditorRunner.readFile(editingFile); break;
             case Mode.textWRITE: break;
             case Mode.textBOTH: break;
@@ -31,6 +36,7 @@ public class TextEditorCompo extends IDEComponent {
     public void showComponent() {
         switch (mode) {
             case Mode.textNOFILE: break;
+            case Mode.textHAVE: break;
             case Mode.textREAD: textEditorViewer.showReadingFile(fileLine); break;
         }
     }

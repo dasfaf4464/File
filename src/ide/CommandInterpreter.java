@@ -60,7 +60,7 @@ public class CommandInterpreter {
         } else if ('a' <= command.charAt(0) && command.charAt(0) <= 'z' || 'A'<= command.charAt(0) && command.charAt(0) <= 'Z') {
             switch (command.toLowerCase()) {
                 case "help", "exit", "version","back",
-                     "set", "list", "gcc", "jdk", "run", "read",
+                     "set", "list", "gcc", "jdk", "run", "read", "change",
                      "upload", "select", "delete" : { return true;}
                 default : {
                     System.out.println("Invalid command"); return false;
@@ -93,8 +93,8 @@ public class CommandInterpreter {
             switch (command) {
                 case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileNOFILE)); break;
                 case "2": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output\\Error", Mode.fileLIST)); break;
-                //case '3': IDE.compoCaller.callComponent(new TextEditorCompo()); break;
-                case "4", "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
+                case "3": IDE.compoCaller.callComponent(new TextEditorCompo(Mode.textNOFILE)); break;
+                case "4", "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerLIST)); break;
                 case "5", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": component.setMode(Mode.indHELP); break;
                 case "version": component.setMode(Mode.indVER); break;
@@ -105,7 +105,7 @@ public class CommandInterpreter {
                 case "2": IDE.compoCaller.callComponent(new CompilerCompo(FileCompo.getUploadedFile(), Mode.compileHAVEFILE)); break;
                 case "3": IDE.compoCaller.callComponent(new RunnerCompo(FileCompo.getUploadedFile(), Mode.runHAVEFILE)); break;
                 case "4": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output\\Error", Mode.fileLIST)); break;
-                case "5": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile(), Mode.textHAVE)); break;
+                case "5": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile(), Mode.textREAD)); break;
                 case "6": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
                 case "7", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": component.setMode(Mode.indHELP); break;
@@ -143,7 +143,7 @@ public class CommandInterpreter {
                 case "1", "list": component.setMode(Mode.fileLIST); break;
                 case "2", "upload": component.setMode(Mode.fileHAVEUPSEL); break;
                 case "3", "delete": component.setMode(Mode.fileDELETE); break;
-                case "4": /*IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile()));*/ break;
+                case "4": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getSelectedFile(), Mode.textREAD)); break;
                 case "5": /*component.setMode(Mode.fileMAKE);*/ break;
                 case "6", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": component.setMode(Mode.fileHELP); break;
@@ -155,7 +155,7 @@ public class CommandInterpreter {
                 case "1", "list": component.setMode(Mode.fileLIST); break;
                 case "2", "upload": component.setMode(Mode.fileHAVESEL); break;
                 case "3", "delete": component.setMode(Mode.fileDELETE); break;
-                case "4": /*IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile()));*/ break;
+                case "4": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile(), Mode.textREAD)); break;
                 case "5": /*component.setMode(Mode.fileMAKE);*/ break;
                 case "6", "exit": IDE.compoCaller.returnComponent(Mode.indHAVEFILE); break;
                 case "help": component.setMode(Mode.fileHELP); break;
@@ -238,16 +238,16 @@ public class CommandInterpreter {
             }
         } else if (component.mode.equals(Mode.textREAD)) {
             switch (command) {
-                case "back": component.setMode(component.indexMode);break;
-                case "exit": IDE.compoCaller.returnComponent(); break;
+                case "back", "exit": IDE.compoCaller.returnComponent(); break;
             }
         }
     }
 
     private void interpretManager(IDEComponent component) {
-        if(component.mode.equals(Mode.managerHAVE)) {
+        if(component.mode.equals(Mode.managerLIST)) {
             switch (command) {
-
+                case "1", "exit": IDE.compoCaller.returnComponent(); break;
+                case "change" :
             }
         }
     }

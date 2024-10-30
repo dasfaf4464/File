@@ -117,7 +117,7 @@ public class FileCompo extends IDEComponent {
         return uploadedFile;
     }
 
-    public File getSelectedFile() {
+    public static File getSelectedFile() {
         return selectedFile;
     }
 
@@ -137,7 +137,7 @@ public class FileCompo extends IDEComponent {
 
     public File[] childFiles = null;
     private static File uploadedFile = null;
-    public File selectedFile = null;
+    public static File selectedFile = null;
 
     public FileRunner fileRunner = new FileRunner();
     public final FileViewer fileViewer = new FileViewer();

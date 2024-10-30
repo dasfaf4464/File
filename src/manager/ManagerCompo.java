@@ -2,6 +2,8 @@ package manager;
 
 import ide.IDEComponent;
 import ide.Mode;
+
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -23,12 +25,8 @@ public class ManagerCompo extends IDEComponent {
                     setMode(Mode.managerINSTALLER);
                 } break;
             }
-            case Mode.managerHAVE: {
-                settings = managerRunner.getSettingFile(System.getProperty("user.dir")); break;
-            }
-            case Mode.managerINSTALLER: {
-                settings = managerRunner.installIDE(System.getProperty("user.dir")); break;
-            }
+            case Mode.managerHAVE: settings = managerRunner.getSettingFile(System.getProperty("user.dir")); break;
+            case Mode.managerINSTALLER: settings = managerRunner.installIDE(System.getProperty("user.dir")); break;
             case Mode.managerSETPATH: {
                 break;
             }
@@ -38,12 +36,8 @@ public class ManagerCompo extends IDEComponent {
     @Override
     public void showComponent() {
         switch (mode) {
-            case managerCHECK: {
-                managerViewer.showChecking(); break;
-            }
-            case managerHAVE: {
-
-            }
+            case managerCHECK: managerViewer.showChecking(); break;
+            case managerLIST: managerViewer.showPropertyList(settings); break;
         }
     }
 
@@ -52,7 +46,7 @@ public class ManagerCompo extends IDEComponent {
         int modeValue = m.getValue();
         if(0x50 < modeValue && modeValue <= 0x51) {
             indexMode = m;
-        } else if(0x51 < modeValue && modeValue <= 0x54) {
+        } else if(0x51 < modeValue && modeValue <= 0x55) {
             runableMode = m;
         } else if(0x5C < modeValue && modeValue <= 0x5F) {
             viewingMode = m;

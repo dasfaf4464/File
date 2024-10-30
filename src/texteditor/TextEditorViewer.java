@@ -11,6 +11,6 @@ public class TextEditorViewer {
         while (line.hasNext()) {
             System.out.println("| " + line.next());
         }
-        System.out.println("##############################");
+        System.out.println("############END OF FILE###########");
     }
 }
