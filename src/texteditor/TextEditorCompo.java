@@ -2,10 +2,12 @@ package texteditor;
 
 import ide.IDEComponent;
 import ide.Mode;
-
 import java.io.File;
 import java.util.LinkedList;
 
+/**
+ * 컴파일러에서 에러파일 읽는 것과 업로드 된 파일 읽는것 구분
+ */
 public class TextEditorCompo extends IDEComponent {
 
     public TextEditorCompo(String readFile, Mode mode) {

@@ -3,6 +3,8 @@ package ide;
 import index.IndexCompo;
 import manager.ManagerCompo;
 
+import java.util.Stack;
+
 /**
  * IDE has a Component Caller and Command Interpreter.
  * the flow of IDE
@@ -12,9 +14,7 @@ import manager.ManagerCompo;
  * 2. call Index to use each IDE's function.
  * 3. if there are no exist Component, then exit IDE.
  */
-
 public class IDE {
-
     public static void main(String[] args) {
         //these statements run flow 1 to flow 2
         compoCaller.callComponent(new ManagerCompo(Mode.managerCHECK));

@@ -1,21 +1,22 @@
 package compiler;
 
-import file.FileCompo;
 import ide.IDEComponent;
 import ide.Mode;
+import manager.Keys;
 import manager.ManagerCompo;
 
 import java.io.File;
 
 public class CompilerCompo extends IDEComponent {
-    public CompilerCompo(Mode mode) {
+    public CompilerCompo(File compile, Mode mode) {
+        this.fileToCompile = compile;
         setMode(mode);
     }
 
     public void executeComponent() {
         switch (mode) {
             case Mode.compileC: {
-                if(compilerRunner.CompileC(FileCompo.getUploadedFile()) == true) {
+                if(compilerRunner.CompileC(fileToCompile)) {
                     setMode(Mode.compileCOMPLETE);
                 } else {
                     setMode(Mode.compileNOTCOMPLETE);
@@ -23,12 +24,20 @@ public class CompilerCompo extends IDEComponent {
                 break;
             }
             case Mode.compileJAVA: {
-                if(compilerRunner.CompileJava(FileCompo.getUploadedFile()) == true){
+                if(compilerRunner.CompileJavaClass(fileToCompile)){
                     setMode(Mode.compileCOMPLETE);
                 } else {
                     setMode(Mode.compileNOTCOMPLETE);
                 }
-            } break;
+                break;
+            }
+            case Mode.compileAUTO: {
+                if(compilerRunner.CompileAuto(fileToCompile)){
+                    setMode(Mode.compileCOMPLETE);
+                } else {
+                    setMode(Mode.compileNOTCOMPLETE);
+                }
+            }
         }
 
     }
@@ -39,13 +48,13 @@ public class CompilerCompo extends IDEComponent {
                 compilerViewer.showFileList(); break;
             }
             case Mode.compileHAVEFILE: {
-                compilerViewer.showCompileList(FileCompo.getUploadedFile().getName(), ManagerCompo.basicCompileFolder); break;
+                compilerViewer.showCompileList(fileToCompile.getName(), ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString())+"\\output"); break;
             }
             case Mode.compileCOMPLETE: {
-                compilerViewer.showCompiledFile(ManagerCompo.basicCompileFolder); break;
+                compilerViewer.showCompiledFile(ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output"); break;
             }
             case Mode.compileNOTCOMPLETE: {
-                compilerViewer.showCompileError(ManagerCompo.basicErrorFolderPath); break;
+                compilerViewer.showCompileError(ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output"); break;
             }
         }
     }
@@ -62,16 +71,17 @@ public class CompilerCompo extends IDEComponent {
         mode = m;
     }
 
-    public static File getFailedFile() {
-        return failedFile;
+    public static File getLastFailedFile() {
+        return lastFailedFile;
     }
 
-    public static File getSuccessFile(){
-        return successFile;
+    public static File getLastsuccessFile(){
+        return lastsuccessFile;
     }
 
-    public static File failedFile = null;
-    public static File successFile = null;
+    public File fileToCompile;
+    public static File lastFailedFile = null;
+    public static File lastsuccessFile = null;
 
     public CompilerRunner compilerRunner = new CompilerRunner();
     public CompilerViewer compilerViewer = new CompilerViewer();

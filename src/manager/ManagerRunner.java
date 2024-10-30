@@ -87,6 +87,9 @@ public class ManagerRunner {
             System.out.println("if you want to add another version of compiler then put [name=path], if you want to stop, then put enter key");
             do{
                 line = scanner.nextLine();
+                if(line.isEmpty()) {
+                    break;
+                }
                 tokenizer = new StringTokenizer(line, "=");
                 settings.setProperty(tokenizer.nextToken(), tokenizer.nextToken());
             } while(line.isEmpty());

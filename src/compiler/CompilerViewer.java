@@ -22,7 +22,7 @@ public class CompilerViewer {
         System.out.println("##############################");
         System.out.println("File Compiled Successfully, Locate at " + folder);
         System.out.println("1. Run File");
-        System.out.println("Enter \"back\" to go back");
+        System.out.println("2. Back to compiler system");
     }
 
     public void showCompileError(String folder) {

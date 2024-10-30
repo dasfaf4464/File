@@ -8,58 +8,105 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class CompilerRunner {
+    /**
+     * compiled file locate at user's output directory.
+     * @param file is Compiled by gcc
+     * @return true if compiled, false if it has compiling error.
+     */
     public boolean CompileC(File file) {
-
         String gccPath = ManagerCompo.getPropertyValue(Keys.BASICGCC.getKeyString()) + "\\bin\\gcc.exe";
-        String outputPath = ManagerCompo.getPropertyValue(Keys.BASICGCC.getKeyString()) + "\\output";
+        String outputPath = ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output";
         String compiled = outputPath + "\\Compiled\\C";
         String failed = outputPath + "\\Error\\C";
 
-        try {
-            int exitCode;
+        ProcessBuilder gccProcessBuilder = new ProcessBuilder();
+        gccProcessBuilder.directory(file.getParentFile());
+        gccProcessBuilder.command("cmd.exe", "/k", gccPath, file.getName(), "-o", compiled);
+        gccProcessBuilder.redirectError(new File(failed + "\\" + file.getName() + ".error"));
 
-            ProcessBuilder gccProcessBuilder = new ProcessBuilder();
-            gccProcessBuilder.directory(file.getParentFile());
-            gccProcessBuilder.command("cmd.exe", "/c", gccPath, file.getName(), "-o", compiled);
-            Process process = gccProcessBuilder.start();
-            exitCode = process.waitFor();
-            return true;
-        } catch (IOException e) {
-            return false;
-        } catch (InterruptedException e) {
+        int exitCode;
+
+        try {
+            Process gccProcess = gccProcessBuilder.start();
+
+            exitCode = gccProcess.waitFor();
+            if(exitCode == 0) {
+                File error = new File(failed + "\\" +file.getName() + ".error");
+                error.delete();
+                //컴파일 된 파일 넘겨주기
+                String tmp = file.getName();
+                StringTokenizer st = new StringTokenizer(tmp, ".");
+                tmp = st.nextToken();
+
+                CompilerCompo.lastsuccessFile = new File(compiled + "\\" + tmp + ".exe");//Window only
+                System.out.println(CompilerCompo.lastsuccessFile.getAbsolutePath());
+
+                return true;
+            } else {
+                //에러파일 넘겨주기
+                CompilerCompo.lastFailedFile = new File(failed + "\\" + file.getName() + ".error");
+                return false;
+            }
+        } catch (IOException | InterruptedException e){
             return false;
         }
     }
 
-    public boolean CompileJava (File file) {
-        String errorFile = ManagerCompo.basicErrorFolderPath + "\\CompileTime\\Java\\" + file.getName() +".error";
+    /**
+     * compiling java not included a package.
+     * @param file is Compiled by javac
+     * @return true if compile success.
+     */
+    public boolean CompileJavaClass(File file) {
+        String javacPath = ManagerCompo.getPropertyValue(Keys.BASICJAVA.getKeyString()) + "\\bin\\javac.exe";
+        String outputPath = ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output";
+        String compiled = outputPath + "\\Compiled\\Java";
+        String failed = outputPath + "\\Error\\Java";
 
-        ProcessBuilder compilerBuilder = new ProcessBuilder(ManagerCompo.basicJavaJDK + "//bin//javac", "-d", ManagerCompo.basicCompileFolder + "\\Java", file.getAbsolutePath());
-        compilerBuilder.redirectError(new File(errorFile));
+        ProcessBuilder javacProcessBuilder = new ProcessBuilder();
+        javacProcessBuilder.directory(file.getParentFile());
+        javacProcessBuilder.command("cmd.exe", "/c", javacPath, file.getName(), "-d", compiled);
+        javacProcessBuilder.redirectError(new File(failed + "\\" + file.getName() + ".error"));
 
         int exitCode;
 
         try{
-            Process compilerProcess = compilerBuilder.start();
-            exitCode = compilerProcess.waitFor();
+            Process javacProcess = javacProcessBuilder.start();
+            exitCode = javacProcess.waitFor();
+
             if(exitCode == 0){
-                File error = new File(errorFile);
+                File error = new File(failed + "\\" +file.getName() + ".error");
                 error.delete();
 
                 String tmp = file.getName();
                 StringTokenizer st = new StringTokenizer(tmp, ".");
                 tmp = st.nextToken();
-                CompilerCompo.successFile = new File(ManagerCompo.basicCompileFolder + "\\Java\\" + tmp + ".class");
-                System.out.println(CompilerCompo.successFile.getAbsolutePath());
+
+                CompilerCompo.lastsuccessFile = new File(compiled + "\\" + tmp + ".class");
+                System.out.println(CompilerCompo.lastsuccessFile.getAbsolutePath());
                 return true;
             } else {
-                CompilerCompo.failedFile = new File(errorFile);
+                CompilerCompo.lastFailedFile = new File(failed + "\\" + file.getName() + ".error");//실패 성공 스트링 매개변수로 전달
                 return false;
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return false;
         }
+    }
 
+    public boolean CompileJavaPackage(File file) {
+        return true;
+    }
+
+    public boolean CompileAuto(File file) {
+        String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+        if(extension.equals("java"))
+            return CompileJavaClass(file);
+        else if(extension.equals("c"))
+            return CompileC(file);
+        else {
+            return false;
+        }
     }
 }

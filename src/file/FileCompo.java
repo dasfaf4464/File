@@ -41,7 +41,7 @@ public class FileCompo extends IDEComponent {
                 }
                 if(IDE.comInterpreter.getOption().equals("..")) {
                     fileRunner.goParentFolderOfList();
-                    childFiles=fileRunner.getListofFile();
+                    childFiles = fileRunner.getListofFile();
                     setMode(Mode.fileLIST);
                 } else {
                     String option = IDE.comInterpreter.getOption();
@@ -62,34 +62,42 @@ public class FileCompo extends IDEComponent {
                     }
                 }
             }break;
+            case Mode.fileDELETE: {
+                fileRunner.deleteFile(selectedFile);
+                if(uploadedFile != null) {
+                    setMode(Mode.fileHAVEUP);
+                } else {
+                    setMode(Mode.fileNOFILE);
+                }
+            } break;
         }
     }
 
     @Override
     public void showComponent() {
-        switch (mode.getValue()) {
-            case 0x21: {
+        switch (mode) {
+            case Mode.fileNOFILE: {
                 fileViewer.showFileEmpty(fileRunner.startPoint); break;
             }
-            case 0x22: {
+            case Mode.fileHAVESEL: {
                 fileViewer.showFileSelected(fileRunner.startPoint, selectedFile); break;
             }
-            case 0x23: {
+            case Mode.fileHAVEUP: {
                 fileViewer.showFileUP(fileRunner.startPoint, uploadedFile); break;
             }
-            case 0x24: {
+            case Mode.fileHAVEUPSEL: {
                 fileViewer.showFileUPSelected(fileRunner.startPoint, selectedFile, uploadedFile); break;
             }
-            case 0x25: {
+            case Mode.fileLIST: {
                 fileViewer.showListFiles(fileRunner.startPoint, childFiles); break;
             }
-            case 0x2D: {
+            case Mode.fileERROR: {
                 fileViewer.showHavingErrorFile(); break;
             }
-            case 0x2E: {
+            case Mode.fileHELP: {
                 fileViewer.showManual(); break;
             }
-            case 0x2F: {
+            case Mode.fileVER: {
                 fileViewer.showVersion(); break;
             }
         }
