@@ -1,6 +1,6 @@
 package compiler;
 
-import file.FileCompo;
+import manager.Keys;
 import manager.ManagerCompo;
 
 import java.io.File;
@@ -9,10 +9,24 @@ import java.util.StringTokenizer;
 
 public class CompilerRunner {
     public boolean CompileC(File file) {
+
+        String gccPath = ManagerCompo.getPropertyValue(Keys.BASICGCC.getKeyString()) + "\\bin\\gcc.exe";
+        String outputPath = ManagerCompo.getPropertyValue(Keys.BASICGCC.getKeyString()) + "\\output";
+        String compiled = outputPath + "\\Compiled\\C";
+        String failed = outputPath + "\\Error\\C";
+
         try {
-            Process process = new ProcessBuilder(ManagerCompo.basicGCC + "\\bin\\gcc", "-cp", file.getAbsolutePath()).start();
+            int exitCode;
+
+            ProcessBuilder gccProcessBuilder = new ProcessBuilder();
+            gccProcessBuilder.directory(file.getParentFile());
+            gccProcessBuilder.command("cmd.exe", "/c", gccPath, file.getName(), "-o", compiled);
+            Process process = gccProcessBuilder.start();
+            exitCode = process.waitFor();
             return true;
         } catch (IOException e) {
+            return false;
+        } catch (InterruptedException e) {
             return false;
         }
     }

@@ -3,7 +3,9 @@ package manager;
 import java.io.*;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
+//인스톨러를 새로운 클래스로 쪼개야하나?
 /**
  *
  */
@@ -59,29 +61,37 @@ public class ManagerRunner {
     }
 
     /**
+     * it called only once.
      * set key of properties. all values are empty. excepts file searching dir.
+     * make output folders.
      * @param settingFilePath is absolute path.
      * @return absolute path - "setting.properties"
      */
     public Properties installIDE(String settingFilePath) {
         Scanner scanner = new Scanner(System.in);
-        File settingFile = makeSettingFile(settingFilePath);
-        FileInputStream settingFileStream;
         Properties settings = new Properties();
+        String line;
+        StringTokenizer tokenizer;
 
         try {
-            settingFileStream = new FileInputStream(settingFile);
-            settings.load(settingFileStream);
+            settings.load(new FileInputStream(makeSettingFile(settingFilePath)));
 
             System.out.println("##############################");
-            System.out.println("put dir to use in IDE. this values are saved in IDE folder : " + settingFile);
-            for(Keys keyValue : Keys.values()) {
-                System.out.print(keyValue.getKeyString() + ":");
-                settings.setProperty(keyValue.getKeyString(), scanner.nextLine());
+            System.out.println("put Property and value\nproperty file is saved at " + settingFilePath);
+
+            for(Keys key: Keys.values()) {
+                System.out.print(key.getKeyString() + ": ");
+                settings.setProperty(key.getKeyString(), scanner.nextLine());
             }
 
-            changeProperties("file", System.getProperty("user.dir"), settings);
+            System.out.println("if you want to add another version of compiler then put [name=path], if you want to stop, then put enter key");
+            do{
+                line = scanner.nextLine();
+                tokenizer = new StringTokenizer(line, "=");
+                settings.setProperty(tokenizer.nextToken(), tokenizer.nextToken());
+            } while(line.isEmpty());
 
+            makeOutputFolder(settings.getProperty(Keys.OUTPUT.getKeyString()));
             saveSettingFile(settingFilePath, settings);
         } catch (FileNotFoundException e) {
             System.out.println("setting file not found");
@@ -94,7 +104,7 @@ public class ManagerRunner {
     }
 
     private File makeSettingFile(String settingFilePath) {
-        File settingFile = new File(settingFilePath + "settings.properties");
+        File settingFile = new File(settingFilePath + "\\settings.properties");
 
         if(!settingFile.exists()) {
             try {
@@ -108,19 +118,34 @@ public class ManagerRunner {
         return settingFile;
     }
 
-    private boolean addProperties(String propertyKey, String propertyValue, Properties settings) {
-        return settings.setProperty(propertyKey, propertyValue) != null;
+    private void makeOutputFolder(String outputFilePath) {
+        new File(outputFilePath + "\\output").mkdirs();
+        new File(outputFilePath + "\\output\\Compiled").mkdir();
+        new File(outputFilePath + "\\output\\Error").mkdir();
+        new File(outputFilePath + "\\output\\Compiled\\Java").mkdir();
+        new File(outputFilePath + "\\output\\Compiled\\C").mkdir();
+        new File(outputFilePath + "\\output\\Error\\Java").mkdir();
+        new File(outputFilePath + "\\output\\Error\\C").mkdir();
     }
 
-    private boolean deleteProperties(String propertyKey, Properties settings) {
-        return settings.remove(propertyKey) != null;
+    public void setBasic(Keys basicKey, Properties settingFile, String Keys) {
+        String basicValue = settingFile.getProperty(Keys);
+        settingFile.replace(basicKey.getKeyString(), basicValue);
     }
 
-    private String getValue(String propertyKey, Properties settings) {
-        return settings.getProperty(propertyKey);
+    public boolean addJava(String version, String abPath, Properties settings) {
+        if(!settings.containsKey("Java" + version) && new File(abPath + " \\bin\\java.exe").exists()) {
+            settings.setProperty("Java" + version, abPath);
+            return true;
+        }
+        return false;
     }
 
-    private boolean changeProperties(String propertyKey, String newValues, Properties settings) {
-        return settings.replace(propertyKey, newValues) != null;
+    public boolean addC(String version, String abPath, Properties settings) {
+        if(!settings.containsKey("GCC" + version) && new File(abPath + " \\bin\\gcc.exe").exists()) {
+            settings.setProperty("GCC" + version, abPath);
+            return true;
+        }
+        return false;
     }
 }

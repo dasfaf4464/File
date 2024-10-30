@@ -15,7 +15,7 @@ public class CompilerCompo extends IDEComponent {
     public void executeComponent() {
         switch (mode) {
             case Mode.compileC: {
-                if(compilerRunner.CompileC(FileCompo.getUploadedFile()) == true){
+                if(compilerRunner.CompileC(FileCompo.getUploadedFile()) == true) {
                     setMode(Mode.compileCOMPLETE);
                 } else {
                     setMode(Mode.compileNOTCOMPLETE);
@@ -70,7 +70,6 @@ public class CompilerCompo extends IDEComponent {
         return successFile;
     }
 
-    File compileFile = FileCompo.getUploadedFile();
     public static File failedFile = null;
     public static File successFile = null;
 

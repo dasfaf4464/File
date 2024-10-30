@@ -3,9 +3,9 @@ package manager;
 public enum Keys {
     //basic
     BASICGCC("GCC"),
-    BASICJAVAC("Java"),
+    BASICJAVA("Java"),
     FILE("file searching"),
-    PROJECT("output"),
+    OUTPUT("output"),
 
     /*####################################################*/;
 

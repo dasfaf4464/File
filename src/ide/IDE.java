@@ -2,8 +2,6 @@ package ide;
 
 import index.IndexCompo;
 import manager.ManagerCompo;
-import java.io.*;
-import java.io.IOException;
 
 /**
  * IDE has a Component Caller and Command Interpreter.
@@ -18,18 +16,14 @@ import java.io.IOException;
 public class IDE {
 
     public static void main(String[] args) {
-        //these lines run flow 1 to flow 2
+        //these statements run flow 1 to flow 2
         compoCaller.callComponent(new ManagerCompo(Mode.managerCHECK));
         compoCaller.runComponent(); //check "settings.properties"
         compoCaller.runComponent(); //install or get setting file.
         compoCaller.returnComponent();
         //end checking.
 
-        // test
-
-        //
-
-        //these lines are flow 2 to flow 3
+        //these statements run flow 2 to flow 3
         compoCaller.callComponent(new IndexCompo(Mode.indNOFILE));
         do {
             compoCaller.runComponent(); //execute first and show result after.
