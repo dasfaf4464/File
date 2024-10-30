@@ -1,6 +1,5 @@
 package runner;
 
-import compiler.CompilerCompo;
 import ide.IDEComponent;
 import ide.Mode;
 import java.io.File;
@@ -10,27 +9,25 @@ import java.io.File;
  */
 public class RunnerCompo extends IDEComponent {
     public RunnerCompo(File file, Mode mode) {
-        RunnerCompo.fileToRun = file;
-        System.out.println(RunnerCompo.fileToRun);
+        fileToRun = file;
         setMode(mode);
     }
 
     public void executeComponent() {
         switch (mode) {
-            case Mode.runC: break;
-            case Mode.runJAVA: {
-                RunnerCompo.fileToRun = CompilerCompo.getLastsuccessFile();
-                System.out.println("fileToRun");
-                runnerRunner.runJava(fileToRun);
-                setMode(Mode.runHAVEFILE);
-                break;
-            }
+            case Mode.runC: runnerRunner.runC(fileToRun); break;
+            case Mode.runJAVA: runnerRunner.runJava(fileToRun); break;
             case Mode.runSIC: break;
-            case Mode.runAUTO: break;
+            case Mode.runAUTO:runnerRunner.runAuto(fileToRun); break;
         }
     }
 
     public void showComponent() {
+        switch (mode) {
+            case Mode.runHAVEFILE: {
+                runnerViewer.showRunList(fileToRun.getName());
+            }
+        }
 
     }
 

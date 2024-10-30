@@ -14,8 +14,7 @@ public class RunnerViewer {
         System.out.println("1. Run C");
         System.out.println("2. Run Java");
         System.out.println("3. Run Auto");
-        System.out.println("4. Set basic Compiler");
-        System.out.println("5. Exit Run System");
+        System.out.println("4. Exit Run System");
     }
 
     public void showRunSuccess(String folder) {

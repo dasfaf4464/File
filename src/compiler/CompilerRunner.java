@@ -5,7 +5,6 @@ import manager.ManagerCompo;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 public class CompilerRunner {
     /**
@@ -18,10 +17,11 @@ public class CompilerRunner {
         String outputPath = ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output";
         String compiled = outputPath + "\\Compiled\\C";
         String failed = outputPath + "\\Error\\C";
+        String withoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
 
         ProcessBuilder gccProcessBuilder = new ProcessBuilder();
         gccProcessBuilder.directory(file.getParentFile());
-        gccProcessBuilder.command("cmd.exe", "/k", gccPath, file.getName(), "-o", compiled);
+        gccProcessBuilder.command(gccPath, file.getName(), "-o", compiled + "\\" + withoutExtension);//test
         gccProcessBuilder.redirectError(new File(failed + "\\" + file.getName() + ".error"));
 
         int exitCode;
@@ -31,14 +31,10 @@ public class CompilerRunner {
 
             exitCode = gccProcess.waitFor();
             if(exitCode == 0) {
-                File error = new File(failed + "\\" +file.getName() + ".error");
+                File error = new File(failed + "\\" + file.getName() + ".error");
                 error.delete();
-                //컴파일 된 파일 넘겨주기
-                String tmp = file.getName();
-                StringTokenizer st = new StringTokenizer(tmp, ".");
-                tmp = st.nextToken();
 
-                CompilerCompo.lastsuccessFile = new File(compiled + "\\" + tmp + ".exe");//Window only
+                CompilerCompo.lastsuccessFile = new File(compiled + "\\" + withoutExtension + ".exe");//Window only
                 System.out.println(CompilerCompo.lastsuccessFile.getAbsolutePath());
 
                 return true;
@@ -62,10 +58,11 @@ public class CompilerRunner {
         String outputPath = ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output";
         String compiled = outputPath + "\\Compiled\\Java";
         String failed = outputPath + "\\Error\\Java";
+        String withoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
 
         ProcessBuilder javacProcessBuilder = new ProcessBuilder();
         javacProcessBuilder.directory(file.getParentFile());
-        javacProcessBuilder.command("cmd.exe", "/c", javacPath, file.getName(), "-d", compiled);
+        javacProcessBuilder.command(javacPath, file.getName(), "-d", compiled);
         javacProcessBuilder.redirectError(new File(failed + "\\" + file.getName() + ".error"));
 
         int exitCode;
@@ -78,11 +75,7 @@ public class CompilerRunner {
                 File error = new File(failed + "\\" +file.getName() + ".error");
                 error.delete();
 
-                String tmp = file.getName();
-                StringTokenizer st = new StringTokenizer(tmp, ".");
-                tmp = st.nextToken();
-
-                CompilerCompo.lastsuccessFile = new File(compiled + "\\" + tmp + ".class");
+                CompilerCompo.lastsuccessFile = new File(compiled + "\\" + withoutExtension + ".class");
                 System.out.println(CompilerCompo.lastsuccessFile.getAbsolutePath());
                 return true;
             } else {
@@ -105,8 +98,7 @@ public class CompilerRunner {
             return CompileJavaClass(file);
         else if(extension.equals("c"))
             return CompileC(file);
-        else {
+        else
             return false;
-        }
     }
 }

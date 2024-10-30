@@ -1,51 +1,83 @@
 package runner;
 
+import manager.Keys;
 import manager.ManagerCompo;
-import java.io.File;
-import java.io.IOException;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class RunnerRunner {
-    public boolean runJava(File file){
-        String JDK = ManagerCompo.basicJavaJDK + "\\bin\\java";
-        String executable = ManagerCompo.basicCompileFolder + "\\Java";
+    /**
+     *
+     * @param file is javaFile, it has extension ".class".
+     * @return true if not having runtime error.
+     */
+    public boolean runJava(File file) {
+        String javaPath = ManagerCompo.getPropertyValue(Keys.BASICJAVA.getKeyString()) + "//bin//java.exe";
+        String withoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
 
-        String fileName = file.getName();
-        StringTokenizer st = new StringTokenizer(fileName, ".");
-        fileName = st.nextToken();
-        System.out.println(JDK);
-        System.out.println(executable);
-        System.out.println(fileName);
-        ProcessBuilder javaBuilder = new ProcessBuilder();
-        javaBuilder.directory(new File(executable));
-        javaBuilder.command("cmd.exe", "/k", JDK, fileName);
+        ProcessBuilder javaProcessBuilder = new ProcessBuilder();
+        javaProcessBuilder.directory(file.getParentFile());
+        javaProcessBuilder.command("cmd.exe", "/c", javaPath, withoutExtension);
+        javaProcessBuilder.redirectErrorStream(true);
+
+        BufferedReader processOutput; //실행한 프로세스가 출력하는 스트림을 받는 버퍼 리더
+        PrintWriter processInput;  //실행한 프로세스에 값을 전달하는 프린트 라이터
+        BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));//사용자 입력
 
         int exitCode;
 
-        try{
-            Process runProcess = javaBuilder.start();
+        try {
+            Process javaProcess = javaProcessBuilder.start();
 
-            String line;
-            BufferedReader stdOut   = new BufferedReader(new
-                    InputStreamReader(runProcess.getInputStream()));
-            BufferedReader stdError = new BufferedReader(new
-                    InputStreamReader(runProcess.getErrorStream()));
+            processOutput = new BufferedReader(new InputStreamReader(javaProcess.getInputStream()));
+            processInput = new PrintWriter(new OutputStreamWriter(javaProcess.getOutputStream()), true);
 
-            while((line = stdOut.readLine()) != null){
-                System.out.println(line);
+            Thread javaProcessThread = new Thread(() -> {
+               String processOutLine;
+               try {
+                   while ((processOutLine = processOutput.readLine()) != null) {
+                       System.out.println(processOutLine);
+                   }
+               } catch (IOException e) {
+                   throw new RuntimeException(e);
+               }
+            });
+            javaProcessThread.start();
+
+            String userInputLine;
+            while(true) {
+                System.out.print("> ");
+                userInputLine = userInput.readLine();
+                if(userInputLine != null) {
+                    break;
+                }
             }
 
-            exitCode = runProcess.waitFor();
-            if(exitCode == 0){
-                return true;
-            } else {
-                return false;
-            }
+            processInput.println(userInputLine);
+            processInput.flush();
+
+            javaProcessThread.interrupt();
+
+            exitCode = javaProcess.waitFor();
+            System.out.println("Process has exited with code " + exitCode);
+
+            return exitCode == 0;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
+    }
+
+    public boolean runC(File file) {
+        return false;
+    }
+
+    public boolean runAuto(File file){
+        String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+        if(extension.equals("class"))
+            return runJava(file);
+        else if(extension.equals("exe"))
+            return runC(file);
+        else
+            return false;
     }
 }

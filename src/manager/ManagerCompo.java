@@ -65,10 +65,6 @@ public class ManagerCompo extends IDEComponent {
     }
 
     private static Properties settings;
-    //임시 설정
-    public static String basicJavaJDK = "C:\\Custom\\Library\\JAVA\\jdk-21.0.3";
-    public static String basicErrorFolderPath = "C:\\Custom\\Data\\oop\\TP\\File\\insert\\Error";
-    public static String basicCompileFolder = "C:\\Custom\\Data\\oop\\TP\\File\\insert\\Compile";
 
     public static ManagerViewer managerViewer = new ManagerViewer();
     public static ManagerRunner managerRunner = new ManagerRunner();

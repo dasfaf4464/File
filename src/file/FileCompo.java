@@ -32,8 +32,18 @@ public class FileCompo extends IDEComponent {
                 break;
             }
             case Mode.fileLIST: {
+                if(selectedFile == null && uploadedFile == null) {
+                    indexMode = Mode.fileNOFILE;
+                } else if(selectedFile == null) {
+                    indexMode = Mode.fileHAVEUP;
+                } else if(uploadedFile == null) {
+                    indexMode = Mode.fileHAVESEL;
+                } else {
+                    indexMode = Mode.fileHAVEUPSEL;
+                }
                 fileRunner.runFileSearcher();
                 childFiles = fileRunner.getListofFile();
+
             }break;
             case Mode.fileSEL: {
                 if(IDE.comInterpreter.getOption() == null){
@@ -121,6 +131,7 @@ public class FileCompo extends IDEComponent {
             } else if(0x2C < modeValue && modeValue <= 0x2F) {
                 viewingMode = m;
             }
+
         mode = m;
     }
 
