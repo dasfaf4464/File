@@ -1,9 +1,8 @@
 package manager;
 
+import ide.IDE;
 import ide.IDEComponent;
 import ide.Mode;
-
-import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -54,12 +53,26 @@ public class ManagerCompo extends IDEComponent {
         mode = m;
     }
 
+    @Override
+    public void interpretCommand(String command, String Option) {
+        if(mode.equals(Mode.managerLIST)) {
+            switch (command) {
+                case "1", "change": setMode(Mode.managerSETPATH); break;
+                case "2", "exit": IDE.compoCaller.returnComponent(); break;
+            }
+        } if(mode.equals(Mode.managerSETPATH)) {
+            switch (command) {
+
+            }
+        }
+    }
+
     public static String getPropertyValue(String PropertyName) {
         return settings.getProperty(PropertyName);
     }
 
     private static Properties settings;
 
-    public static ManagerViewer managerViewer = new ManagerViewer();
-    public static ManagerRunner managerRunner = new ManagerRunner();
+    private final ManagerViewer managerViewer = new ManagerViewer();
+    private final ManagerRunner managerRunner = new ManagerRunner();
 }

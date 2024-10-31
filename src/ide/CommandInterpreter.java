@@ -1,13 +1,5 @@
 package ide;
 
-import compiler.CompilerCompo;
-import file.FileCompo;
-import index.IndexCompo;
-import manager.Keys;
-import manager.ManagerCompo;
-import runner.RunnerCompo;
-import texteditor.TextEditorCompo;
-
 import java.util.Scanner;
 
 /**
@@ -73,21 +65,10 @@ public class CommandInterpreter {
     }
 
     protected void interpretCommand(IDEComponent component) {
-        if (component instanceof IndexCompo) {
-            interpretIndex(component);
-        } else if (component instanceof FileCompo) {
-            interpretFile(component);
-        } else if (component instanceof CompilerCompo) {
-            interpretCompiler(component);
-        } else if (component instanceof RunnerCompo) {
-            interpretRunner(component);
-        } else if (component instanceof TextEditorCompo) {
-            interpretTextEditor(component);
-        } else if (component instanceof ManagerCompo) {
-            interpretManager(component);
-        }
+        component.interpretCommand(command, option);
     }
 
+    /*
     private void interpretIndex(IDEComponent component) {
         if(component.mode.equals(Mode.indNOFILE)){
             switch (command) {
@@ -144,7 +125,7 @@ public class CommandInterpreter {
                 case "2", "upload": component.setMode(Mode.fileHAVEUPSEL); break;
                 case "3", "delete": component.setMode(Mode.fileDELETE); break;
                 case "4": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getSelectedFile(), Mode.textREAD)); break;
-                case "5": /*component.setMode(Mode.fileMAKE);*/ break;
+                case "5": component.setMode(Mode.fileMAKE); break;
                 case "6", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": component.setMode(Mode.fileHELP); break;
                 case "version": component.setMode(Mode.fileVER); break;
@@ -156,7 +137,7 @@ public class CommandInterpreter {
                 case "2", "upload": component.setMode(Mode.fileHAVESEL); break;
                 case "3", "delete": component.setMode(Mode.fileDELETE); break;
                 case "4": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile(), Mode.textREAD)); break;
-                case "5": /*component.setMode(Mode.fileMAKE);*/ break;
+                case "5": component.setMode(Mode.fileMAKE); break;
                 case "6", "exit": IDE.compoCaller.returnComponent(Mode.indHAVEFILE); break;
                 case "help": component.setMode(Mode.fileHELP); break;
                 case "version": component.setMode(Mode.fileVER); break;
@@ -166,7 +147,7 @@ public class CommandInterpreter {
             switch (command) {
                 case "1", "list": component.setMode(Mode.fileLIST); break;
                 case "2", "upload": component.setMode(Mode.fileNOFILE); break;
-                case "3": /*component.setMode(Mode.fileMAKE);*/ break;
+                case "3": component.setMode(Mode.fileMAKE); break;
                 case "4", "exit": IDE.compoCaller.returnComponent(Mode.indHAVEFILE); break;
                 case "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
             }
@@ -251,6 +232,7 @@ public class CommandInterpreter {
             }
         }
     }
+    */
 
     private String commandLine;
     private String command;

@@ -1,7 +1,10 @@
 package texteditor;
 
+import file.FileCompo;
+import ide.IDE;
 import ide.IDEComponent;
 import ide.Mode;
+import manager.ManagerCompo;
 import java.io.File;
 import java.util.LinkedList;
 
@@ -9,7 +12,6 @@ import java.util.LinkedList;
  * 컴파일러에서 에러파일 읽는 것과 업로드 된 파일 읽는것 구분
  */
 public class TextEditorCompo extends IDEComponent {
-
     public TextEditorCompo(String readFile, Mode mode) {
         setMode(mode);
         editingFile = new File(readFile);
@@ -24,6 +26,7 @@ public class TextEditorCompo extends IDEComponent {
         setMode(mode);
     }
 
+    @Override
     public void executeComponent() {
         switch (mode) {
             case Mode.textHAVE: setMode(Mode.textREAD); break;
@@ -33,6 +36,7 @@ public class TextEditorCompo extends IDEComponent {
         }
     }
 
+    @Override
     public void showComponent() {
         switch (mode) {
             case Mode.textNOFILE: break;
@@ -41,6 +45,7 @@ public class TextEditorCompo extends IDEComponent {
         }
     }
 
+    @Override
     public void setMode(Mode m){
         int modeValue = m.getValue();
         if(0x60 < modeValue && modeValue <= 0x62) {
@@ -53,9 +58,24 @@ public class TextEditorCompo extends IDEComponent {
         mode = m;
     }
 
-    public File editingFile = null;
-    public LinkedList<String> fileLine = new LinkedList<>();
+    @Override
+    public void interpretCommand(String command, String Option) {
+        if(mode.equals(Mode.textNOFILE)){
+            switch (command) {
+                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileLIST)); break;
+                case "2", "read" : setMode(Mode.textREAD);
+                case "3", "exit": IDE.compoCaller.returnComponent(); break;
+            }
+        } else if (mode.equals(Mode.textREAD)) {
+            switch (command) {
+                case "1", "back", "exit": IDE.compoCaller.returnComponent(); break;
+            }
+        }
+    }
 
-    public TextEditorRunner textEditorRunner = new TextEditorRunner();
-    public TextEditorViewer textEditorViewer = new TextEditorViewer();
+    private File editingFile = null;
+    private LinkedList<String> fileLine = new LinkedList<>();
+
+    private final TextEditorRunner textEditorRunner = new TextEditorRunner();
+    private final TextEditorViewer textEditorViewer = new TextEditorViewer();
 }

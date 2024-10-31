@@ -28,9 +28,7 @@ public abstract class IDEComponent {
      */
     public abstract void setMode(Mode m);
 
-    /**
-     * changing between mode
-     */
+    public abstract void interpretCommand(String command, String Option);
 
     public int setErrorCode(int code){
         errorCode = code;

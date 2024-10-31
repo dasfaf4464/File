@@ -78,21 +78,35 @@ public class ManagerRunner {
 
             System.out.println("##############################");
             System.out.println("put Property and value\nproperty file is saved at " + settingFilePath);
+            System.out.println("[Property=value]");
+            System.out.print(Keys.FILE.getKeyString() + "=");
+            settings.setProperty(Keys.FILE.getKeyString(), scanner.nextLine());
+            System.out.print(Keys.OUTPUT.getKeyString()+"=");
+            settings.setProperty(Keys.OUTPUT.getKeyString(), scanner.nextLine());
 
-            for(Keys key: Keys.values()) {
-                System.out.print(key.getKeyString() + ": ");
-                settings.setProperty(key.getKeyString(), scanner.nextLine());
-            }
-
-            System.out.println("if you want to add another version of compiler then put [name=path], if you want to stop, then put enter key");
+            System.out.println("if you want to add compiler then put [name=path], if you want to stop, then put $");
             do{
                 line = scanner.nextLine();
-                if(line.isEmpty()) {
-                    break;
+                if(!line.contains("=")){
+                    continue;
                 }
                 tokenizer = new StringTokenizer(line, "=");
-                settings.setProperty(tokenizer.nextToken(), tokenizer.nextToken());
-            } while(line.isEmpty());
+                String key = tokenizer.nextToken();
+                String value = tokenizer.nextToken();
+
+                if(!new File(value).exists()) {
+                    continue;
+                }
+                settings.setProperty(key, value);
+            } while(!line.equals("$"));
+
+            System.out.println("choice basic compiler");
+            System.out.print("JDK=");
+            line = scanner.nextLine();
+            settings.setProperty(Keys.BASICJAVA.getKeyString(), settings.getProperty(line));
+            System.out.print("GCC=");
+            line = scanner.nextLine();
+            settings.setProperty(Keys.BASICGCC.getKeyString(), settings.getProperty(line));
 
             makeOutputFolder(settings.getProperty(Keys.OUTPUT.getKeyString()));
             saveSettingFile(settingFilePath, settings);

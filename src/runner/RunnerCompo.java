@@ -1,5 +1,6 @@
 package runner;
 
+import ide.IDE;
 import ide.IDEComponent;
 import ide.Mode;
 import java.io.File;
@@ -13,6 +14,7 @@ public class RunnerCompo extends IDEComponent {
         setMode(mode);
     }
 
+    @Override
     public void executeComponent() {
         switch (mode) {
             case Mode.runC: runnerRunner.runC(fileToRun); break;
@@ -22,6 +24,7 @@ public class RunnerCompo extends IDEComponent {
         }
     }
 
+    @Override
     public void showComponent() {
         switch (mode) {
             case Mode.runHAVEFILE: {
@@ -31,6 +34,7 @@ public class RunnerCompo extends IDEComponent {
 
     }
 
+    @Override
     public void setMode(Mode m){
         int modeValue = m.getValue();
         if(0x40 < modeValue && modeValue <= 0x42){
@@ -43,8 +47,24 @@ public class RunnerCompo extends IDEComponent {
         mode = m;
     }
 
+    @Override
+    public void interpretCommand(String command, String Option) {
+        if(mode.equals(Mode.runHAVEFILE)){
+            switch (command) {
+                case "1": setMode(Mode.runC); break;
+                case "2": setMode(Mode.runJAVA); break;
+                case "3": setMode(Mode.runAUTO); break;
+                case "4", "exit": IDE.compoCaller.returnComponent(); break;
+            }
+        } if(mode.equals(Mode.runC) || mode.equals(Mode.runJAVA) || mode.equals(Mode.runAUTO)) {
+            switch (command){
+                case "back", "exit": IDE.compoCaller.returnComponent(); break;
+            }
+        }
+    }
+
     public static File fileToRun = null;
 
-    public RunnerRunner runnerRunner = new RunnerRunner();
-    public RunnerViewer runnerViewer = new RunnerViewer();
+    public final RunnerRunner runnerRunner = new RunnerRunner();
+    public final RunnerViewer runnerViewer = new RunnerViewer();
 }

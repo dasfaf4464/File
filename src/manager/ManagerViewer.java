@@ -13,6 +13,7 @@ public class ManagerViewer {
         for(Map.Entry<Object, Object> entry : settings.entrySet()) {
             System.out.println(entry.getKey() + " = " + entry.getValue());
         }
-        System.out.println("1. exit");
+        System.out.println("\n1. setBasic");
+        System.out.println("2. Exit");
     }
 }
