@@ -20,21 +20,10 @@ public class FileCompo extends IDEComponent {
     @Override
     public void executeComponent() {
         switch (mode) {
-            case Mode.fileNOFILE:{
-                selectedFile = null; uploadedFile = null;
-                break;
-            }
-            case Mode.fileHAVESEL: {
-                uploadedFile = selectedFile;
-            }
-            case Mode.fileHAVEUP: {
-                selectedFile = null;
-                break;
-            }
-            case Mode.fileHAVEUPSEL: {
-                uploadedFile = selectedFile;
-                break;
-            }
+            case Mode.fileNOFILE:selectedFile = null; uploadedFile = null; break;
+            case Mode.fileHAVESEL: uploadedFile = null; break;
+            case Mode.fileHAVEUP: selectedFile = null; break;
+            case Mode.fileHAVEUPSEL: uploadedFile = selectedFile; break;
             case Mode.fileLIST: {
                 if(selectedFile == null) {
                     if(uploadedFile == null) {
