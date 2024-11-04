@@ -145,9 +145,15 @@ public class ManagerRunner {
         new File(outputFilePath + "\\output\\Error\\C").mkdir();
     }
 
-    public void setBasic(Keys basicKey, Properties settingFile, String Keys) {
-        String basicValue = settingFile.getProperty(Keys);
-        settingFile.replace(basicKey.getKeyString(), basicValue);
+    public void setBasic(String settingFilePath, Properties settingFile) {
+        System.out.print("BASIC???=property name -> BASICJava=jdk21\nBASIC");
+        Scanner scanner = new Scanner(System.in);
+        String line = scanner.nextLine();
+        StringTokenizer tokenizer = new StringTokenizer(line, "=");
+        String basicKey = "BASIC" + tokenizer.nextToken();
+        String basicValue = tokenizer.nextToken();
+        settingFile.replace(basicKey, settingFile.getProperty(basicValue));
+        saveSettingFile(settingFilePath, settingFile);
     }
 
     public boolean addJava(String version, String abPath, Properties settings) {

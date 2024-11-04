@@ -27,6 +27,7 @@ public class ManagerCompo extends IDEComponent {
             case Mode.managerHAVE: settings = managerRunner.getSettingFile(System.getProperty("user.dir")); break;
             case Mode.managerINSTALLER: settings = managerRunner.installIDE(System.getProperty("user.dir")); break;
             case Mode.managerSETPATH: {
+                managerRunner.setBasic(System.getProperty("user.dir"), settings);
                 break;
             }
         }
@@ -62,7 +63,7 @@ public class ManagerCompo extends IDEComponent {
             }
         } if(mode.equals(Mode.managerSETPATH)) {
             switch (command) {
-
+                case "back" : setMode(Mode.managerLIST); break;
             }
         }
     }
