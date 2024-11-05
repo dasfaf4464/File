@@ -3,8 +3,6 @@ package ide;
 import index.IndexCompo;
 import manager.ManagerCompo;
 
-import java.util.Stack;
-
 /**
  * IDE has a Component Caller and Command Interpreter.
  * the flow of IDE
