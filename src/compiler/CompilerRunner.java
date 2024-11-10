@@ -71,7 +71,7 @@ public class CompilerRunner {
             Process javacProcess = javacProcessBuilder.start();
             exitCode = javacProcess.waitFor();
 
-            if(exitCode == 0){
+            if(exitCode == 0) {
                 File error = new File(failed + "\\" +file.getName() + ".error");
                 error.delete();
 

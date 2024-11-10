@@ -1,4 +1,11 @@
 package guiView;
 
-public class SidPanel {
+import javax.swing.*;
+import java.awt.*;
+
+public class SidePanel extends JPanel {
+    SidePanel() {
+        setBackground(Color.pink);
+        setVisible(true);
+    }
 }
