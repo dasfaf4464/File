@@ -7,27 +7,22 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         setTitle("#201812478_Jo#202111493_Min#202212979_Kim");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container framePanel = getContentPane();
-        framePanel.setLayout(new GridBagLayout());
-        framePanel.setBackground(Color.GRAY);
+        Container framePane = getContentPane();
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 75;
-        c.weighty = 100;
-        c.gridx = 1;
-        c.gridy = 0;
-        framePanel.add(mainPanel, c);
-        c.weightx = 25;
-        c.weighty = 100;
-        c.gridx = 0;
-        c.gridy = 0;
-        framePanel.add(sidePanel, c);
+        framePane.setLayout(new GridBagLayout());
+        GridBagConstraints frameGBC = new GridBagConstraints();
+        frameGBC.fill = GridBagConstraints.BOTH;
+        frameGBC.weighty = 1.0;
+        frameGBC.weightx = 1.0;
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, mainPanel);
+        splitPane.setResizeWeight(0.5);
 
-        setSize(1280,720);
+        framePane.add(splitPane, frameGBC);
+
+        setSize(1000,600);
         setVisible(true);
     }
 
-    MainPanel mainPanel = new MainPanel();
-    SidePanel sidePanel = new SidePanel();
+    private final MainPanel mainPanel = new MainPanel();
+    private final SidePanel sidePanel = new SidePanel();
 }

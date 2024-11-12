@@ -13,6 +13,7 @@ import manager.ManagerCompo;
  * 3. if there are no exist Component, then exit IDE.
  */
 public class IDE {
+    /*
     public static void main(String[] args) {
         //these statements run flow 1 to flow 2
         compoCaller.callComponent(new ManagerCompo(Mode.managerCHECK));
@@ -29,7 +30,7 @@ public class IDE {
             comInterpreter.interpretCommand(compoCaller.getRunningComponent());
         } while(compoCaller.getRunningComponent() != null);
     }
-
+    */
     public static final ComponentCaller compoCaller = new ComponentCaller();
     public static final CommandInterpreter comInterpreter = new CommandInterpreter();
 }
