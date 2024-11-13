@@ -50,6 +50,11 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
 
     }
 
+    @Override
+    public void errorSaveButtonClicked() {
+
+    }
+
     private MainPanel mainPanel;
     private guiModel.File fileModel = new guiModel.File();
 }

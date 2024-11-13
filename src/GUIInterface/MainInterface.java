@@ -37,6 +37,7 @@ public interface MainInterface {
 
         //오픈된 파일 삭제->삭제 메세지: result
         void deleteButtonClicked();
+
         //오류내용 파일에 저장
         void errorSaveButtonClicked();
     }

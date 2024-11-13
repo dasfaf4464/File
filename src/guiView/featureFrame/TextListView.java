@@ -21,7 +21,4 @@ public class TextListView extends JPanel {
         return textList;
     }
 
-    showTextList(String[]){
-        Jlist.add
-    }
 }
