@@ -1,4 +1,7 @@
-package guiView;
+package guiView.frameAndPanel;
+
+import guiView.featureFrame.FileView;
+import guiView.featureFrame.TextListView;
 
 import javax.swing.*;
 import java.awt.*;

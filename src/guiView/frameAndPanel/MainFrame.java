@@ -1,10 +1,12 @@
-package guiView;
+package guiView.frameAndPanel;
+
+import guiView.featureDialog.SettingDialog;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    private SettingManagerView settingManagerView;
+    private SettingDialog settingDialog;
     private SidePanel sidePanel;
     private MainPanel mainPanel;
 
@@ -14,8 +16,8 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         // SettingManagerView를 상단에 추가
-        settingManagerView = new SettingManagerView();
-        add(settingManagerView, BorderLayout.NORTH);
+        settingDialog = new SettingDialog();
+        add(settingDialog, BorderLayout.NORTH);
 
         // SidePanel과 MainPanel 초기화
         sidePanel = new SidePanel();
