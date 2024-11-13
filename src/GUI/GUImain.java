@@ -10,8 +10,8 @@ package GUI;
  * ?? 메인 메소드가 있는 클래스는 진입점 역할만 하는 것이 좋은가?
  */
 
-import guiView.frameAndPanel.MainDialog;
-import guiView.frameAndPanel.MainFrame;
+import guiView.MainDialog;
+import guiView.MainFrame;
 
 /**
  * 프로그램 진입점
