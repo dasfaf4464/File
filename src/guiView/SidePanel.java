@@ -4,45 +4,32 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SidePanel extends JPanel {
-    SidePanel() {
-        setBackground(Color.pink);
-        setLayout(new GridBagLayout());
+    private FileView fileView;
+    private TextListView textListView;
 
-        GridBagConstraints panelGCB = new GridBagConstraints();
-        panelGCB.fill = GridBagConstraints.BOTH;
-        panelGCB.weightx = 1.0;
+    public SidePanel() {
+        setLayout(new BorderLayout());
 
-        panelGCB.gridy = 0;
-        add(fileButton, panelGCB);
+        // FileView와 TextListView 초기화
+        fileView = new FileView();
+        textListView = new TextListView();
 
-        panelGCB.gridy = 1;
-        add(fileSearcher, panelGCB);
+        // JSplitPane으로 FileView와 TextListView를 분할
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileView, textListView);
+        splitPane.setDividerLocation(300); // 초기 분할 위치 설정
+        splitPane.setContinuousLayout(true); // 크기 조절 중 실시간 업데이트
+        splitPane.setOneTouchExpandable(true); // 분할 조절 버튼 표시
+        splitPane.setDividerSize(8); // 분할선 두께 설정
 
-        panelGCB.gridy = 2;
-        panelGCB.weighty = 0.8;
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileListView, textListView);
-        splitPane.setResizeWeight(0.7);
-        add(splitPane, panelGCB);
+        add(splitPane, BorderLayout.CENTER);
     }
 
-    class FileButton extends JPanel {
-        public FileButton() {
-            setLayout(new FlowLayout());
-            this.add(new JButton("delete"));
-            this.add(new JButton("make"));
-        }
+    // FileView와 TextListView에 접근하기 위한 Getters
+    public FileView getFileView() {
+        return fileView;
     }
 
-    class FileSearcher extends JPanel {
-        public FileSearcher() {
-            setLayout(new FlowLayout());
-            this.add(new JTextField("searching"));
-        }
-
+    public TextListView getTextListView() {
+        return textListView;
     }
-
-    private final FileButton fileButton = new FileButton();
-    private final FileSearcher fileSearcher = new FileSearcher();
-    private final FileView fileListView = new FileView();
-    private final TextListView textListView = new TextListView();
 }
