@@ -1,4 +1,4 @@
-package guiView;
+package guiView.frameAndPanel;
 
 import javax.swing.*;
 import java.awt.*;

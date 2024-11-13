@@ -1,4 +1,7 @@
-package guiView;
+package guiView.frameAndPanel;
+
+import guiView.featureFrame.ResultView;
+import guiView.featureFrame.TextEditorView;
 
 import javax.swing.*;
 import java.awt.*;

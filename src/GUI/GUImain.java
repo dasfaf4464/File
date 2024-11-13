@@ -10,8 +10,8 @@ package GUI;
  * ?? 메인 메소드가 있는 클래스는 진입점 역할만 하는 것이 좋은가?
  */
 
-import guiView.MainDialog;
-import guiView.MainFrame;
+import guiView.frameAndPanel.MainDialog;
+import guiView.frameAndPanel.MainFrame;
 
 /**
  * 프로그램 진입점
@@ -22,10 +22,7 @@ public class GUImain {
     public static void main(String[] args) {
         MainFrame window = new MainFrame();
         MainDialog dialog = new MainDialog(window);
-//        파일 기능 -> 디스크 전체-> 특정 경로까지만가도록
+        //파일 기능 -> 디스크 전체-> 특정 경로까지만가도록
 
-        /**
-         * installer 설치 or 설정
-         */
     }
 }

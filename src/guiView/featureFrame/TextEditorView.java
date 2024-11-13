@@ -1,4 +1,4 @@
-package guiView;
+package guiView.featureFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,9 @@ public class TextEditorView extends JPanel {
         textArea = new JTextArea();
         textArea.setLineWrap(true); // 자동 줄바꿈 설정 (필요에 따라 조정)
         textArea.setWrapStyleWord(true); // 단어 단위로 줄바꿈
-
+        
+        //-> scrollpane으로 부탁쓰
+        
         // JScrollPane을 사용하여 스크롤 가능하게 설정
         JScrollPane scrollPane = new JScrollPane(textArea);
 

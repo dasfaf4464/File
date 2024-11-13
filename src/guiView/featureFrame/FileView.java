@@ -1,4 +1,4 @@
-package guiView;
+package guiView.featureFrame;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
