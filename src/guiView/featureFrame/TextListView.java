@@ -20,4 +20,8 @@ public class TextListView extends JPanel {
     public JList<String> getTextList() {
         return textList;
     }
+
+    showTextList(String[]){
+        Jlist.add
+    }
 }
