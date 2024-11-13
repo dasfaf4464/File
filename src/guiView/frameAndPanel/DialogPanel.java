@@ -19,4 +19,8 @@ public class DialogPanel extends JPanel {
             dialog.setVisible(true);
         });
     }
+
+    class InstallerDialog extends JDialog {
+
+    }
 }

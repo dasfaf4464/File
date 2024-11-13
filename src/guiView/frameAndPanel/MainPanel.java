@@ -1,10 +1,14 @@
 package guiView.frameAndPanel;
 
+import GUIInterface.MainInterface;
+import guiPresenter.MainPresenter;
 import guiView.featureFrame.ResultView;
 import guiView.featureFrame.TextEditorView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainPanel extends JPanel {
     private TextEditorView textEditorView;
@@ -15,10 +19,14 @@ public class MainPanel extends JPanel {
     private boolean isResultVisible = true; // ResultView 가시성 상태
     private JSplitPane splitPane; // TextEditorView와 ResultView를 분할하는 SplitPane
 
+    private MainPresenter mainPresenter;
+
     public MainPanel() {
         setLayout(new BorderLayout());
 
         // 파일 작업 버튼 패널
+        // ## 버튼 클릭 리스너를 프레젠트 인터페이스로 연결
+        // 버튼을 리스트, 이터레이터
         buttonPanel = new JPanel(new FlowLayout());
         openButton = new JButton("Open");
         saveButton = new JButton("Save");
@@ -50,6 +58,7 @@ public class MainPanel extends JPanel {
     }
 
     // ResultView의 가시성을 토글하는 메서드
+    // #####-> 이것도 뷰 업데이트 프레젠터 역할 [up toggle & down toggle Clicked]
     private void toggleResultView() {
         isResultVisible = !isResultVisible; // 상태를 반전시킴
         if (isResultVisible) {
@@ -63,6 +72,16 @@ public class MainPanel extends JPanel {
         repaint();
     }
 
+
+    //버튼 종류별로 프레젠터 연결
+    class ButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    /* ##### interface로 뷰 업데이트 기능 구현
     // Button getter methods for adding action listeners in Presenter
     public JButton getOpenButton() {
         return openButton;
@@ -92,4 +111,5 @@ public class MainPanel extends JPanel {
     public ResultView getResultView() {
         return resultView;
     }
+     */
 }

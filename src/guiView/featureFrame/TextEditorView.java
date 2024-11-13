@@ -11,11 +11,9 @@ public class TextEditorView extends JPanel {
 
         // JTextArea 초기화
         textArea = new JTextArea();
-        textArea.setLineWrap(true); // 자동 줄바꿈 설정 (필요에 따라 조정)
-        textArea.setWrapStyleWord(true); // 단어 단위로 줄바꿈
-        
-        //-> scrollpane으로 부탁쓰
-        
+        textArea.setLineWrap(false); // 자동 줄바꿈 설정 (필요에 따라 조정)
+        textArea.setWrapStyleWord(false); // 단어 단위로 줄바꿈
+
         // JScrollPane을 사용하여 스크롤 가능하게 설정
         JScrollPane scrollPane = new JScrollPane(textArea);
 
