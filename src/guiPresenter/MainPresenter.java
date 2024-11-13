@@ -1,7 +1,7 @@
 package guiPresenter;
 
 import GUIInterface.MainInterface;
-import guiView.frameAndPanel.MainPanel;
+import guiView.MainPanel;
 
 public class MainPresenter implements MainInterface.MainPresenterInterface {
     public MainPresenter(MainPanel mainLinkPanel) {
