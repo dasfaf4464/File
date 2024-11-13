@@ -17,12 +17,12 @@ import guiView.MainFrame;
  * 프로그램 진입점
  * 메인 프레임 생성,
  * */
-public class GUImain{
+public class GUImain {
 
     public static void main(String[] args) {
         MainFrame window = new MainFrame();
-        MainDialog dialog = new MainDialog();
-        파일 기능 -> 디스크 전체-> 특정 경로까지만 가도록
+        MainDialog dialog = new MainDialog(window);
+//        파일 기능 -> 디스크 전체-> 특정 경로까지만가도록
 
         /**
          * installer 설치 or 설정

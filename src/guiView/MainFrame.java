@@ -4,30 +4,37 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+    private SettingManagerView settingManagerView;
+    private SidePanel sidePanel;
+    private MainPanel mainPanel;
+
     public MainFrame() {
-        setTitle("#201812478_Jo#202111493_Min#202212979_Kim");
+        setTitle("Java Code Editor");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container framePanel = getContentPane();
-        framePanel.setLayout(new GridBagLayout());
-        framePanel.setBackground(Color.GRAY);
+        setLayout(new BorderLayout());
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 75;
-        c.weighty = 100;
-        c.gridx = 1;
-        c.gridy = 0;
-        framePanel.add(mainPanel, c);
-        c.weightx = 25;
-        c.weighty = 100;
-        c.gridx = 0;
-        c.gridy = 0;
-        framePanel.add(sidePanel, c);
+        // SettingManagerView를 상단에 추가
+        settingManagerView = new SettingManagerView();
+        add(settingManagerView, BorderLayout.NORTH);
 
-        setSize(1280,720);
+        // SidePanel과 MainPanel 초기화
+        sidePanel = new SidePanel();
+        mainPanel = new MainPanel();
+
+        // JSplitPane으로 SidePanel과 MainPanel을 가로로 분할
+        JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, mainPanel);
+        mainSplitPane.setDividerLocation(300); // SidePanel의 초기 너비 설정
+        mainSplitPane.setContinuousLayout(true);
+        mainSplitPane.setDividerSize(8);
+
+        add(mainSplitPane, BorderLayout.CENTER);
+
+        setSize(1280, 720);
+        setLocationRelativeTo(null); // 화면 중앙에 위치
         setVisible(true);
     }
 
-    MainPanel mainPanel = new MainPanel();
-    SidePanel sidePanel = new SidePanel();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(MainFrame::new);
+    }
 }
