@@ -1,16 +1,11 @@
 package GUIInterface;
 
-import guiPresenter.MainPresenter;
-
-public interface MainInterface {
+public  interface MainInterface {
 
     interface MainViewInterface {
 
-        //뷰에 프레젠터 연결
-        void setPresenter(MainPresenter presenter);
-
         //메인뷰. 텍스트에디터. textArea(string)
-        void showTextFile(String text);
+        void showText(String text);
 
         //메인뷰. 텍스트에디터. textArea("") && 메인뷰. 결과. textArea("")
         void clearText();

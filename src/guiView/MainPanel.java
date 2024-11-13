@@ -5,33 +5,58 @@ import guiPresenter.MainPresenter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class MainPanel extends JPanel {
-    private TextEditorView textEditorView;
-    private ResultView resultView;
-    private JPanel buttonPanel;
-    private JButton openButton, saveButton, compileButton, deleteButton, clearButton;
+public class MainPanel extends JPanel implements MainInterface.MainViewInterface{
+    private MainPresenter mainPresenter;
 
     private JSplitPane splitPane; // TextEditorView와 ResultView를 분할하는 SplitPane
 
-    private MainPresenter mainPresenter;
+    private TextEditorView textEditorView;
+    private ResultView resultView;
+
+    private JPanel buttonPanel;
+    private ArrayList<JButton> buttonArrayList;
+    private JButton openButton, saveButton, compileButton, deleteButton, clearButton;
+    private ActionListener mainListener;
 
     public MainPanel() {
+        mainPresenter = new MainPresenter(this);
         setLayout(new BorderLayout());
 
         // 파일 작업 버튼 패널 생성 및 설정
         buttonPanel = new JPanel(new FlowLayout());
+        mainListener = new ButtonPanelEventListener();
+
+        buttonArrayList = new ArrayList<>();
+        buttonArrayList.add(new JButton("Open"));
+        buttonArrayList.add(new JButton("Save"));
+        buttonArrayList.add(new JButton("Compile"));
+        buttonArrayList.add(new JButton("Delete"));
+        buttonArrayList.add(new JButton("Clear"));
+
+        /* eventListner arrayIndex로 이용
         openButton = new JButton("Open");
         saveButton = new JButton("Save");
         compileButton = new JButton("Compile");
         deleteButton = new JButton("Delete");
         clearButton = new JButton("Clear");
+         */
 
+        for(JButton button : buttonArrayList){
+            buttonPanel.add(button);
+            button.addActionListener(mainListener);
+        }
+
+        /* for each 로 변경
         buttonPanel.add(openButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(compileButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(clearButton);
+        */
 
         // TextEditorView와 ResultView 초기화 및 추가
         textEditorView = new TextEditorView();
@@ -46,6 +71,21 @@ public class MainPanel extends JPanel {
         // 패널 구성
         add(buttonPanel, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void showText(String text) {
+        this.textEditorView.setText(text);
+    }
+
+    @Override
+    public void clearText() {
+        this.textEditorView.setText("");
+    }
+
+    @Override
+    public void showResult(String result) {
+        this.resultView.setResultText(result);
     }
 
     // TextEditorView 이너 클래스
@@ -115,6 +155,24 @@ public class MainPanel extends JPanel {
         }
     }
 
+    //event listener inner class
+    public class ButtonPanelEventListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton button = (JButton) e.getSource();
+            switch (button.getText()) {
+                case "Open": mainPresenter.openButtonClicked(); break;
+                case "Save": mainPresenter.saveButtonClicked(); break;
+                case "Compile": mainPresenter.compileButtonClicked(); break;
+                case "Delete": mainPresenter.deleteButtonClicked(); break;
+                case "Clear": mainPresenter.clearButtonClicked(); break;
+                default: break;
+            }
+        }
+    }
+
+    /*이너 클래스 사용으로 필요없어짐
     // Button getter methods for adding action listeners in Presenter
     public JButton getOpenButton() {
         return openButton;
@@ -135,7 +193,8 @@ public class MainPanel extends JPanel {
     public JButton getClearButton() {
         return clearButton;
     }
-
+    */
+    
     // Getters for text editor and result view
     public TextEditorView getTextEditorView() {
         return textEditorView;
@@ -144,4 +203,7 @@ public class MainPanel extends JPanel {
     public ResultView getResultView() {
         return resultView;
     }
+
+
+
 }

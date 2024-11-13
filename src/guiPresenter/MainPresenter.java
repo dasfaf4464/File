@@ -3,6 +3,11 @@ package guiPresenter;
 import GUIInterface.MainInterface;
 import guiView.MainPanel;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+
 public class MainPresenter implements MainInterface.MainPresenterInterface {
     public MainPresenter(MainPanel mainLinkPanel) {
         mainPanel = mainLinkPanel;
@@ -13,7 +18,10 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
      */
     @Override
     public void openButtonClicked() {
-
+        //openFilePath = mainPanel.getTextEditorView().getTextField() -> String
+        //File openFile = new File(openFilePath);
+        //openFile.
+        //mainPanel.showText();
     }
 
     /**
