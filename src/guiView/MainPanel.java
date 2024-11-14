@@ -136,7 +136,6 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     public class ResultView extends JPanel {
         private JTextArea resultArea;
-        private JScrollPane scrollPane;
 
         public ResultView() {
             setLayout(new BorderLayout());
@@ -146,7 +145,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
             resultArea.setLineWrap(false);
             resultArea.setWrapStyleWord(false);
 
-            scrollPane = new JScrollPane(resultArea);
+            JScrollPane scrollPane = new JScrollPane(resultArea);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
