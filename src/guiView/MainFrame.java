@@ -20,7 +20,7 @@ public class MainFrame extends JFrame {
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, mainPanel);
         mainSplitPane.setDividerLocation(300); // SidePanel의 초기 너비 설정
         mainSplitPane.setContinuousLayout(true);
-        mainSplitPane.setDividerSize(8);
+        mainSplitPane.setDividerSize(3);
 
         add(mainSplitPane, BorderLayout.CENTER);
 

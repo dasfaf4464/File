@@ -8,79 +8,56 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class MainPanel extends JPanel implements MainInterface.MainViewInterface{
-    private MainPresenter mainPresenter;
+public class MainPanel extends JPanel implements MainInterface.MainViewInterface {
 
-    private JSplitPane splitPane; // TextEditorView와 ResultView를 분할하는 SplitPane
-
-    private TextEditorView textEditorView;
-    private ResultView resultView;
-
-    private JPanel buttonPanel;
-    private ArrayList<JButton> buttonArrayList;
-   //private JButton openButton, saveButton, compileButton, deleteButton, clearButton;//생성자에 존재해서 필요없음
-
+    private TextEditorView textEditorView;//텍스트 에디터
+    private ResultView resultView;//결과
+    private FileTextView fileTextView;//오픈&세이브
+    private JPanel mainButtonPanel;//버튼 네 개
     private ActionListener mainButtonListener;
 
     public MainPanel() {
-        mainPresenter = new MainPresenter(this);
+        MainPresenter mainPresenter = new MainPresenter(this);
+
         setLayout(new BorderLayout());
 
-        // 파일 작업 버튼 패널 생성 및 설정
-        buttonPanel = new JPanel(new FlowLayout());
-
-        buttonArrayList = new ArrayList<>();
-        buttonArrayList.add(new JButton("Open"));
-        buttonArrayList.add(new JButton("Save"));
-        buttonArrayList.add(new JButton("Compile"));
-        buttonArrayList.add(new JButton("Delete"));
-        buttonArrayList.add(new JButton("Clear"));
-        buttonArrayList.add(new JButton("SaveError"));
-
-        /* eventListner arrayIndex로 이용
-        openButton = new JButton("Open");
-        saveButton = new JButton("Save");
-        compileButton = new JButton("Compile");
-        deleteButton = new JButton("Delete");
-        clearButton = new JButton("Clear");
-         */
-
-        for(JButton button : buttonArrayList){
-            buttonPanel.add(button);
-            button.addActionListener(mainButtonListener);
-        }
-
-        /* for each 로 변경
-        buttonPanel.add(openButton);
-        buttonPanel.add(saveButton);
-        buttonPanel.add(compileButton);
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(clearButton);
-        */
-
-        // TextEditorView와 ResultView 초기화 및 추가
+        JPanel centerPanel = new JPanel(new BorderLayout());
+        fileTextView = new FileTextView();
+        mainButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         textEditorView = new TextEditorView();
         resultView = new ResultView();
 
-        // JSplitPane을 사용하여 TextEditorView와 ResultView를 분할
-        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textEditorView, resultView);
-        splitPane.setDividerLocation(400); // 초기 분할 위치 설정
-        splitPane.setResizeWeight(1.0); // 위쪽 영역이 전체를 차지하게 설정
-        splitPane.setOneTouchExpandable(true); // 확장/축소 버튼 활성화
+        ArrayList<JButton> mainButtonArrayList = new ArrayList<>();
+        Dimension buttonSize = new Dimension(100, 30);
+        mainButtonArrayList.add(new JButton("Compile"));
+        mainButtonArrayList.add(new JButton("SaveError"));
+        mainButtonArrayList.add(new JButton("Delete"));
+        mainButtonArrayList.add(new JButton("Clear"));
+
+        for(JButton button : mainButtonArrayList){
+            button.setPreferredSize(buttonSize);
+            mainButtonPanel.add(button);
+            button.addActionListener(mainButtonListener);
+        }
+
+        centerPanel.add(textEditorView, BorderLayout.CENTER);
+        centerPanel.add(mainButtonPanel, BorderLayout.SOUTH);
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerPanel, resultView);
+        splitPane.setDividerLocation(400);
+        splitPane.setResizeWeight(0.7);
+        splitPane.setOneTouchExpandable(true);
         splitPane.setDividerSize(8);
 
-        // 패널 구성
-        add(buttonPanel, BorderLayout.NORTH);
+        add(fileTextView, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
     }
 
-    
-    //이 인터페이스로 모든 뷰 변경 가능 (검토)
     @Override
     public void showTextEditor(String text) {
         textEditorView.textArea.setText(text);
     }
-    
+
     @Override
     public void showResult(String result) {
         resultView.resultArea.setText(result);
@@ -96,19 +73,58 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         return resultView.resultArea.getText();
     }
 
-    // TextEditorView 이너 클래스
+    @Override
+    public String getOpenTextField() {
+        return fileTextView.openTextField.getText();
+    }
+
+    @Override
+    public String getSaveTextField() {
+        return fileTextView.saveTextField.getText();
+    }
+
+    public class FileTextView extends JPanel {
+        private JTextField openTextField;
+        private JTextField saveTextField;
+
+        public FileTextView() {
+            setLayout(new BorderLayout());
+
+            JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 5 ,5));
+            JPanel textFieldPanel = new JPanel(new GridLayout(2,1, 5 ,5));
+
+            openTextField = new JTextField();
+            saveTextField = new JTextField();
+            textFieldPanel.add(openTextField);
+            textFieldPanel.add(saveTextField);
+
+            ArrayList<JButton> fileButtonArrayList = new ArrayList<>();
+            Dimension buttonSize = new Dimension(100, 30);
+            fileButtonArrayList.add(new JButton("Open"));
+            fileButtonArrayList.add(new JButton("Save"));
+
+            for(JButton button : fileButtonArrayList) {
+                button.setPreferredSize(buttonSize);
+                buttonPanel.add(button);
+                button.addActionListener(mainButtonListener);
+            }
+
+            this.add(textFieldPanel, BorderLayout.CENTER);
+            this.add(buttonPanel, BorderLayout.EAST);
+
+        }
+    }
+
     public class TextEditorView extends JPanel {
         private JTextArea textArea;
 
         public TextEditorView() {
             setLayout(new BorderLayout());
 
-            // JTextArea 초기화 및 설정
             textArea = new JTextArea();
             textArea.setLineWrap(false);
             textArea.setWrapStyleWord(false);
 
-            // JScrollPane을 사용하여 스크롤 가능하게 설정
             JScrollPane scrollPane = new JScrollPane(textArea);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -116,25 +132,8 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
             add(scrollPane, BorderLayout.CENTER);
         }
 
-        /* 인터페이스와 이너클래스 사용으로 필요없어짐
-        // 텍스트 가져오기 및 설정
-        public String getTextEditor() {
-            return textArea.getTextEditor();
-        }
-
-        public void setText(String text) {
-            this.textArea.setText(text);
-        }
-
-        // JTextArea 접근자
-        public JTextArea getTextArea() {
-            return textArea;
-        }
-        
-         */
     }
 
-    // ResultView 이너 클래스
     public class ResultView extends JPanel {
         private JTextArea resultArea;
         private JScrollPane scrollPane;
@@ -142,13 +141,11 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         public ResultView() {
             setLayout(new BorderLayout());
 
-            // 결과 출력 영역
             resultArea = new JTextArea();
             resultArea.setEditable(false);
             resultArea.setLineWrap(false);
-            resultArea.setWrapStyleWord(true);
+            resultArea.setWrapStyleWord(false);
 
-            // 스크롤 가능하도록 설정
             scrollPane = new JScrollPane(resultArea);
             scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
             scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -156,51 +153,8 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
             add(scrollPane, BorderLayout.CENTER);
         }
 
-        /*인터페이스 사용으로 필요없어짐
-        // 결과 텍스트 설정 및 가져오기
-        public void setResultText(String text) {
-            resultArea.setText(text);
-        }
-
-        public String getResultText() {
-            return resultArea.getText();
-        }
-
-         */
     }
 
-    /*필요없음
-    // Button getter methods for adding action listeners in Presenter
-    public JButton getOpenButton() {
-        return openButton;
-    }
-
-    public JButton getSaveButton() {
-        return saveButton;
-    }
-
-    public JButton getCompileButton() {
-        return compileButton;
-    }
-
-    public JButton getDeleteButton() {
-        return deleteButton;
-    }
-
-    public JButton getClearButton() {
-        return clearButton;
-    }
-    */
-    /*이부분도 인터페이스 사용으로 필요없어짐
-    // Getters for text editor and result view
-    public TextEditorView getTextEditorView() {
-        return textEditorView;
-    }
-
-    public ResultView getResultView() {
-        return resultView;
-    }
-    */
     public void setEventListener(ActionListener buttonListener) {
         this.mainButtonListener = buttonListener;
     }

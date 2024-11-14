@@ -26,6 +26,18 @@ public  interface MainInterface {
          * @return 결과 화면에 있는 값을 반환한다.
          */
         String getResult();
+
+        /**
+         *
+         * @return
+         */
+        String getOpenTextField();
+
+        /**
+         *
+         * @return
+         */
+        String getSaveTextField();
     }
 
     interface MainPresenterInterface {
