@@ -5,7 +5,6 @@ import guiPresenter.MainPresenter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -19,8 +18,8 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     private JPanel buttonPanel;
     private ArrayList<JButton> buttonArrayList;
-    private JButton openButton, saveButton, compileButton, deleteButton, clearButton;
-    private ActionListener mainListener;
+   //private JButton openButton, saveButton, compileButton, deleteButton, clearButton;//초기화에 설정
+    private ActionListener mainButtonListener;
 
     public MainPanel() {
         mainPresenter = new MainPresenter(this);
@@ -28,7 +27,6 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
         // 파일 작업 버튼 패널 생성 및 설정
         buttonPanel = new JPanel(new FlowLayout());
-        mainListener = new ButtonPanelEventListener();
 
         buttonArrayList = new ArrayList<>();
         buttonArrayList.add(new JButton("Open"));
@@ -36,6 +34,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         buttonArrayList.add(new JButton("Compile"));
         buttonArrayList.add(new JButton("Delete"));
         buttonArrayList.add(new JButton("Clear"));
+        buttonArrayList.add(new JButton("SaveError"));
 
         /* eventListner arrayIndex로 이용
         openButton = new JButton("Open");
@@ -47,7 +46,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
         for(JButton button : buttonArrayList){
             buttonPanel.add(button);
-            button.addActionListener(mainListener);
+            button.addActionListener(mainButtonListener);
         }
 
         /* for each 로 변경
@@ -73,19 +72,26 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         add(splitPane, BorderLayout.CENTER);
     }
 
+    
+    //이 인터페이스로 모든 뷰 변경 가능 (검토)
     @Override
-    public void showText(String text) {
-        this.textEditorView.setText(text);
+    public void showTextEditor(String text) {
+        textEditorView.textArea.setText(text);
     }
-
-    @Override
-    public void clearText() {
-        this.textEditorView.setText("");
-    }
-
+    
     @Override
     public void showResult(String result) {
-        this.resultView.setResultText(result);
+        resultView.resultArea.setText(result);
+    }
+
+    @Override
+    public String getTextEditor() {
+        return textEditorView.textArea.getText();
+    }
+
+    @Override
+    public String getResult() {
+        return "";
     }
 
     // TextEditorView 이너 클래스
@@ -108,19 +114,22 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
             add(scrollPane, BorderLayout.CENTER);
         }
 
+        /* 인터페이스와 이너클래스 사용으로 필요없어짐
         // 텍스트 가져오기 및 설정
-        public String getText() {
-            return textArea.getText();
+        public String getTextEditor() {
+            return textArea.getTextEditor();
         }
 
         public void setText(String text) {
-            textArea.setText(text);
+            this.textArea.setText(text);
         }
 
         // JTextArea 접근자
         public JTextArea getTextArea() {
             return textArea;
         }
+        
+         */
     }
 
     // ResultView 이너 클래스
@@ -155,24 +164,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         }
     }
 
-    //event listener inner class
-    public class ButtonPanelEventListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JButton button = (JButton) e.getSource();
-            switch (button.getText()) {
-                case "Open": mainPresenter.openButtonClicked(); break;
-                case "Save": mainPresenter.saveButtonClicked(); break;
-                case "Compile": mainPresenter.compileButtonClicked(); break;
-                case "Delete": mainPresenter.deleteButtonClicked(); break;
-                case "Clear": mainPresenter.clearButtonClicked(); break;
-                default: break;
-            }
-        }
-    }
-
-    /*이너 클래스 사용으로 필요없어짐
+    /*필요없음
     // Button getter methods for adding action listeners in Presenter
     public JButton getOpenButton() {
         return openButton;
@@ -194,7 +186,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         return clearButton;
     }
     */
-    
+    /*이부분도 인터페이스 사용으로 필요없어짐
     // Getters for text editor and result view
     public TextEditorView getTextEditorView() {
         return textEditorView;
@@ -203,7 +195,9 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
     public ResultView getResultView() {
         return resultView;
     }
-
-
+    */
+    public void setEventListener(ActionListener mainListener) {
+        this.mainButtonListener = mainListener;
+    }
 
 }

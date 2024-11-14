@@ -18,6 +18,8 @@ public interface SideInterface {
 
         void listElementClicked();
 
-        //void makingFileButtonClicked();
+        void makingFileButtonClicked();
+
+        void deleteFileButtonClicked();
     }
 }

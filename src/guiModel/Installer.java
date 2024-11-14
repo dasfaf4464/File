@@ -2,6 +2,9 @@ package guiModel;
 
 import java.io.File;
 
+/**
+ *
+ */
 public class Installer {
     public boolean isInstalled() {
         File settingFile = new File(settings.programPath+"settings.properties");

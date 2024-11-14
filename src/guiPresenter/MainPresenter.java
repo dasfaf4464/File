@@ -3,14 +3,15 @@ package guiPresenter;
 import GUIInterface.MainInterface;
 import guiView.MainPanel;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainPresenter implements MainInterface.MainPresenterInterface {
     public MainPresenter(MainPanel mainLinkPanel) {
         mainPanel = mainLinkPanel;
+        mainButtonListener = new mainButtonListener();
+        mainPanel.setEventListener(this.mainButtonListener);
     }
 
     /**
@@ -18,10 +19,7 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
      */
     @Override
     public void openButtonClicked() {
-        //openFilePath = mainPanel.getTextEditorView().getTextField() -> String
-        //File openFile = new File(openFilePath);
-        //openFile.
-        //mainPanel.showText();
+        mainPanel.showTextEditor("test1\ntest2");
     }
 
     /**
@@ -29,7 +27,8 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
      */
     @Override
     public void clearButtonClicked() {
-
+        mainPanel.showTextEditor("");
+        mainPanel.showResult("");
     }
 
     /**
@@ -63,6 +62,23 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
 
     }
 
+    public class mainButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton button = (JButton) e.getSource();
+            switch (button.getText()) {
+                case "Open": openButtonClicked(); break;
+                case "Save": saveButtonClicked(); break;
+                case "Compile": compileButtonClicked(); break;
+                case "Delete": deleteButtonClicked(); break;
+                case "Clear": clearButtonClicked(); break;
+                case "SaveError": errorSaveButtonClicked(); break;
+                default: break;
+            }
+        }
+    }
+
     private MainPanel mainPanel;
-    private guiModel.File fileModel = new guiModel.File();
+    private mainButtonListener mainButtonListener;
 }

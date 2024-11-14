@@ -1,14 +1,22 @@
 package guiView;
 
+import GUIInterface.SideInterface;
+import guiPresenter.MainPresenter;
+import guiPresenter.SidePresenter;
+
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
+import java.io.File;
 
-public class SidePanel extends JPanel {
+public class SidePanel extends JPanel implements SideInterface.SideViewInterface {
+    private SidePresenter sidePresenter;
+
     private FileView fileView;
     private TextListView textListView;
 
     public SidePanel() {
+        sidePresenter = new SidePresenter(this);
         setLayout(new BorderLayout());
 
         // FileView와 TextListView 초기화
@@ -34,6 +42,21 @@ public class SidePanel extends JPanel {
         return textListView;
     }
 
+    @Override
+    public void showFileTree() {
+
+    }
+
+    @Override
+    public void fileSearch() {
+
+    }
+
+    @Override
+    public void showTextList(String[] fileName) {
+
+    }
+
     // FileView 이너 클래스
     public class FileView extends JPanel {
         private JTextField searchField;
@@ -55,6 +78,7 @@ public class SidePanel extends JPanel {
             root.add(new DefaultMutableTreeNode("자바1.java"));
             root.add(new DefaultMutableTreeNode("자바2.java"));
             root.add(new DefaultMutableTreeNode("자바3.java"));
+            root.add(new DefaultMutableTreeNode(new File(System.getProperty("user.dir")).getName()));
             fileTree = new JTree(root);
 
             // JScrollPane을 사용하여 fileTree에 스크롤 추가
@@ -81,7 +105,6 @@ public class SidePanel extends JPanel {
     // TextListView 이너 클래스
     public class TextListView extends JPanel {
         private JList<String> textList;
-
         public TextListView() {
             setLayout(new BorderLayout());
 
