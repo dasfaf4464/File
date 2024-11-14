@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 public class MainPresenter implements MainInterface.MainPresenterInterface {
     public MainPresenter(MainPanel mainLinkPanel) {
         mainPanel = mainLinkPanel;
-        mainButtonListener = new MainButtonListener();
-        mainPanel.setEventListener(this.mainButtonListener);
+        MainButtonListener mainButtonListener = new MainButtonListener();
+        mainPanel.setEventListener(mainButtonListener);
     }
 
     /**
@@ -23,10 +23,12 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
     }
 
     /**
-     * 메인.텍스트.텍스트 에리어 내용 초기화
+     * 메인.텍스트.텍스트 에리어 내용 초기화, 내용끝
      */
     @Override
     public void clearButtonClicked() {
+        mainPanel.showOpenTextField("");
+        mainPanel.showSaveTextField("");
         mainPanel.showTextEditor("");
         mainPanel.showResult("");
     }
@@ -80,5 +82,4 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
     }
 
     private MainPanel mainPanel;
-    private MainButtonListener mainButtonListener;
 }

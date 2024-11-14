@@ -16,6 +16,10 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
     private JPanel mainButtonPanel;//버튼 네 개
     private ActionListener mainButtonListener;
 
+    /**
+     * 메인 패널에 포함될 패널들(텍스트 에디터 + 메인 버튼, 결과 화면, 오픈&세이브) 생성 및 초기화
+     * 버튼은 메인 이벤트 리스너에 연결
+     */
     public MainPanel() {
         MainPresenter mainPresenter = new MainPresenter(this);
 
@@ -83,6 +87,21 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         return fileTextView.saveTextField.getText();
     }
 
+    @Override
+    public void showOpenTextField(String text) {
+        fileTextView.openTextField.setText(text);
+
+    }
+
+    @Override
+    public void showSaveTextField(String text) {
+        fileTextView.saveTextField.setText(text);
+    }
+
+    /**
+     * 오픈 텍스트필드와 세이브 텍스트필드 버튼으로 구성된 패널
+     * 버튼은 메인 이벤트 리스너에 연결
+     */
     public class FileTextView extends JPanel {
         private JTextField openTextField;
         private JTextField saveTextField;
@@ -115,6 +134,9 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         }
     }
 
+    /**
+     * 텍스트 에디터로 구성된 패널
+     */
     public class TextEditorView extends JPanel {
         private JTextArea textArea;
 
@@ -134,6 +156,9 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     }
 
+    /**
+     * 결과 화면으로 구성된 패널
+     */
     public class ResultView extends JPanel {
         private JTextArea resultArea;
 
