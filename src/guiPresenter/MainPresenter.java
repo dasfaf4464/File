@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class MainPresenter implements MainInterface.MainPresenterInterface {
     public MainPresenter(MainPanel mainLinkPanel) {
         mainPanel = mainLinkPanel;
-        mainButtonListener = new mainButtonListener();
+        mainButtonListener = new MainButtonListener();
         mainPanel.setEventListener(this.mainButtonListener);
     }
 
@@ -62,7 +62,7 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
 
     }
 
-    public class mainButtonListener implements ActionListener {
+    public class MainButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -80,5 +80,5 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
     }
 
     private MainPanel mainPanel;
-    private mainButtonListener mainButtonListener;
+    private MainButtonListener mainButtonListener;
 }

@@ -18,7 +18,8 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     private JPanel buttonPanel;
     private ArrayList<JButton> buttonArrayList;
-   //private JButton openButton, saveButton, compileButton, deleteButton, clearButton;//초기화에 설정
+   //private JButton openButton, saveButton, compileButton, deleteButton, clearButton;//생성자에 존재해서 필요없음
+
     private ActionListener mainButtonListener;
 
     public MainPanel() {
@@ -66,6 +67,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         splitPane.setDividerLocation(400); // 초기 분할 위치 설정
         splitPane.setResizeWeight(1.0); // 위쪽 영역이 전체를 차지하게 설정
         splitPane.setOneTouchExpandable(true); // 확장/축소 버튼 활성화
+        splitPane.setDividerSize(8);
 
         // 패널 구성
         add(buttonPanel, BorderLayout.NORTH);
@@ -91,7 +93,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     @Override
     public String getResult() {
-        return "";
+        return resultView.resultArea.getText();
     }
 
     // TextEditorView 이너 클래스
@@ -154,6 +156,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
             add(scrollPane, BorderLayout.CENTER);
         }
 
+        /*인터페이스 사용으로 필요없어짐
         // 결과 텍스트 설정 및 가져오기
         public void setResultText(String text) {
             resultArea.setText(text);
@@ -162,6 +165,8 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         public String getResultText() {
             return resultArea.getText();
         }
+
+         */
     }
 
     /*필요없음
@@ -196,8 +201,8 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         return resultView;
     }
     */
-    public void setEventListener(ActionListener mainListener) {
-        this.mainButtonListener = mainListener;
+    public void setEventListener(ActionListener buttonListener) {
+        this.mainButtonListener = buttonListener;
     }
 
 }

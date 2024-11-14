@@ -13,7 +13,5 @@ public class FileUtil {
     }
 
 
-
-
     private static ArrayList<File> activatedFile = new ArrayList<File>();
 }

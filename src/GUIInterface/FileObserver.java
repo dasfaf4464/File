@@ -1,4 +1,4 @@
-package guiPresenter;
+package GUIInterface;
 
 import java.io.File;
 

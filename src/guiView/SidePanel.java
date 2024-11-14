@@ -1,13 +1,16 @@
 package guiView;
 
 import GUIInterface.SideInterface;
-import guiPresenter.MainPresenter;
 import guiPresenter.SidePresenter;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class SidePanel extends JPanel implements SideInterface.SideViewInterface {
     private SidePresenter sidePresenter;
@@ -15,9 +18,27 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     private FileView fileView;
     private TextListView textListView;
 
+    private JPanel buttonPanel;
+    private ArrayList<JButton> buttonArrayList;
+
+    private TreeSelectionListener fileTreeListener;
+    private ListSelectionListener textListListener;
+    private ActionListener sideButtonListener;
+
     public SidePanel() {
         sidePresenter = new SidePresenter(this);
         setLayout(new BorderLayout());
+
+        buttonPanel = new JPanel(new FlowLayout());
+
+        buttonArrayList = new ArrayList<>();
+        buttonArrayList.add(new JButton("Make"));
+        buttonArrayList.add(new JButton("delete"));
+
+        for(JButton button : buttonArrayList) {
+            buttonPanel.add(button);
+            button.addActionListener(sideButtonListener);
+        }
 
         // FileView와 TextListView 초기화
         fileView = new FileView();
@@ -30,6 +51,7 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
         splitPane.setOneTouchExpandable(true); // 분할 조절 버튼 표시
         splitPane.setDividerSize(8); // 분할선 두께 설정
 
+        add(buttonPanel, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
     }
 
@@ -119,5 +141,12 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
         public JList<String> getTextList() {
             return textList;
         }
+
+    }
+
+    public void setEventListner(TreeSelectionListener fileTreeListener, ListSelectionListener textListListener, ActionListener buttonListener) {
+        this.fileTreeListener = fileTreeListener;
+        this.textListListener = textListListener;
+        this.sideButtonListener = buttonListener;
     }
 }

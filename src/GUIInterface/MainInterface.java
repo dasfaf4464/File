@@ -12,20 +12,18 @@ public  interface MainInterface {
         void showTextEditor(String text);
 
         /**
-         *
-         * @return 텍스트에디터에 있는 값을 반환한다.
+         * @return 텍스트 에디터에 있는 값을 반환한다.
          */
         String getTextEditor();
 
         /**
          * 텍스트를 인수로 하여 그 텍스트 값을 결과화면에 표시하는 메소드
-         * @param result
+         * @param result 전달되어 뷰의 결과 화면에 표시될 텍스트
          */
         void showResult(String result);
 
         /**
-         *
-         * @return
+         * @return 결과 화면에 있는 값을 반환한다.
          */
         String getResult();
     }
