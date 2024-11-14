@@ -31,8 +31,10 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
         fileView = new FileView();
         textListView = new TextListView();
 
+        //버튼 추가할 때 프레젠터에도 이벤트 추가
         ArrayList<JButton> buttonArrayList = new ArrayList<>();
         Dimension buttonSize = new Dimension(100, 30);
+        buttonArrayList.add(new JButton("Setting"));
         buttonArrayList.add(new JButton("Make"));
         buttonArrayList.add(new JButton("delete"));
 
