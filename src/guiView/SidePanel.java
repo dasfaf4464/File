@@ -27,7 +27,7 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
 
         setLayout(new BorderLayout());
 
-        sideButtonPanel = new JPanel(new FlowLayout());
+        sideButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         fileView = new FileView();
         textListView = new TextListView();
 
