@@ -21,5 +21,9 @@ public interface SideInterface {
         void makingFileButtonClicked();
 
         void deleteFileButtonClicked();
+
+        void settingButtonClicked();
+
+        void fileSearchingFieldEntered();
     }
 }

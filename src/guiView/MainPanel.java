@@ -90,7 +90,6 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
     @Override
     public void showOpenTextField(String text) {
         fileTextView.openTextField.setText(text);
-
     }
 
     @Override
@@ -137,7 +136,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
     /**
      * 텍스트 에디터로 구성된 패널
      */
-    public class TextEditorView extends JPanel {
+    public static class TextEditorView extends JPanel {
         private JTextArea textArea;
 
         public TextEditorView() {
@@ -159,7 +158,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
     /**
      * 결과 화면으로 구성된 패널
      */
-    public class ResultView extends JPanel {
+    public static class ResultView extends JPanel {
         private JTextArea resultArea;
 
         public ResultView() {

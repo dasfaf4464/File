@@ -41,13 +41,25 @@ public class SidePresenter implements SideInterface.SidePresenterInterface {
 
     }
 
+    @Override
+    public void settingButtonClicked() {
+
+    }
+
+    @Override
+    public void fileSearchingFieldEntered() {
+
+    }
+
     public class SideButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            JButton button = (JButton) e.getSource();
+            JButton button =  (JButton) e.getSource();
             switch (button.getText()) {
-                case "": break;
+                case "Setting": settingButtonClicked(); break;
+                case "Make": makingFileButtonClicked(); break;
+                case "Delete": deleteFileButtonClicked(); break;
                 default: break;
             }
         }

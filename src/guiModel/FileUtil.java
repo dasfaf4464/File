@@ -1,11 +1,8 @@
 package guiModel;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
-import java.io.File;
 /**
  *  ide에서 파일에 대한 기능들을 제공
  *  열린 파일들을 추적
@@ -19,9 +16,9 @@ public class FileUtil {
      * 새로운 파일을 열고 파일리스트에 추가한다.
      * @param file 텍스트 에디터에 여는 파일
      */
-    public void openNewFile(File file) {
-        this.activatedFile = file;
-        edttingFile.add(activatedFile);
+    public void openFile(File file) {
+        activatedFile = file;
+        edittingFile.add(activatedFile);
     }
 
     /**
@@ -29,30 +26,48 @@ public class FileUtil {
      * @param file 텍스트 에디터에 여는 파일
      */
     public void swapFile(File file) {
-        this.activatedFile = file;
+        activatedFile = file;
 
-        if(!edttingFile.contains(file)) {
-            edttingFile.add(file);
+        if(!edittingFile.contains(file)) {
+            edittingFile.add(file);
         }
     }
 
     /**
-     * 현재 파일의 내용을 스트링으로 저장
-     * @return
+     * @return activatedFile의 내용을 한 줄의 스트링
      */
     public String getFileContent() {
-        String content;
+        String contentFull = "";
+        String contentLine;
         try {
             BufferedReader contentBufferReader = new BufferedReader(new FileReader(activatedFile));
-            while(true) {
-                //contentBufferReader.
+            while((contentLine = contentBufferReader.readLine()) != null) {
+                contentFull += contentLine + "\n";
             }
+            contentBufferReader.close();
+            return contentFull;
         } catch (FileNotFoundException e) {
             //현재 파일을 찾을수 없음
+            return null;
+        } catch (IOException e) {
+            //파일 읽는데 오류
+            return e.getMessage();
         }
-        return null;
     }
 
-    private File activatedFile;
-    private static ArrayList<File> edttingFile = new ArrayList<File>();
+    public boolean saveContent(String content, File file) {
+        try {
+            BufferedWriter contentBufferWriter = new BufferedWriter(new FileWriter(file));
+
+            contentBufferWriter.write(content);
+            contentBufferWriter.close();
+            return true;
+        } catch (IOException e) {
+            //파일 쓰는데 오류
+            return false;
+        }
+    }
+
+    private static File activatedFile;
+    private static final ArrayList<File> edittingFile = new ArrayList<>();
 }
