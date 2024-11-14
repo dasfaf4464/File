@@ -7,115 +7,83 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainPanel extends JPanel {
+    private JTextField openPathField; // Open 파일 경로 입력 필드
+    private JTextField savePathField; // Save 파일 경로 입력 필드
+    private JButton openButton, saveButton, compileButton, saveErrorsButton, deleteButton, clearButton;
     private TextEditorView textEditorView;
     private ResultView resultView;
-    private JPanel buttonPanel;
-    private JButton openButton, saveButton, compileButton, deleteButton, clearButton;
-
-    private JSplitPane splitPane; // TextEditorView와 ResultView를 분할하는 SplitPane
+    private JSplitPane splitPane;
 
     private MainPresenter mainPresenter;
 
     public MainPanel() {
         setLayout(new BorderLayout());
 
-        // 파일 작업 버튼 패널 생성 및 설정
-        buttonPanel = new JPanel(new FlowLayout());
+        // 상단 패널 (파일 경로 입력 및 Open/Save 버튼)
+        JPanel topPanel = new JPanel(new BorderLayout());
+
+        // 텍스트 필드 패널
+        JPanel filePathPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+        openPathField = new JTextField("c:\\temp\\OpenFile.java");
+        savePathField = new JTextField("c:\\temp\\SaveFile.java");
+        filePathPanel.add(openPathField);
+        filePathPanel.add(savePathField);
+
+        // 버튼 패널 (Open/Save 버튼)
+        JPanel fileButtonPanel = new JPanel(new GridLayout(2, 1, 5, 5)); // 두 개의 버튼 세로 배치
         openButton = new JButton("Open");
         saveButton = new JButton("Save");
+        Dimension buttonSize = new Dimension(100, 30); // 버튼 크기 설정
+        openButton.setPreferredSize(buttonSize);
+        saveButton.setPreferredSize(buttonSize);
+        fileButtonPanel.add(openButton);
+        fileButtonPanel.add(saveButton);
+
+        // 상단 패널 구성
+        topPanel.add(filePathPanel, BorderLayout.CENTER);
+        topPanel.add(fileButtonPanel, BorderLayout.EAST);
+
+        // 중간 버튼 패널 (Compile, Save Errors, Delete, Clear 버튼)
+        JPanel midButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         compileButton = new JButton("Compile");
+        saveErrorsButton = new JButton("Save Errors");
         deleteButton = new JButton("Delete");
         clearButton = new JButton("Clear");
 
-        buttonPanel.add(openButton);
-        buttonPanel.add(saveButton);
-        buttonPanel.add(compileButton);
-        buttonPanel.add(deleteButton);
-        buttonPanel.add(clearButton);
+        midButtonPanel.add(compileButton);
+        midButtonPanel.add(saveErrorsButton);
+        midButtonPanel.add(deleteButton);
+        midButtonPanel.add(clearButton);
 
-        // TextEditorView와 ResultView 초기화 및 추가
+        // 텍스트 편집기와 결과 창을 포함한 중앙 패널 구성
         textEditorView = new TextEditorView();
         resultView = new ResultView();
 
-        // JSplitPane을 사용하여 TextEditorView와 ResultView를 분할
-        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textEditorView, resultView);
-        splitPane.setDividerLocation(400); // 초기 분할 위치 설정
-        splitPane.setResizeWeight(1.0); // 위쪽 영역이 전체를 차지하게 설정
+        // 텍스트 편집기, 버튼 패널, 결과 창을 중간에 배치
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BorderLayout());
+        centerPanel.add(textEditorView, BorderLayout.CENTER);
+        centerPanel.add(midButtonPanel, BorderLayout.SOUTH);
+
+        // 전체 레이아웃 구성
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerPanel, resultView);
+        splitPane.setDividerLocation(400);
+        splitPane.setResizeWeight(0.7);
         splitPane.setOneTouchExpandable(true); // 확장/축소 버튼 활성화
 
-        // 패널 구성
-        add(buttonPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
     }
 
-    // TextEditorView 이너 클래스
-    public class TextEditorView extends JPanel {
-        private JTextArea textArea;
-
-        public TextEditorView() {
-            setLayout(new BorderLayout());
-
-            // JTextArea 초기화 및 설정
-            textArea = new JTextArea();
-            textArea.setLineWrap(false);
-            textArea.setWrapStyleWord(false);
-
-            // JScrollPane을 사용하여 스크롤 가능하게 설정
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-            add(scrollPane, BorderLayout.CENTER);
-        }
-
-        // 텍스트 가져오기 및 설정
-        public String getText() {
-            return textArea.getText();
-        }
-
-        public void setText(String text) {
-            textArea.setText(text);
-        }
-
-        // JTextArea 접근자
-        public JTextArea getTextArea() {
-            return textArea;
-        }
+    // Getters for accessing components
+    public JTextField getOpenPathField() {
+        return openPathField;
     }
 
-    // ResultView 이너 클래스
-    public class ResultView extends JPanel {
-        private JTextArea resultArea;
-        private JScrollPane scrollPane;
-
-        public ResultView() {
-            setLayout(new BorderLayout());
-
-            // 결과 출력 영역
-            resultArea = new JTextArea();
-            resultArea.setEditable(false);
-            resultArea.setLineWrap(false);
-            resultArea.setWrapStyleWord(true);
-
-            // 스크롤 가능하도록 설정
-            scrollPane = new JScrollPane(resultArea);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-            add(scrollPane, BorderLayout.CENTER);
-        }
-
-        // 결과 텍스트 설정 및 가져오기
-        public void setResultText(String text) {
-            resultArea.setText(text);
-        }
-
-        public String getResultText() {
-            return resultArea.getText();
-        }
+    public JTextField getSavePathField() {
+        return savePathField;
     }
 
-    // Button getter methods for adding action listeners in Presenter
     public JButton getOpenButton() {
         return openButton;
     }
@@ -128,6 +96,10 @@ public class MainPanel extends JPanel {
         return compileButton;
     }
 
+    public JButton getSaveErrorsButton() {
+        return saveErrorsButton;
+    }
+
     public JButton getDeleteButton() {
         return deleteButton;
     }
@@ -136,12 +108,48 @@ public class MainPanel extends JPanel {
         return clearButton;
     }
 
-    // Getters for text editor and result view
-    public TextEditorView getTextEditorView() {
-        return textEditorView;
+    // TextEditorView 이너 클래스
+    public class TextEditorView extends JPanel {
+        private JTextArea textArea;
+
+        public TextEditorView() {
+            setLayout(new BorderLayout());
+            textArea = new JTextArea();
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            add(scrollPane, BorderLayout.CENTER);
+        }
+
+        public String getText() {
+            return textArea.getText();
+        }
+
+        public void setText(String text) {
+            textArea.setText(text);
+        }
     }
 
-    public ResultView getResultView() {
-        return resultView;
+    // ResultView 이너 클래스
+    public class ResultView extends JPanel {
+        private JTextArea resultArea;
+
+        public ResultView() {
+            setLayout(new BorderLayout());
+            resultArea = new JTextArea();
+            resultArea.setEditable(false);
+            JScrollPane scrollPane = new JScrollPane(resultArea);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            add(scrollPane, BorderLayout.CENTER);
+        }
+
+        public void setResultText(String text) {
+            resultArea.setText(text);
+        }
+
+        public String getResultText() {
+            return resultArea.getText();
+        }
     }
 }
