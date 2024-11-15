@@ -22,12 +22,12 @@ public class SidePresenter implements SideInterface.SidePresenterInterface {
     }
 
     @Override
-    public void treeNodeClicked(TreeNode node) {
+    public void treeNodeClicked(TreeNode node) {//link with main Presenter, 파일 리스트에 추가하고
 
     }
 
     @Override
-    public void listElementClicked() {
+    public void listElementClicked() {//link with main Presenter
 
     }
 
@@ -42,7 +42,7 @@ public class SidePresenter implements SideInterface.SidePresenterInterface {
     }
 
     @Override
-    public void settingButtonClicked() {
+    public void settingButtonClicked() {//link with Dialog Presenter
 
     }
 

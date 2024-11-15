@@ -23,7 +23,7 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     private ActionListener sideButtonListener;
 
     public SidePanel() {
-        SidePresenter sidePresenter = new SidePresenter(this);
+        new SidePresenter(this);
 
         setLayout(new BorderLayout());
 

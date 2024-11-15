@@ -21,7 +21,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
      * 버튼은 메인 이벤트 리스너에 연결
      */
     public MainPanel() {
-        MainPresenter mainPresenter = new MainPresenter(this);
+        new MainPresenter(this);
 
         setLayout(new BorderLayout());
 
