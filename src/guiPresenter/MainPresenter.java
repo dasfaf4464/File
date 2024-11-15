@@ -2,9 +2,8 @@ package guiPresenter;
 
 import GUIInterface.MainInterface;
 import guiModel.Compiler;
-import guiModel.Error;
 import guiModel.FileUtil;
-import guiModel.SettingManager;
+import guiModel.Run;
 import guiView.MainPanel;
 
 import javax.swing.*;
@@ -31,7 +30,7 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
         } else {
             FileUtil fileUtil = new FileUtil();
             fileUtil.openFile(file);
-            mainPanel.showTextEditor(fileUtil.getFileContent());
+            mainPanel.showTextEditor(fileUtil.getActivatedFileContent());
         }
     }
 
@@ -72,43 +71,32 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
     @Override
     public void compileButtonClicked() {
 
-        Compiler compiler = new Compiler(mainPanel.getOpenTextField(), System.getProperty("java.home") + "\\bin\\javac.exe", System.getProperty("java.home") + "\\bin\\java.exe");
-        compiler.compile();
-
-        /*
-        if(컴파일 실패)
-                then
-                컴파일러에서 에러파일 반환
-                File = compiler.getErrorFile()
-                에러 클래스에서 에러 파일 내용 가져오고 에러파일 내용 반환
-                Error(File)
-                String = Error.getErrorContent() : 에러파일 지우고 내용을 스트링으로 반환
-         else(컴파일 성공)
-                then
-                컴파일러에서 실행 파일 반환
-                File = compiler.getClassFile() [File :  컴파일러에서 컴파일러 버전]
-                Run(File) [Run : 가상머신 버전]
-                "컴파일 성공\n" + String = Run.start();
-                컴파일된 클래스 파일을 런에서 실행하고 런에서 결과내용 반환
-                
-          finally
-                내용을 메인패널의 결과화면에 전달
-                mainPanel.showResult(string)
-         */
+        Compiler compiler = new Compiler(FileUtil.getActivatedFile(), System.getProperty("java.home")+"\\bin\\javac.exe");//이거 설정에서 컴파일러 위치 가져오는거로 변경 필요
+        if(compiler.compile(System.getProperty("user.home")+"\\Downloads")){//설정에서 저장파일 필요
+            File classFile = compiler.getLastCompiledFile();
+            //Run classRunner = new Run(classFile);
+            //classRunner.run();
+            //classRunner.getResult();
+            //classRunner.getMessage();
+            mainPanel.showResult(compiler.getMassage() + "\n" + "");
+        } else{
+            mainPanel.showResult(compiler.getLastErrorContent());
+        }
 
     }
 
-    /**
-     * 
-     */
     @Override
     public void deleteButtonClicked() {
-        FileUtil fileUtil = new FileUtil();
-
+        FileUtil.deleteFile(new File(mainPanel.getOpenTextField()));
+        mainPanel.showOpenTextField("");
     }
 
     @Override
     public void errorSaveButtonClicked() {
+        String errorContent = mainPanel.getResult();
+        if(!errorContent.equals("Compilation completed successfully")){
+            FileUtil.saveContent(errorContent, new File(System.getProperty("user.home") + "\\Downloads\\" + new File(mainPanel.getOpenTextField()).getName() + ".error"));
+        }
 
     }
 

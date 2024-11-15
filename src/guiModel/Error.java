@@ -3,6 +3,9 @@ package guiModel;
 import java.io.BufferedReader;
 import java.io.*;
 
+/**
+ * 에러파일 받아서 에러파일 내용 전달
+ */
 public class Error {
     public String errorRead(Process process) {
         try {

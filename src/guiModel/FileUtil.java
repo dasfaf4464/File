@@ -23,14 +23,27 @@ public class FileUtil {
         }
     }
 
+    public static File getActivatedFile() {
+        return activatedFile;
+    }
+
     public static ArrayList<File> getEditingFile() {
         return editingFile;
     }
 
+    public static void deleteFile(File file) {
+        file.delete();
+    }
+
+    public static void deleteActivatedFile() {
+        editingFile.remove(activatedFile);
+        activatedFile.delete();
+    }
+
     /**
-     * @return activatedFile의 내용을 한 줄의 스트링
+     * @return activatedFile의 내용을 하나의 스트링으로 반환
      */
-    public String getFileContent() {
+    public String getActivatedFileContent() {
         String contentFull = "";
         String contentLine;
         try {
@@ -49,8 +62,31 @@ public class FileUtil {
         }
     }
 
+    public static String getFileContent(File file) {
+        String contentFull = "";
+        String contentLine;
+        try {
+            BufferedReader contentBufferReader = new BufferedReader(new FileReader(file));
+            while((contentLine = contentBufferReader.readLine()) != null) {
+                contentFull += contentLine + "\n";
+            }
+            contentBufferReader.close();
+            return contentFull;
+        } catch (FileNotFoundException e) {
+            //현재 파일을 찾을수 없음
+            return null;
+        } catch (IOException e) {
+            //파일 읽는데 오류
+            return e.getMessage();
+        }
+    }
+
     public static boolean saveContent(String content, File file) {
         try {
+            if(!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
             BufferedWriter contentBufferWriter = new BufferedWriter(new FileWriter(file));
 
             contentBufferWriter.write(content);

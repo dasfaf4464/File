@@ -3,8 +3,13 @@ package guiModel;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 클래스 파일을 입력받아서 실행
+ * 실행 결과 반환
+ */
 public class Run {
     public String runClass(List<String> runCommand) {
         int exitCode;
@@ -12,6 +17,16 @@ public class Run {
         ProcessBuilder runBuilder = new ProcessBuilder(runCommand);
         runBuilder.redirectErrorStream(true);
         Process runProcess; //프로세스 설정
+
+        /*
+        List<String> runCommand = Arrays.asList( //런커맨드구성
+                javaFile,
+                "-cp",
+                outPath,
+                classPath
+        );
+
+        */
 
         try {
             runProcess = runBuilder.start();
