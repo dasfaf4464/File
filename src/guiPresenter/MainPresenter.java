@@ -30,6 +30,7 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
         } else {
             FileUtil fileUtil = new FileUtil();
             fileUtil.openFile(file);
+            mainPanel.showResult("");
             mainPanel.showTextEditor(fileUtil.getActivatedFileContent());
         }
     }
@@ -53,13 +54,20 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
         FileUtil fileUtil = new FileUtil();
 
         if(mainPanel.getSaveTextField().isBlank() && mainPanel.getOpenTextField().isBlank()) {
-            //오류 출력
+            mainPanel.showResult("저장될 주소를 입력해야합니다.");
         } else if(mainPanel.getSaveTextField().isBlank()){
-            //Valid 검사 필요
+            mainPanel.showResult("내용을 " + mainPanel.getOpenTextField() + " 에 저장합니다.");
             fileUtil.saveContent(mainPanel.getTextEditor(), new File(mainPanel.getOpenTextField()));
         } else {
-            //Valid 검사 필요
-            fileUtil.saveContent(mainPanel.getTextEditor(), new File(mainPanel.getSaveTextField()));
+            if(new File(mainPanel.getSaveTextField()).exists()) {
+               mainPanel.showResult("동일한 이름의 파일이 존재합니다. Open버튼을 눌러 해당 파일을 편집하세요");
+               mainPanel.showOpenTextField(mainPanel.getSaveTextField());
+            } else {
+                mainPanel.showResult("파일이 성공적으로 저장되었습니다.");
+                mainPanel.showOpenTextField(mainPanel.getSaveTextField());
+                new FileUtil().openFile(new File(mainPanel.getOpenTextField()));
+                fileUtil.saveContent(mainPanel.getTextEditor(), new File(mainPanel.getSaveTextField()));
+            }
         }
     }
 
@@ -73,12 +81,8 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
 
         Compiler compiler = new Compiler(FileUtil.getActivatedFile(), System.getProperty("java.home")+"\\bin\\javac.exe");//이거 설정에서 컴파일러 위치 가져오는거로 변경 필요
         if(compiler.compile(System.getProperty("user.home")+"\\Downloads")){//설정에서 저장파일 필요
-            File classFile = compiler.getLastCompiledFile();
-            //Run classRunner = new Run(classFile);
-            //classRunner.run();
-            //classRunner.getResult();
-            //classRunner.getMessage();
-            mainPanel.showResult(compiler.getMassage() + "\n" + "");
+
+            mainPanel.showResult(compiler.getMassage());
         } else{
             mainPanel.showResult(compiler.getLastErrorContent());
         }
@@ -87,15 +91,23 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
 
     @Override
     public void deleteButtonClicked() {
-        FileUtil.deleteFile(new File(mainPanel.getOpenTextField()));
+        File file = FileUtil.getActivatedFile();
+
+        if(!file.exists()) {
+            mainPanel.showResult("삭제하려는 파일이 존재하지 않습니다.");
+        }
+        FileUtil.deleteActivatedFile();
+        mainPanel.showResult("성공적으로 삭제했습니다.");
         mainPanel.showOpenTextField("");
     }
 
     @Override
     public void errorSaveButtonClicked() {
         String errorContent = mainPanel.getResult();
-        if(!errorContent.equals("Compilation completed successfully")){
-            FileUtil.saveContent(errorContent, new File(System.getProperty("user.home") + "\\Downloads\\" + new File(mainPanel.getOpenTextField()).getName() + ".error"));
+        if(FileUtil.getActivatedFile().exists()){
+            FileUtil.saveContent(errorContent, new File(System.getProperty("user.home") + "\\Downloads\\" + FileUtil.getActivatedFile().getName() + ".error"));
+        } else {
+            mainPanel.showResult("열린 파일이 없습니다. 먼저 파일을 열어주세요");
         }
 
     }
