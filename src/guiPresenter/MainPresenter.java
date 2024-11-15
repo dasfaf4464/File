@@ -26,7 +26,7 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
         File file = new File(mainPanel.getOpenTextField());
         
         if(!file.exists() || file.isDirectory()) {
-           //오류 출력
+           mainPanel.showResult("파일이 존재하지 않음");
         } else {
             FileUtil fileUtil = new FileUtil();
             fileUtil.openFile(file);
