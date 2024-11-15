@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class SidePanel extends JPanel implements SideInterface.SideViewInterface {
 
-    private FileView fileView;//파일 트리 뷰
-    private TextListView textListView;//액티브 파일 리스트
-    private JPanel sideButtonPanel;//버튼 세 개
+    private final FileView fileView;//파일 트리 뷰
+    private final TextListView textListView;//액티브 파일 리스트
+    private final JPanel sideButtonPanel;//버튼 세 개
 
     private TreeSelectionListener fileTreeListener;
     private ListSelectionListener textListListener;
@@ -65,11 +65,11 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     }
 
     @Override
-    public void showTextList(String[] fileName) {
-
+    public void showTextList(DefaultListModel<File> fileListModel) {
+        textListView.fileList.setModel(fileListModel);
     }
     
-    public class FileView extends JPanel {
+    public static class FileView extends JPanel {
         private JTextField searchField;
         private JTree fileTree;
 
@@ -96,13 +96,20 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     }
 
     public class TextListView extends JPanel {
-        private JList<String> textList;
+        private final DefaultListModel<File> textFileList;
+        private JList<File> fileList;
+
         public TextListView() {
             setLayout(new BorderLayout());
 
-            textList = new JList<>(new String[]{"자바1.java [x]", "자바2.java [x]"});
-            JScrollPane scrollPane = new JScrollPane(textList);
+            fileList = new JList<>();
+            textFileList = new DefaultListModel<>();
+            fileList.setModel(textFileList);
+            fileList.addListSelectionListener(textListListener);
 
+            fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+            JScrollPane scrollPane = new JScrollPane(fileList);
             add(scrollPane, BorderLayout.CENTER);
         }
 

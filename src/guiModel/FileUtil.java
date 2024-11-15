@@ -18,19 +18,13 @@ public class FileUtil {
      */
     public void openFile(File file) {
         activatedFile = file;
-        edittingFile.add(activatedFile);
+        if(!editingFile.contains(activatedFile)) {
+            editingFile.add(activatedFile);
+        }
     }
 
-    /**
-     * 파일이 열려있을 때 새로운 파일이나 리스트에 있는 파일과 교환
-     * @param file 텍스트 에디터에 여는 파일
-     */
-    public void swapFile(File file) {
-        activatedFile = file;
-
-        if(!edittingFile.contains(file)) {
-            edittingFile.add(file);
-        }
+    public static ArrayList<File> getEditingFile() {
+        return editingFile;
     }
 
     /**
@@ -55,7 +49,7 @@ public class FileUtil {
         }
     }
 
-    public boolean saveContent(String content, File file) {
+    public static boolean saveContent(String content, File file) {
         try {
             BufferedWriter contentBufferWriter = new BufferedWriter(new FileWriter(file));
 
@@ -69,5 +63,5 @@ public class FileUtil {
     }
 
     private static File activatedFile;
-    private static final ArrayList<File> edittingFile = new ArrayList<>();
+    private static final ArrayList<File> editingFile = new ArrayList<>();//변화시 옵저버 굳독자한테 알림
 }

@@ -1,6 +1,8 @@
 package GUIInterface;
 
+import javax.swing.*;
 import javax.swing.tree.TreeNode;
+import java.io.File;
 
 public interface SideInterface {
 
@@ -9,7 +11,7 @@ public interface SideInterface {
 
         void fileSearch();
 
-        void showTextList(String[] fileName);
+        void showTextList(DefaultListModel<File> fileListModel);
     }
 
     interface SidePresenterInterface {
