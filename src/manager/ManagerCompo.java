@@ -17,18 +17,17 @@ public class ManagerCompo extends IDEComponent {
     @Override
     public void executeComponent() {
         switch(mode) {
-            case Mode.managerCHECK: {
+            case managerCHECK: {
                 if(managerRunner.settingFileExits(System.getProperty("user.dir"))){
                     setMode(Mode.managerHAVE);
                 } else {
                     setMode(Mode.managerINSTALLER);
                 } break;
             }
-            case Mode.managerHAVE: settings = managerRunner.getSettingFile(System.getProperty("user.dir")); break;
-            case Mode.managerINSTALLER: settings = managerRunner.installIDE(System.getProperty("user.dir")); break;
-            case Mode.managerSETPATH: {
-                managerRunner.setBasic(System.getProperty("user.dir"), settings);
-                break;
+
+            case managerHAVE: settings = managerRunner.getSettingFile(System.getProperty("user.dir")); break;
+            case managerINSTALLER: settings = managerRunner.installIDE(System.getProperty("user.dir")); break;
+          case managerSETPATH:  break;
             }
         }
     }
@@ -66,7 +65,7 @@ public class ManagerCompo extends IDEComponent {
                 case "back" : setMode(Mode.managerLIST); break;
             }
         }
-    }
+    } //Event -> model // event -> 어떤 이벤트 -> 어느 모델에게 어떤 값 전달해줘야하나 Presenter
 
     public static String getPropertyValue(String PropertyName) {
         return settings.getProperty(PropertyName);

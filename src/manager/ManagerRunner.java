@@ -67,7 +67,7 @@ public class ManagerRunner {
      * @param settingFilePath is absolute path.
      * @return absolute path - "setting.properties"
      */
-    public Properties installIDE(String settingFilePath) {
+    public Properties installIDE(String settingFilePath) {//초기 설정중 종료시 파일 삭제 필요
         Scanner scanner = new Scanner(System.in);
         Properties settings = new Properties();
         String line;
@@ -112,9 +112,15 @@ public class ManagerRunner {
             saveSettingFile(settingFilePath, settings);
         } catch (FileNotFoundException e) {
             System.out.println("setting file not found");
+            new File(settingFilePath+"\\settings.properties").delete();
             System.exit(1);
         } catch (IOException e) {
             System.out.println("setting file read error");
+            new File(settingFilePath+"\\settings.properties").delete();
+            System.exit(1);
+        } catch (RuntimeException e) {
+            System.out.println("setting file read error");
+            new File(settingFilePath+"\\settings.properties").delete();
             System.exit(1);
         }
         return settings;
