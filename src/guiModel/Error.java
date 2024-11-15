@@ -21,5 +21,7 @@ public class Error {
             Compiler.errorFlag = 1;
             return "Failed to read Error:\n" + e.getMessage();
         }
+
     }
+
 }

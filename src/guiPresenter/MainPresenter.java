@@ -1,7 +1,10 @@
 package guiPresenter;
 
 import GUIInterface.MainInterface;
+import guiModel.Compiler;
+import guiModel.Error;
 import guiModel.FileUtil;
+import guiModel.SettingManager;
 import guiView.MainPanel;
 
 import javax.swing.*;
@@ -69,6 +72,30 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
     @Override
     public void compileButtonClicked() {
 
+        Compiler compiler = new Compiler(mainPanel.getOpenTextField(), System.getProperty("java.home") + "\\bin\\javac.exe", System.getProperty("java.home") + "\\bin\\java.exe");
+        compiler.compile();
+
+        /*
+        if(컴파일 실패)
+                then
+                컴파일러에서 에러파일 반환
+                File = compiler.getErrorFile()
+                에러 클래스에서 에러 파일 내용 가져오고 에러파일 내용 반환
+                Error(File)
+                String = Error.getErrorContent() : 에러파일 지우고 내용을 스트링으로 반환
+         else(컴파일 성공)
+                then
+                컴파일러에서 실행 파일 반환
+                File = compiler.getClassFile() [File :  컴파일러에서 컴파일러 버전]
+                Run(File) [Run : 가상머신 버전]
+                "컴파일 성공\n" + String = Run.start();
+                컴파일된 클래스 파일을 런에서 실행하고 런에서 결과내용 반환
+                
+          finally
+                내용을 메인패널의 결과화면에 전달
+                mainPanel.showResult(string)
+         */
+
     }
 
     /**
@@ -76,6 +103,7 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
      */
     @Override
     public void deleteButtonClicked() {
+        FileUtil fileUtil = new FileUtil();
 
     }
 

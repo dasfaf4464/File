@@ -5,8 +5,82 @@ import java.util.List;
 import java.io.*;
 
 public class Compiler {
-
     public static int errorFlag = 0;
+    private static File sourceFile;
+    private static String javacFile;
+    private static String javaFile;
+
+    public Compiler(File file, String javac, String java){
+        sourceFile = file;
+        javacFile = javac;
+        javaFile = java;
+    }
+
+    public Compiler(String file, String javac, String java){
+        sourceFile = new File(file);
+        javacFile = java;
+        javaFile = java;
+    }
+
+    public String compile(){
+        File currentDir = new File(".").getAbsoluteFile();
+        String outPath = new File(currentDir.getParentFile(), "default").getPath();
+        String classPath = sourceFile.getName().replaceFirst("[.][^.]+$", "");
+
+        int exitCode;
+        String compileError;
+        String runOutput; //결과들
+
+        File defaultDir = new File(outPath);
+        if (defaultDir.exists() && defaultDir.isDirectory()) {
+            File[] files = defaultDir.listFiles();
+            if (files != null) {
+                for (File f : files) {
+                    if (!f.delete()) {
+                        return "Failed to empty default file";
+                    }
+                }
+            }
+        } //default 폴더 비우기
+
+        List<String> compileCommand = Arrays.asList( //컴파일커맨드 구성
+                javacFile,
+                "-d",
+                outPath,
+                sourceFile.getAbsolutePath()
+        );
+
+        List<String> runCommand = Arrays.asList( //런커맨드구성
+                javaFile,
+                "-cp",
+                outPath,
+                classPath
+        );
+
+        ProcessBuilder compileBuilder = new ProcessBuilder(compileCommand);
+        compileBuilder.redirectErrorStream(true);
+        Process compileProcess; //프로세스 설정
+
+        try {
+            compileProcess = compileBuilder.start();
+            exitCode = compileProcess.waitFor();
+        }
+        catch (InterruptedException | IOException e) {
+            errorFlag = 1;
+            return "Failed to start compiler process: " + e.getMessage();
+        }//프로세스 실행
+
+        if(exitCode != 0) {
+            compileError = new Error().errorRead(compileProcess);
+            errorFlag = 1;
+            return compileError;
+        }
+        else {
+            runOutput = new Run().runClass(runCommand);
+            return runOutput;
+        }
+    }
+
 
     public String compile(File file, File javac, File java) {
         File currentDir = new File(".").getAbsoluteFile();
