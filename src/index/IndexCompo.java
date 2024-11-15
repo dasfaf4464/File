@@ -76,7 +76,7 @@ public class IndexCompo extends IDEComponent {
                 case "3": IDE.compoCaller.callComponent(new RunnerCompo(FileCompo.getUploadedFile(), Mode.runHAVEFILE)); break;
                 case "4": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output\\Error", Mode.fileLIST)); break;
                 case "5": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile(), Mode.textREAD)); break;
-                case "6": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
+                case "6", "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
                 case "7", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": setMode(Mode.indHELP); break;
                 case "version": setMode(Mode.indVER); break;
