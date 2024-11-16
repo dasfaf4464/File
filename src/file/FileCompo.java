@@ -3,8 +3,6 @@ package file;
 import ide.IDE;
 import ide.IDEComponent;
 import ide.Mode;
-import manager.ManagerCompo;
-import texteditor.TextEditorCompo;
 import java.io.File;
 
 /**
@@ -133,7 +131,6 @@ public class FileCompo extends IDEComponent {
                 case "2", "exit": IDE.compoCaller.returnComponent(Mode.indNOFILE); break;
                 case "help": setMode(Mode.fileHELP); break;
                 case "version": setMode(Mode.fileVER); break;
-                case "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
             }
         } else if (mode.equals(Mode.fileLIST)) {
             switch (command) {
@@ -146,24 +143,20 @@ public class FileCompo extends IDEComponent {
                 case "1", "list": setMode(Mode.fileLIST); break;
                 case "2", "upload": setMode(Mode.fileHAVEUPSEL); break;
                 case "3", "delete": setMode(Mode.fileDELETE); break;
-                case "4": IDE.compoCaller.callComponent(new TextEditorCompo(selectedFile, Mode.textREAD)); break;
                 case "5": /*setMode(Mode.fileMAKE);*/ break;
                 case "6", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": setMode(Mode.fileHELP); break;
                 case "version": setMode(Mode.fileVER); break;
-                case "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
             }
         } else if (mode.equals(Mode.fileHAVEUPSEL)) {
             switch (command) {
                 case "1", "list": setMode(Mode.fileLIST); break;
                 case "2", "upload": setMode(Mode.fileHAVESEL); break;
                 case "3", "delete": setMode(Mode.fileDELETE); break;
-                case "4": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile(), Mode.textREAD)); break;
                 case "5": /*setMode(Mode.fileMAKE);*/ break;
                 case "6", "exit": IDE.compoCaller.returnComponent(Mode.indHAVEFILE); break;
                 case "help": setMode(Mode.fileHELP); break;
                 case "version": setMode(Mode.fileVER); break;
-                case "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
             }
         } else if (mode.equals(Mode.fileHAVEUP)) {
             switch (command) {
@@ -171,7 +164,6 @@ public class FileCompo extends IDEComponent {
                 case "2", "upload": setMode(Mode.fileNOFILE); break;
                 case "3": /*setMode(Mode.fileMAKE);*/ break;
                 case "4", "exit": IDE.compoCaller.returnComponent(Mode.indHAVEFILE); break;
-                case "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
             }
         } else if(mode.equals(Mode.fileHELP) || mode.equals(Mode.fileVER) || mode.equals(Mode.fileERROR)) {
             switch (command) {

@@ -14,6 +14,8 @@ public interface SideInterface {
         void showTextList(DefaultListModel<File> fileListModel);
 
         void showFocusedTextField(String text);
+
+        void showProjectNameTextField(String text);
     }
 
     interface SidePresenterInterface {

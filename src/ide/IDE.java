@@ -1,7 +1,6 @@
 package ide;
 
 import index.IndexCompo;
-import manager.ManagerCompo;
 
 /**
  * IDE has a Component Caller and Command Interpreter.

@@ -69,8 +69,14 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
         textListView.fileList.setModel(fileListModel);
     }
 
+    @Override
     public void showFocusedTextField(String text) {
         textListView.focusedFile.setText(text);
+    }
+
+    @Override
+    public void showProjectNameTextField(String text) {
+        textListView.projectNameField.setText(text);
     }
 
     public static class FileView extends JPanel {
@@ -100,6 +106,7 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     }
 
     public class TextListView extends JPanel {
+        private final JTextField projectNameField;
         private final JTextField focusedFile;
         private JList<File> fileList;
 
@@ -108,7 +115,14 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
 
             focusedFile = new JTextField();
             focusedFile.setEditable(false);
-            add(focusedFile, BorderLayout.NORTH);
+            projectNameField = new JTextField();
+            projectNameField.setEditable(false);
+
+            JPanel textFieldPanel = new JPanel();
+            textFieldPanel.setLayout(new GridLayout(2, 1));
+            textFieldPanel.add(projectNameField);
+            textFieldPanel.add(focusedFile);
+            add(textFieldPanel, BorderLayout.NORTH);
 
             fileList = new JList<>();
             fileList.addListSelectionListener(textListListener);

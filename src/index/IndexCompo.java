@@ -1,14 +1,10 @@
 package index;
 
-import compiler.CompilerCompo;
 import file.FileCompo;
 import ide.IDE;
 import ide.IDEComponent;
 import ide.Mode;
-import manager.Keys;
-import manager.ManagerCompo;
 import runner.RunnerCompo;
-import texteditor.TextEditorCompo;
 
 public class IndexCompo extends IDEComponent {
 
@@ -61,22 +57,13 @@ public class IndexCompo extends IDEComponent {
     public void interpretCommand(String command, String Option) {
         if(mode.equals(Mode.indNOFILE)){
             switch (command) {
-                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileNOFILE)); break;
-                case "2": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output\\Error", Mode.fileLIST)); break;
-                case "3": IDE.compoCaller.callComponent(new TextEditorCompo(Mode.textNOFILE)); break;
-                case "4", "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerLIST)); break;
                 case "5", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": setMode(Mode.indHELP); break;
                 case "version": setMode(Mode.indVER); break;
             }
         } else if (mode.equals(Mode.indHAVEFILE)) {
             switch (command) {
-                case "1": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue("file searching"), Mode.fileHAVEUP)); break;
-                case "2": IDE.compoCaller.callComponent(new CompilerCompo(FileCompo.getUploadedFile(), Mode.compileHAVEFILE)); break;
                 case "3": IDE.compoCaller.callComponent(new RunnerCompo(FileCompo.getUploadedFile(), Mode.runHAVEFILE)); break;
-                case "4": IDE.compoCaller.callComponent(new FileCompo(ManagerCompo.getPropertyValue(Keys.OUTPUT.getKeyString()) + "\\output\\Error", Mode.fileLIST)); break;
-                case "5": IDE.compoCaller.callComponent(new TextEditorCompo(FileCompo.getUploadedFile(), Mode.textREAD)); break;
-                case "6", "set": IDE.compoCaller.callComponent(new ManagerCompo(Mode.managerHAVE)); break;
                 case "7", "exit": IDE.compoCaller.returnComponent(); break;
                 case "help": setMode(Mode.indHELP); break;
                 case "version": setMode(Mode.indVER); break;

@@ -10,9 +10,9 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
+        setJMenuBar(new Menu());
         SidePanel sidePanel = new SidePanel();
         MainPanel mainPanel = new MainPanel();
-        Dialog dialog = new Dialog();
 
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, mainPanel);
         mainSplitPane.setDividerLocation(300);
@@ -26,7 +26,4 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainFrame::new);
-    }
 }

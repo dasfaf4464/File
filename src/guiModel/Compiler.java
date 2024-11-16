@@ -1,7 +1,5 @@
 package guiModel;
 
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.io.*;
 
 /**
@@ -70,16 +68,15 @@ public class Compiler {
         }
     }
 
-    public boolean compileProject(File sourceFolder, String outputPath) {
+    public boolean compileProject(File sourceListFile, String outputPath) {
         int exitCode;
 
         String[] compileCommand = { //컴파일커맨드 구성(한 개만 컴파일)
                 javacFile, //자바 컴파일러 절대경로
                 "-d",
                 outputPath, //저장할 폴더 절대경로
-                "-sourcepath",
-                sourceFolder.getAbsolutePath(),
-                sourceFolder.getAbsolutePath()+"/**/*.java"
+                "@",
+                sourceListFile.getName()
         };
 
         ProcessBuilder compileBuilder = new ProcessBuilder(compileCommand);
@@ -96,40 +93,6 @@ public class Compiler {
         }
 
         return true;
-    }
-
-    private void makeProjectSourceListFile(File sourceFolder, File listFile) {
-        ArrayList<File> javaFiles = new ArrayList<>();
-        ArrayList<String> javaPaths = new ArrayList<>();
-
-        findAllJavaFiles(sourceFolder, javaFiles);
-        for(File javaFile : javaFiles) {
-            javaPaths.add(javaFile.getAbsolutePath());
-        }
-
-        try {
-            FileWriter sourceListFileWriter = new FileWriter(listFile);
-            for(String javaPath : javaPaths) {
-                sourceListFileWriter.write(javaPath+"\n");
-            }
-        } catch (FileNotFoundException e){
-            //저장할 파일이 없음
-        } catch (IOException e) {
-            //파일 입력 오류
-        }
-    }
-
-    private void findAllJavaFiles(File folder, ArrayList<File> javaFiles) {
-        File[] listOfFiles = folder.listFiles();
-        if(listOfFiles != null) {
-            for(File file : listOfFiles) {
-                if(file.isFile() && file.getName().endsWith(".java")) {
-                    javaFiles.add(file);
-                } else if(file.isDirectory()) {
-                    findAllJavaFiles(file, javaFiles);
-                }
-            }
-        }
     }
 
     public String getMassage() {

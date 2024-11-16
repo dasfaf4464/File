@@ -1,7 +1,5 @@
 package runner;
 
-import manager.Keys;
-import manager.ManagerCompo;
 import java.io.*;
 
 public class RunnerRunner {
@@ -11,12 +9,12 @@ public class RunnerRunner {
      * @return true if not having runtime error.
      */
     public boolean runJava(File file) {
-        String javaPath = ManagerCompo.getPropertyValue(Keys.BASICJAVA.getKeyString()) + "//bin//java.exe";
+
         String withoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
 
         ProcessBuilder javaProcessBuilder = new ProcessBuilder();
         javaProcessBuilder.directory(file.getParentFile());
-        javaProcessBuilder.command("cmd.exe", "/c", javaPath, withoutExtension);
+
         javaProcessBuilder.redirectErrorStream(true);
 
         BufferedReader processOutput; //실행한 프로세스가 출력하는 스트림을 받는 버퍼 리더

@@ -1,6 +1,7 @@
 package guiPresenter;
 
 import GUIInterface.DialogInterface;
+import guiModel.Project;
 import guiView.Dialog;
 
 import javax.swing.*;
@@ -21,6 +22,13 @@ public class DialogPresenter implements DialogInterface.DialogPresenterInterface
     public void installerSaveButtonClicked() {
         String basicJDK = dialog.getBasicJDKField();
         String basicOutput = dialog.getBasicOutputField();
+        String newProjectPath = dialog.getFirstProjectField();
+        String projectName = dialog.getProjectNameField();
+
+        if(!newProjectPath.isBlank() && !projectName.isBlank()) {
+            Project.makeNewProjectFolder(newProjectPath, projectName);
+        }
+
         dialog.dispose();
     }
 

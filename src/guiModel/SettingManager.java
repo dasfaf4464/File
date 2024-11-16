@@ -1,87 +1,177 @@
 package guiModel;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
 import java.util.Properties;
 
 /**
  * 프로그램 전역 정보를 담고있는 프로퍼티 생성 및 받아오기
  * 사용자 소스파일에 프로퍼티 생성
+ * 프로퍼티 유틸 제공
  */
 public class SettingManager {
-    public SettingManager() {
+    private String globalPropertiesFolder = System.getProperty("user.home") + "\\Downloads\\Java_2024_2_Proj3_201812478";//기존 프로그램 파일하고 안겹치게 학번첨부
+    private final static String globalPropertiesName = "\\Project3.properties";
+    private final static String projectListFileName = "\\ProjectList.properties";
+    private final static String JDKListFileName = "\\JDKList.properties";
 
+    private File ProjectListFile;
+    private File JDKListFile;
+    private File globalPropertiesFile;
+
+    /**
+     * 생성된 프로젝트
+     */
+    public Properties projectListProperties;
+    /**
+     * JDK리스트 절대경로
+     */
+    public Properties JDKListProperties;
+    /**
+     * 기본 jdk
+     * 기본 output
+     * 공용 글씨 크기
+     * 공용 폰트
+     * 공용 테마
+     */
+    public Properties globalProperties;
+
+    /**
+     * IDE 공통 프로퍼티 기져오기
+     */
+    public SettingManager() {
+        ProjectListFile = new File(globalPropertiesFolder + File.separator + projectListFileName);
+        JDKListFile = new File(globalPropertiesFolder + File.separator + JDKListFileName);
+        globalPropertiesFile = new File(globalPropertiesFolder + File.separator + globalPropertiesName);
     }
 
     /**
-     * 파일이 존재하는지 확인하고 유효성 검사
+     * 프로퍼티 파일이 존재하는지 확인하고 유효성 검사
      * @return 설치되었으면 true
      */
     public boolean isInstalled() {
-        File propertiesFolder = new File(globalPropertiesFolder);
-        if(!propertiesFolder.exists()) {
+        if(!(new File(globalPropertiesFolder).exists())) {
             return false;
         }
-
-        File projectFile = new File(globalPropertiesFolder + globalProjectName);
-        File jdkFile = new File(globalPropertiesFolder + globalJDKName);
-        File guiFile = new File(globalPropertiesFolder + globalGuiName);
-        if(projectFile.exists() && jdkFile.exists() && guiFile.exists()) {
-            this.globalProjectFile = projectFile;
-            this.globalJDKFile = jdkFile;
-            this.globalGuiFile = guiFile;
+        else if(!ProjectListFile.exists()) {
+            return false;
+        } else if (!JDKListFile.exists()) {
+            return false;
+        } else if (!globalPropertiesFile.exists()) {
+            return false;
+        } else {
             return true;
         }
-        return false;
     }
 
-    public void setProperty(Properties properties, String key, String value) {
-        properties.setProperty(key, value);
+    public void installWithProject(String basicJDK, String basicOutput, String newProject) {
+        installBasic(basicJDK, basicOutput);
+        addProperties(projectListProperties, new File(newProject).getName(), newProject);
+        saveProperties(projectListProperties, ProjectListFile, null);
+        //Project
+
+    }
+
+    public void installBasic(String basicJDK, String basicOutput) {
+        if(!this.isInstalled()) {
+            File ideFolder = new File(globalPropertiesFolder);
+            ideFolder.mkdirs();
+            ideFolder.delete();
+            ideFolder.mkdirs();
+            globalPropertiesFile.mkdirs();
+            JDKListFile.mkdirs();
+            ProjectListFile.mkdirs();
+
+            loadProperties(globalProperties, globalPropertiesFile);
+            loadProperties(JDKListProperties, JDKListFile);
+            loadProperties(projectListProperties, ProjectListFile);
+
+            addProperties(globalProperties, GlobalProperties.BASICJDK, basicJDK);
+            addProperties(globalProperties, GlobalProperties.BASICOUTPUT, basicOutput);
+            addProperties(globalProperties, GlobalProperties.FONT, Font.DIALOG);
+            addProperties(globalProperties, GlobalProperties.FONTSIZE, "12");
+            addProperties(globalProperties, GlobalProperties.LASTPROJECT, "");
+            saveProperties(globalProperties, globalPropertiesFile, null);
+            saveProperties(projectListProperties, ProjectListFile, null);
+
+            addProperties(JDKListProperties, new File(basicJDK).getName(), basicJDK);
+            saveProperties(JDKListProperties, JDKListFile, null);
+        }
     }
 
     /**
-     * 설정 파일의 내용이 유효한지 검사.
-     * jdk리스트 파일, ui 파일, 프로젝트 리스트 파일
-     * @return 모든 파일이 유효하면 true
+     * 프로퍼티 파일을 프로퍼티로 가져오기
+     * @param properties
+     * @param propertiesFile
      */
-    private boolean isValid() {
+    public static void loadProperties(Properties properties, File propertiesFile) {
+        try {
+            FileInputStream settingFileStream = new FileInputStream(propertiesFile);
+            properties.load(settingFileStream);
+        } catch (FileNotFoundException e) {
+            System.out.println("setting file not found");
+        } catch (IOException e) {
+            System.out.println("setting file read error");
+        }
+    }
+
+    public static boolean saveProperties(Properties properties, String propertiesFilePath, String comment) {
+        try {
+            FileOutputStream propertiesFileStream = new FileOutputStream(propertiesFilePath);
+            properties.store(propertiesFileStream, comment);
+        } catch (FileNotFoundException e) {
+            System.out.println("setting file not found");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return true;
     }
 
-    /**
-     * 세팅 파일에서 IDE로 값을 가져온다.
-     * @return 설정 값이 담긴 Properties
-     */
-    private Properties getGlobalProjectProperties() {
-        File globalProjectFile = new File(globalPropertiesFolder + this.globalProjectName);
-
+    public static boolean saveProperties(Properties properties, File propertiesFile, String comment) {
         try {
-            FileInputStream projectListFileStream = new FileInputStream(globalProjectFile);
-            Properties properties = new Properties();
-            properties.load(projectListFileStream);
-            projectListFileStream.close();
-            return properties;
+            FileOutputStream propertiesFileStream = new FileOutputStream(propertiesFile);
+            properties.store(propertiesFileStream, comment);
         } catch (FileNotFoundException e) {
-            System.out.println("global setting file not found");
-            return null;
+            System.out.println("setting file not found");
         } catch (IOException e) {
-            System.out.println("global setting file read error");
-            return null;
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+
+    public static void addProperties(Properties properties, String Key, String comment) {
+        properties.setProperty(Key, comment);
+    }
+
+    public static void removeProperties(Properties properties, String Key) {
+        if(properties.containsKey(Key)) {
+            properties.remove(Key);
         }
     }
 
-    private String globalPropertiesFolder = System.getProperty("user.home") + "\\Downloads\\Java_2024_2_Proj2";
-    private final String globalProjectName = "//ProjectList.properties";
-    private final String globalJDKName = "//JDKList.properties";
-    private final String globalGuiName = "//GUI.properties";
+    public static void changeProperties(Properties properties, String Key, String comment) {
+        if(properties.containsKey(Key)&&properties.containsKey(comment)) {
+            properties.setProperty(Key, comment);
+        }
+    }
 
-    private File globalProjectFile;
-    private File globalJDKFile;
-    private File globalGuiFile;
+    /**
+     * 프로퍼티에 키, 밸류 저장
+     * @param properties
+     * @param key
+     * @param value
+     */
+    public static void setProperty(Properties properties, String key, String value) {
+        properties.setProperty(key, value);
+    }
 
-    public Properties globalProjectProperties;
-    public Properties globalJDKProperties;
-    public Properties globalGuiProperties;
+    public static class GlobalProperties {
+        public static final String FONT= "font";//값으로 Font 클래스 이용
+        public static final String FONTSIZE= "fontsize";
+        public static final String BASICJDK= "jdk";
+        public static final String BASICOUTPUT = "out";
+        public static final String LASTPROJECT = "lastproject";
+    }
 }

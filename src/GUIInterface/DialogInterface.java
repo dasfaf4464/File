@@ -13,6 +13,8 @@ public interface DialogInterface {
         String getBasicOutputField();
 
         String getFirstProjectField();
+
+        String getProjectNameField();
     }
 
     interface DialogPresenterInterface {
