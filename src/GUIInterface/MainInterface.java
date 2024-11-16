@@ -10,8 +10,6 @@ public  interface MainInterface {
 
         void showResult(String result);
 
-        String getResult();
-
         String getOpenTextField();
 
         String getSaveTextField();

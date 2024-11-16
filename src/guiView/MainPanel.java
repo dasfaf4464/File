@@ -12,8 +12,6 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     private TextEditorView textEditorView;//텍스트 에디터
     private ResultView resultView;//결과
-    private FileTextView fileTextView;//오픈&세이브
-    private JPanel mainButtonPanel;//버튼 네 개
     private ActionListener mainListener;
 
     /**
@@ -26,26 +24,10 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         setLayout(new BorderLayout());
 
         JPanel centerPanel = new JPanel(new BorderLayout());
-        fileTextView = new FileTextView();
-        mainButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         textEditorView = new TextEditorView();
         resultView = new ResultView();
 
-        ArrayList<JButton> mainButtonArrayList = new ArrayList<>();
-        Dimension buttonSize = new Dimension(100, 30);
-        mainButtonArrayList.add(new JButton("Compile"));
-        mainButtonArrayList.add(new JButton("SaveError"));
-        mainButtonArrayList.add(new JButton("Delete"));
-        mainButtonArrayList.add(new JButton("Clear"));
-
-        for(JButton button : mainButtonArrayList){
-            button.setPreferredSize(buttonSize);
-            mainButtonPanel.add(button);
-            button.addActionListener(mainListener);
-        }
-
         centerPanel.add(textEditorView, BorderLayout.CENTER);
-        centerPanel.add(mainButtonPanel, BorderLayout.SOUTH);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerPanel, resultView);
         splitPane.setDividerLocation(400);
@@ -53,13 +35,12 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         splitPane.setOneTouchExpandable(true);
         splitPane.setDividerSize(8);
 
-        add(fileTextView, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
     }
 
     @Override
     public void showTextEditor(String text) {
-        textEditorView.textArea.setText(text);
+        textEditorView.activatedTextArea.setText(text);
     }
 
     @Override
@@ -69,88 +50,66 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     @Override
     public String getTextEditor() {
-        return textEditorView.textArea.getText();
-    }
-
-    @Override
-    public String getResult() {
-        return resultView.resultArea.getText();
+        return textEditorView.activatedTextArea.getText();
     }
 
     @Override
     public String getOpenTextField() {
-        return fileTextView.openTextField.getText();
+        return null;
     }
 
     @Override
     public String getSaveTextField() {
-        return fileTextView.saveTextField.getText();
+        return null;
     }
 
     @Override
     public void showOpenTextField(String text) {
-        fileTextView.openTextField.setText(text);
+
     }
 
     @Override
     public void showSaveTextField(String text) {
-        fileTextView.saveTextField.setText(text);
+
     }
 
-    /**
-     * 오픈 텍스트필드와 세이브 텍스트필드 버튼으로 구성된 패널
-     * 버튼은 메인 이벤트 리스너에 연결
-     */
-    public class FileTextView extends JPanel {
-        private JTextField openTextField;
-        private JTextField saveTextField;
-
-        public FileTextView() {
-            setLayout(new BorderLayout());
-
-            JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 5 ,5));
-            JPanel textFieldPanel = new JPanel(new GridLayout(2,1, 5 ,5));
-
-            openTextField = new JTextField();
-            saveTextField = new JTextField();
-            textFieldPanel.add(openTextField);
-            textFieldPanel.add(saveTextField);
-
-            ArrayList<JButton> fileButtonArrayList = new ArrayList<>();
-            Dimension buttonSize = new Dimension(100, 30);
-            fileButtonArrayList.add(new JButton("Open"));
-            fileButtonArrayList.add(new JButton("Save"));
-
-            for(JButton button : fileButtonArrayList) {
-                button.setPreferredSize(buttonSize);
-                buttonPanel.add(button);
-                button.addActionListener(mainListener);
-            }
-
-            this.add(textFieldPanel, BorderLayout.CENTER);
-            this.add(buttonPanel, BorderLayout.EAST);
-
-        }
-    }
 
     /**
      * 텍스트 에디터로 구성된 패널
      */
     public static class TextEditorView extends JPanel {
-        private JTextArea textArea;
+        private JTabbedPane tabbedPane;
+        private ArrayList<JTextArea> textAreas;
+        private JTextArea activatedTextArea;
 
         public TextEditorView() {
             setLayout(new BorderLayout());
 
-            textArea = new JTextArea();
-            textArea.setLineWrap(false);
-            textArea.setWrapStyleWord(false);
+            tabbedPane = new JTabbedPane();
+            textAreas = new ArrayList<>();
+            activatedTextArea = new JTextArea();
 
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
-            add(scrollPane, BorderLayout.CENTER);
+            activatedTextArea = new JTextArea();
+
+            ArrayList<JScrollPane> scrollPanes = new ArrayList<>();
+
+            for(JTextArea textArea : textAreas) {
+                textArea.setLineWrap(false);
+                textArea.setWrapStyleWord(false);
+                scrollPanes.add(new JScrollPane(textArea));
+
+            }
+
+            for(JScrollPane scrollPane : scrollPanes) {
+                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                tabbedPane.add("title", scrollPane);
+            }
+
+            add(tabbedPane, BorderLayout.CENTER);
+            tabbedPane.setFocusable(true);
         }
 
     }
