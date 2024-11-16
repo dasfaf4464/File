@@ -2,7 +2,7 @@ package GUIInterface;
 
 import java.io.File;
 
-public interface FileObserver {
+public interface Observer {
     abstract void newFileUpdate(File newFile);
     abstract void fileSelectedUpdate(File file);
 }

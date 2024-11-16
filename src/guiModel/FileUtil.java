@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  *  ide에서 파일에 대한 기능들을 제공
- *  열린 파일들을 추적
+ *  편집중인 파일들을 추적
  */
 public class FileUtil {
     public FileUtil() {
@@ -17,14 +17,14 @@ public class FileUtil {
      * @param file 텍스트 에디터에 여는 파일
      */
     public void openFile(File file) {
-        activatedFile = file;
-        if(!editingFile.contains(activatedFile)) {
-            editingFile.add(activatedFile);
+        focusedFile = file;
+        if(!editingFile.contains(focusedFile)) {
+            editingFile.add(focusedFile);
         }
     }
 
-    public static File getActivatedFile() {
-        return activatedFile;
+    public  File getFocusedFile() {
+        return focusedFile;
     }
 
     public static ArrayList<File> getEditingFile() {
@@ -35,9 +35,9 @@ public class FileUtil {
         file.delete();
     }
 
-    public static void deleteActivatedFile() {
-        editingFile.remove(activatedFile);
-        activatedFile.delete();
+    public void deleteActivatedFile() {
+        editingFile.remove(focusedFile);
+        focusedFile.delete();
     }
 
     /**
@@ -47,7 +47,7 @@ public class FileUtil {
         String contentFull = "";
         String contentLine;
         try {
-            BufferedReader contentBufferReader = new BufferedReader(new FileReader(activatedFile));
+            BufferedReader contentBufferReader = new BufferedReader(new FileReader(focusedFile));
             while((contentLine = contentBufferReader.readLine()) != null) {
                 contentFull += contentLine + "\n";
             }
@@ -98,6 +98,22 @@ public class FileUtil {
         }
     }
 
-    private static File activatedFile;
+    public void updateSourceListFile() {
+
+    }
+
+    /**
+     * 현재 보고있는 파일
+     */
+    private File focusedFile;
+
+    /**
+     * 프로젝트 소스 목록 텍스트 파일;
+     */
+    private File sourceListFile;
+
+    /**
+     * 편집중인 파일 목록
+     */
     private static final ArrayList<File> editingFile = new ArrayList<>();//변화시 옵저버 굳독자한테 알림
 }

@@ -27,8 +27,7 @@ public class ManagerCompo extends IDEComponent {
 
             case managerHAVE: settings = managerRunner.getSettingFile(System.getProperty("user.dir")); break;
             case managerINSTALLER: settings = managerRunner.installIDE(System.getProperty("user.dir")); break;
-          case managerSETPATH:  break;
-            }
+             case managerSETPATH:  break;
         }
     }
 

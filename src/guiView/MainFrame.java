@@ -12,6 +12,7 @@ public class MainFrame extends JFrame {
 
         SidePanel sidePanel = new SidePanel();
         MainPanel mainPanel = new MainPanel();
+        Dialog dialog = new Dialog();
 
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, mainPanel);
         mainSplitPane.setDividerLocation(300);

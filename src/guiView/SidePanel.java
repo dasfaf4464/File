@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class SidePanel extends JPanel implements SideInterface.SideViewInterface {
 
+    private final JPanel sideButtonPanel;//버튼 세 개
     private final FileView fileView;//파일 트리 뷰
     private final TextListView textListView;//액티브 파일 리스트
-    private final JPanel sideButtonPanel;//버튼 세 개
 
     private TreeSelectionListener fileTreeListener;
     private ListSelectionListener textListListener;
@@ -55,7 +55,7 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     }
 
     @Override
-    public void showFileTree() {//수정 필요
+    public void showFileTree() {
 
     }
 
@@ -68,7 +68,11 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     public void showTextList(DefaultListModel<File> fileListModel) {
         textListView.fileList.setModel(fileListModel);
     }
-    
+
+    public void showFocusedTextField(String text) {
+        textListView.focusedFile.setText(text);
+    }
+
     public static class FileView extends JPanel {
         private JTextField searchField;
         private JTree fileTree;
@@ -96,17 +100,18 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     }
 
     public class TextListView extends JPanel {
-        private final DefaultListModel<File> textFileList;
+        private final JTextField focusedFile;
         private JList<File> fileList;
 
         public TextListView() {
             setLayout(new BorderLayout());
 
-            fileList = new JList<>();
-            textFileList = new DefaultListModel<>();
-            fileList.setModel(textFileList);
-            fileList.addListSelectionListener(textListListener);
+            focusedFile = new JTextField();
+            focusedFile.setEditable(false);
+            add(focusedFile, BorderLayout.NORTH);
 
+            fileList = new JList<>();
+            fileList.addListSelectionListener(textListListener);
             fileList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
             JScrollPane scrollPane = new JScrollPane(fileList);

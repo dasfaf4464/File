@@ -1,9 +1,7 @@
 package guiPresenter;
 
 import GUIInterface.MainInterface;
-import guiModel.Compiler;
 import guiModel.FileUtil;
-import guiModel.Run;
 import guiView.MainPanel;
 
 import javax.swing.*;
@@ -12,10 +10,13 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class MainPresenter implements MainInterface.MainPresenterInterface {
+
+    private final MainPanel mainPanel;
+
     public MainPresenter(MainPanel mainLinkPanel) {
         mainPanel = mainLinkPanel;
-        MainButtonListener mainButtonListener = new MainButtonListener();
-        mainPanel.setEventListener(mainButtonListener);
+        MainListener mainListener = new MainListener();
+        mainPanel.setEventListener(mainListener);
     }
 
     /**
@@ -78,20 +79,24 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
      */
     @Override
     public void compileButtonClicked() {
-
-        Compiler compiler = new Compiler(FileUtil.getActivatedFile(), System.getProperty("java.home")+"\\bin\\javac.exe");//이거 설정에서 컴파일러 위치 가져오는거로 변경 필요
-        if(compiler.compile(System.getProperty("user.home")+"\\Downloads")){//설정에서 저장파일 필요
+/*
+        Compiler compiler = new Compiler(System.getProperty("java.home")+"\\bin\\javac.exe");//이거 설정에서 컴파일러 위치 가져오는거로 변경 필요
+        if(compiler.compileSingleFile(System.getProperty("user.home")+"\\Downloads")){//설정에서 저장파일 필요
 
             mainPanel.showResult(compiler.getMassage());
         } else{
             mainPanel.showResult(compiler.getLastErrorContent());
         }
 
+ */
+
     }
+
 
     @Override
     public void deleteButtonClicked() {
-        File file = FileUtil.getActivatedFile();
+        /*
+        File file = FileUtil.getFocusedFile();
 
         if(!file.exists()) {
             mainPanel.showResult("삭제하려는 파일이 존재하지 않습니다.");
@@ -99,20 +104,24 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
         FileUtil.deleteActivatedFile();
         mainPanel.showResult("성공적으로 삭제했습니다.");
         mainPanel.showOpenTextField("");
+
+         */
     }
 
     @Override
     public void errorSaveButtonClicked() {
+        /*
         String errorContent = mainPanel.getResult();
-        if(FileUtil.getActivatedFile().exists()){
-            FileUtil.saveContent(errorContent, new File(System.getProperty("user.home") + "\\Downloads\\" + FileUtil.getActivatedFile().getName() + ".error"));
+        if(FileUtil.getFocusedFile().exists()){
+            FileUtil.saveContent(errorContent, new File(System.getProperty("user.home") + "\\Downloads\\" + FileUtil.getFocusedFile().getName() + ".error"));
         } else {
             mainPanel.showResult("열린 파일이 없습니다. 먼저 파일을 열어주세요");
         }
 
+         */
     }
 
-    public class MainButtonListener implements ActionListener {
+    public class MainListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -127,7 +136,7 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
                 default: break;
             }
         }
+
     }
 
-    private MainPanel mainPanel;
 }

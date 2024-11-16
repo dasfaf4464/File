@@ -12,6 +12,8 @@ public interface SideInterface {
         void fileSearch();
 
         void showTextList(DefaultListModel<File> fileListModel);
+
+        void showFocusedTextField(String text);
     }
 
     interface SidePresenterInterface {

@@ -51,7 +51,7 @@ public class CompilerRunner {
     /**
      * compiling java not included a package.
      * @param file is Compiled by javac
-     * @return true if compile success.
+     * @return true if compileSingleFile success.
      */
     public boolean CompileJavaClass(File file) {
         String javacPath = ManagerCompo.getPropertyValue(Keys.BASICJAVA.getKeyString()) + "\\bin\\javac.exe";

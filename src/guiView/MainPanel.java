@@ -14,7 +14,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
     private ResultView resultView;//결과
     private FileTextView fileTextView;//오픈&세이브
     private JPanel mainButtonPanel;//버튼 네 개
-    private ActionListener mainButtonListener;
+    private ActionListener mainListener;
 
     /**
      * 메인 패널에 포함될 패널들(텍스트 에디터 + 메인 버튼, 결과 화면, 오픈&세이브) 생성 및 초기화
@@ -41,7 +41,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
         for(JButton button : mainButtonArrayList){
             button.setPreferredSize(buttonSize);
             mainButtonPanel.add(button);
-            button.addActionListener(mainButtonListener);
+            button.addActionListener(mainListener);
         }
 
         centerPanel.add(textEditorView, BorderLayout.CENTER);
@@ -124,7 +124,7 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
             for(JButton button : fileButtonArrayList) {
                 button.setPreferredSize(buttonSize);
                 buttonPanel.add(button);
-                button.addActionListener(mainButtonListener);
+                button.addActionListener(mainListener);
             }
 
             this.add(textFieldPanel, BorderLayout.CENTER);
@@ -178,8 +178,8 @@ public class MainPanel extends JPanel implements MainInterface.MainViewInterface
 
     }
 
-    public void setEventListener(ActionListener buttonListener) {
-        this.mainButtonListener = buttonListener;
+    public void setEventListener(ActionListener mainListener) {
+        this.mainListener = mainListener;
     }
 
 }

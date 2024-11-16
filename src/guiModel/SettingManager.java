@@ -6,10 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-//팩토리 패턴 적용?
 /**
  * 프로그램 전역 정보를 담고있는 프로퍼티 생성 및 받아오기
- * 사용자의 다운로드 폴더에 프로퍼티 생성
+ * 사용자 소스파일에 프로퍼티 생성
  */
 public class SettingManager {
     public SettingManager() {
@@ -73,8 +72,7 @@ public class SettingManager {
         }
     }
 
-
-    private String globalPropertiesFolder = System.getProperty("user.home") + "//Downloads//2024_2_OOP_TermProject2";
+    private String globalPropertiesFolder = System.getProperty("user.home") + "\\Downloads\\Java_2024_2_Proj2";
     private final String globalProjectName = "//ProjectList.properties";
     private final String globalJDKName = "//JDKList.properties";
     private final String globalGuiName = "//GUI.properties";
