@@ -1,8 +1,5 @@
 package GUIInterface.dialog;
 
-import guiView.dialogPanel.InstallingView;
-
-import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public interface InstallingInterface {

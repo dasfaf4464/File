@@ -30,7 +30,7 @@ public class HistoryView extends JPanel implements HistoryInterface.View {
         historyModel.addElement("history test1");
         historyModel.addElement("history test2");
         //########### 테스트 코드
-        JList historyList = new JList(historyModel);
+        JList<String> historyList = new JList<>(historyModel);
 
         activatedProjectName.setEditable(false);
         activatedProjectName.setFocusable(false);

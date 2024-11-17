@@ -21,7 +21,7 @@ public class ResultView extends JPanel implements ResultInterface.View {
 
         resultTextArea = new JTextArea("testsetsadfasfdasdf");
 
-        font = new Font("Cascade", Font.LAYOUT_LEFT_TO_RIGHT, 16);
+        font = new Font("Cascade", Font.PLAIN, 16);
         color = Color.white;
 
         resultTextArea.setBackground(color);
