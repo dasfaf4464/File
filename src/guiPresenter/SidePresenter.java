@@ -1,7 +1,7 @@
 package guiPresenter;
 
 import GUIInterface.SideInterface;
-import guiView.SidePanel;
+import guiView.OldLeftPanel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -13,12 +13,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SidePresenter implements SideInterface.SidePresenterInterface {
-    public SidePresenter(SidePanel sideLinkPanel) {
-        sidePanel = sideLinkPanel;
+    public SidePresenter(OldLeftPanel sideLinkPanel) {
+        oldLeftPanel = sideLinkPanel;
         sideFileTreeListener = new SideFileTreeListener();
         sideTextListListener = new SideTextListListener();
         sideButtonListener = new SideButtonListener();
-        sidePanel.setEventListner(sideFileTreeListener, sideTextListListener, sideButtonListener);
+        oldLeftPanel.setEventListner(sideFileTreeListener, sideTextListListener, sideButtonListener);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class SidePresenter implements SideInterface.SidePresenterInterface {
         }
     }
 
-    private SidePanel sidePanel;
+    private OldLeftPanel oldLeftPanel;
     private SideTextListListener sideTextListListener;
     private SideFileTreeListener sideFileTreeListener;
     private SideButtonListener sideButtonListener;

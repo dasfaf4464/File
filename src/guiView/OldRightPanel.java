@@ -8,17 +8,17 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class MainPanel extends JPanel implements MainInterface.MainViewInterface {
+public class OldRightPanel extends JPanel implements MainInterface.MainViewInterface {
 
     private TextEditorView textEditorView;//텍스트 에디터
     private ResultView resultView;//결과
     private ActionListener mainListener;
 
     /**
-     * 메인 패널에 포함될 패널들(텍스트 에디터 + 메인 버튼, 결과 화면, 오픈&세이브) 생성 및 초기화
+     * 오른쪽 패널 구성 패널들(텍스트 에디터, 결과 화면) 생성 및 초기화
      * 버튼은 메인 이벤트 리스너에 연결
      */
-    public MainPanel() {
+    public OldRightPanel() {
         new MainPresenter(this);
 
         setLayout(new BorderLayout());

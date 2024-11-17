@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SidePanel extends JPanel implements SideInterface.SideViewInterface {
+public class OldLeftPanel extends JPanel implements SideInterface.SideViewInterface {
 
     private final JPanel sideButtonPanel;//버튼 세 개
     private final FileView fileView;//파일 트리 뷰
@@ -22,7 +22,7 @@ public class SidePanel extends JPanel implements SideInterface.SideViewInterface
     private ListSelectionListener textListListener;
     private ActionListener sideButtonListener;
 
-    public SidePanel() {
+    public OldLeftPanel() {
         new SidePresenter(this);
 
         setLayout(new BorderLayout());

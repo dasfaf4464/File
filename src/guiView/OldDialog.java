@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class Dialog extends JDialog implements DialogInterface.DialogViewInterface {
+public class OldDialog extends JDialog implements DialogInterface.DialogViewInterface {
 
     private JPanel dialogPanel;
     private final InstallerDialog installerPanel;
@@ -16,7 +16,7 @@ public class Dialog extends JDialog implements DialogInterface.DialogViewInterfa
     private ActionListener installerListener;
     private ActionListener settingsListener;
 
-    public Dialog() {
+    public OldDialog() {
         new DialogPresenter(this);
 
         installerPanel = new InstallerDialog(this);
@@ -125,6 +125,15 @@ public class Dialog extends JDialog implements DialogInterface.DialogViewInterfa
             setLayout(new BorderLayout());
             setPreferredSize(new Dimension(300, 150));
 
+        }
+    }
+
+    public static class FileChooserDialog extends JFileChooser {
+        JDialog dialogFrame;
+        public FileChooserDialog(JDialog dialogFrame) {
+            this.dialogFrame = dialogFrame;
+            dialogFrame.setTitle("s");
+            this.showOpenDialog(dialogFrame);
         }
     }
 

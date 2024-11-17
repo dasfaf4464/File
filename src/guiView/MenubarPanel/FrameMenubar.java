@@ -1,13 +1,13 @@
-package guiView;
+package guiView.MenubarPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Menu extends JMenuBar {
+public class FrameMenubar extends JMenuBar {
     private ActionListener menuListener;
 
-    public Menu() {
+    public FrameMenubar() {
         JMenu fileMenu = new JMenu("File");
         JMenu runMenu = new JMenu("Run");
         JMenu projectMenu = new JMenu("Project");

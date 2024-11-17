@@ -2,7 +2,7 @@ package guiPresenter;
 
 import GUIInterface.DialogInterface;
 import guiModel.Project;
-import guiView.Dialog;
+import guiView.OldDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,26 +10,26 @@ import java.awt.event.ActionListener;
 
 public class DialogPresenter implements DialogInterface.DialogPresenterInterface {
 
-    private final Dialog dialog;
+    private final OldDialog oldDialog;
 
-    public DialogPresenter(Dialog Dialog) {
-        this.dialog = Dialog;
+    public DialogPresenter(OldDialog OldDialog) {
+        this.oldDialog = OldDialog;
         installerListener dialogButtonListener = new installerListener();
-        dialog.setEventListener(dialogButtonListener, null);
+        oldDialog.setEventListener(dialogButtonListener, null);
     }
 
     @Override
     public void installerSaveButtonClicked() {
-        String basicJDK = dialog.getBasicJDKField();
-        String basicOutput = dialog.getBasicOutputField();
-        String newProjectPath = dialog.getFirstProjectField();
-        String projectName = dialog.getProjectNameField();
+        String basicJDK = oldDialog.getBasicJDKField();
+        String basicOutput = oldDialog.getBasicOutputField();
+        String newProjectPath = oldDialog.getFirstProjectField();
+        String projectName = oldDialog.getProjectNameField();
 
         if(!newProjectPath.isBlank() && !projectName.isBlank()) {
             Project.makeNewProjectFolder(newProjectPath, projectName);
         }
 
-        dialog.dispose();
+        oldDialog.dispose();
     }
 
     public class installerListener implements ActionListener {

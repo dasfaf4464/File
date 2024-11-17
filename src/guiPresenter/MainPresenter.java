@@ -2,7 +2,7 @@ package guiPresenter;
 
 import GUIInterface.MainInterface;
 import guiModel.FileUtil;
-import guiView.MainPanel;
+import guiView.OldRightPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,12 +11,12 @@ import java.io.File;
 
 public class MainPresenter implements MainInterface.MainPresenterInterface {
 
-    private final MainPanel mainPanel;
+    private final OldRightPanel oldRightPanel;
 
-    public MainPresenter(MainPanel mainLinkPanel) {
-        mainPanel = mainLinkPanel;
+    public MainPresenter(OldRightPanel mainLinkPanel) {
+        oldRightPanel = mainLinkPanel;
         MainListener mainListener = new MainListener();
-        mainPanel.setEventListener(mainListener);
+        oldRightPanel.setEventListener(mainListener);
     }
 
     /**
@@ -24,15 +24,15 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
      */
     @Override
     public void openButtonClicked() {
-        File file = new File(mainPanel.getOpenTextField());
+        File file = new File(oldRightPanel.getOpenTextField());
         
         if(!file.exists() || file.isDirectory()) {
-           mainPanel.showResult("파일이 존재하지 않음");
+           oldRightPanel.showResult("파일이 존재하지 않음");
         } else {
             FileUtil fileUtil = new FileUtil();
             fileUtil.openFile(file);
-            mainPanel.showResult("");
-            mainPanel.showTextEditor(fileUtil.getActivatedFileContent());
+            oldRightPanel.showResult("");
+            oldRightPanel.showTextEditor(fileUtil.getActivatedFileContent());
         }
     }
 
@@ -41,10 +41,10 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
      */
     @Override
     public void clearButtonClicked() {
-        mainPanel.showOpenTextField("");
-        mainPanel.showSaveTextField("");
-        mainPanel.showTextEditor("");
-        mainPanel.showResult("");
+        oldRightPanel.showOpenTextField("");
+        oldRightPanel.showSaveTextField("");
+        oldRightPanel.showTextEditor("");
+        oldRightPanel.showResult("");
     }
 
     /**
@@ -54,20 +54,20 @@ public class MainPresenter implements MainInterface.MainPresenterInterface {
     public void saveButtonClicked() {
         FileUtil fileUtil = new FileUtil();
 
-        if(mainPanel.getSaveTextField().isBlank() && mainPanel.getOpenTextField().isBlank()) {
-            mainPanel.showResult("저장될 주소를 입력해야합니다.");
-        } else if(mainPanel.getSaveTextField().isBlank()){
-            mainPanel.showResult("내용을 " + mainPanel.getOpenTextField() + " 에 저장합니다.");
-            fileUtil.saveContent(mainPanel.getTextEditor(), new File(mainPanel.getOpenTextField()));
+        if(oldRightPanel.getSaveTextField().isBlank() && oldRightPanel.getOpenTextField().isBlank()) {
+            oldRightPanel.showResult("저장될 주소를 입력해야합니다.");
+        } else if(oldRightPanel.getSaveTextField().isBlank()){
+            oldRightPanel.showResult("내용을 " + oldRightPanel.getOpenTextField() + " 에 저장합니다.");
+            fileUtil.saveContent(oldRightPanel.getTextEditor(), new File(oldRightPanel.getOpenTextField()));
         } else {
-            if(new File(mainPanel.getSaveTextField()).exists()) {
-               mainPanel.showResult("동일한 이름의 파일이 존재합니다. Open버튼을 눌러 해당 파일을 편집하세요");
-               mainPanel.showOpenTextField(mainPanel.getSaveTextField());
+            if(new File(oldRightPanel.getSaveTextField()).exists()) {
+               oldRightPanel.showResult("동일한 이름의 파일이 존재합니다. Open버튼을 눌러 해당 파일을 편집하세요");
+               oldRightPanel.showOpenTextField(oldRightPanel.getSaveTextField());
             } else {
-                mainPanel.showResult("파일이 성공적으로 저장되었습니다.");
-                mainPanel.showOpenTextField(mainPanel.getSaveTextField());
-                new FileUtil().openFile(new File(mainPanel.getOpenTextField()));
-                fileUtil.saveContent(mainPanel.getTextEditor(), new File(mainPanel.getSaveTextField()));
+                oldRightPanel.showResult("파일이 성공적으로 저장되었습니다.");
+                oldRightPanel.showOpenTextField(oldRightPanel.getSaveTextField());
+                new FileUtil().openFile(new File(oldRightPanel.getOpenTextField()));
+                fileUtil.saveContent(oldRightPanel.getTextEditor(), new File(oldRightPanel.getSaveTextField()));
             }
         }
     }
