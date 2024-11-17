@@ -1,6 +1,6 @@
 package guiView.framePanel;
 
-import GUIInterface.FileTreeInterface;
+import GUIInterface.frame.FileTreeInterface;
 import guiPresenter.framePresenter.FileTreePresenter;
 
 import javax.swing.*;

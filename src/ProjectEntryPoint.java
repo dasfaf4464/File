@@ -1,8 +1,7 @@
-import guiView.MainFrame;
+import guiView.Frame;
 
 import javax.swing.*;
-import guiModel.SettingManager;
-import guiView.OldDialog;
+
 public class ProjectEntryPoint {
     public static void main(String[] args) {
 
@@ -20,7 +19,7 @@ public class ProjectEntryPoint {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             ex.printStackTrace();
         }
-        new MainFrame();
+        new Frame();
 
     }
 }

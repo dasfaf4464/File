@@ -1,4 +1,4 @@
-package GUIInterface;
+package GUIInterface.frame;
 
 import java.awt.*;
 import java.awt.event.ActionListener;

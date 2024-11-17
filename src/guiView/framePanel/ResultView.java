@@ -1,6 +1,6 @@
 package guiView.framePanel;
 
-import GUIInterface.ResultInterface;
+import GUIInterface.frame.ResultInterface;
 import guiPresenter.framePresenter.ResultPresenter;
 
 import javax.swing.*;

@@ -1,6 +1,6 @@
 package guiPresenter.framePresenter;
 
-import GUIInterface.TextEditorInterface;
+import GUIInterface.frame.TextEditorInterface;
 import guiView.framePanel.TextEditorView;
 
 import java.awt.event.ActionEvent;

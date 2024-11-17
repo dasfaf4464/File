@@ -9,12 +9,12 @@ import guiView.framePanel.TextEditorView;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame {
+public class Frame extends JFrame {
     private final RightPanel rightPanel;
     private final LeftPanel leftPanel;
     private final FrameMenubar frameMenubar;
 
-    public MainFrame() {
+    public Frame() {
         rightPanel = new RightPanel();
         leftPanel = new LeftPanel();
         frameMenubar = new FrameMenubar();

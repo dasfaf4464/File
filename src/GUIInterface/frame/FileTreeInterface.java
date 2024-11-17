@@ -1,9 +1,8 @@
-package GUIInterface;
+package GUIInterface.frame;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
 import java.util.EventListener;
-import java.util.Map;
 
 public interface FileTreeInterface {
 

@@ -1,4 +1,4 @@
-package GUIInterface;
+package GUIInterface.frame;
 
 import javax.swing.*;
 import java.awt.*;

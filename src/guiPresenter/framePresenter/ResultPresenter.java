@@ -1,6 +1,6 @@
 package guiPresenter.framePresenter;
 
-import GUIInterface.ResultInterface;
+import GUIInterface.frame.ResultInterface;
 import guiView.framePanel.ResultView;
 
 import java.awt.event.ActionEvent;

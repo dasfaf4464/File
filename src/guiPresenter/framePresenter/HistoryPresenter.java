@@ -1,6 +1,6 @@
 package guiPresenter.framePresenter;
 
-import GUIInterface.HistoryInterface;
+import GUIInterface.frame.HistoryInterface;
 import guiView.framePanel.HistoryView;
 
 import java.awt.event.ActionEvent;

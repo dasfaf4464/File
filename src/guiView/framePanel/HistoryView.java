@@ -1,6 +1,6 @@
 package guiView.framePanel;
 
-import GUIInterface.HistoryInterface;
+import GUIInterface.frame.HistoryInterface;
 import guiPresenter.framePresenter.HistoryPresenter;
 
 import javax.swing.*;

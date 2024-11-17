@@ -1,4 +1,4 @@
-package GUIInterface;
+package GUIInterface.frame;
 
 import java.awt.*;
 import java.util.ArrayList;
