@@ -15,7 +15,7 @@ public class Frame extends JFrame {
     private final FrameMenubar frameMenubar;
     private final JDialog dialog;
 
-    public Frame(int width, int height, boolean visible) {
+    public Frame(int width, int height) {
         rightPanel = new RightPanel();
         leftPanel = new LeftPanel();
         frameMenubar = new FrameMenubar();
@@ -38,7 +38,18 @@ public class Frame extends JFrame {
         //#########
         setSize(width, height);
         setLocationRelativeTo(null);
-        setVisible(visible);
+    }
+
+    public JDialog getDialog() {
+        return dialog;
+    }
+
+    public void setFrameVisible(boolean visible) {
+        this.setVisible(visible);
+    }
+
+    public void setDialogVisible(boolean visible) {
+        dialog.setVisible(visible);
     }
 
     public static class RightPanel extends JPanel {

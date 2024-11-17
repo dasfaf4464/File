@@ -13,5 +13,9 @@ import java.util.Properties;
  *
  */
 public class FramePresenter {
+    public Frame frame;
 
+    public FramePresenter() {
+
+    }
 }

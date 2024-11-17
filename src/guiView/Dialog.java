@@ -30,8 +30,7 @@ public class Dialog extends JDialog {
         setJMenuBar(dialogMenuBar);
     }
 
-    public void setDialog(JPanel panel, JMenuBar menuBar) {
-        this.dialogMenuBar = menuBar;
+    public void setDialog(JPanel panel) {
         this.setContentPane(panel);
         this.repaint();
     }
