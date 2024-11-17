@@ -5,12 +5,12 @@ import guiPresenter.framePresenter.HistoryPresenter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.EventListener;
 
 public class HistoryView extends JPanel implements HistoryInterface.View {
     private final JTextField activatedProjectName;
-    private DefaultListModel<String> historyModel;
+    private final DefaultListModel<String> historyModel;
     private Color projectColor;
     private Color historyColor;
 
@@ -63,8 +63,9 @@ public class HistoryView extends JPanel implements HistoryInterface.View {
     }
 
     @Override
-    public void setHistoryModel(DefaultListModel<String> historyModel) {
-        this.historyModel = historyModel;
+    public void setHistoryModel(ArrayList<String> historyModel) {
+        this.historyModel.removeAllElements();
+        this.historyModel.addAll(historyModel);
     }
 
     @Override
