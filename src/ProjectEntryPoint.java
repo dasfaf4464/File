@@ -1,3 +1,4 @@
+import guiPresenter.FramePresenter;
 import guiView.Frame;
 
 import javax.swing.*;
@@ -11,6 +12,6 @@ public class ProjectEntryPoint {
             throw new RuntimeException(ex);
         }
 
-        SwingUtilities.invokeLater(Frame::new);
+        new Frame(1280, 720, true);
     }
 }

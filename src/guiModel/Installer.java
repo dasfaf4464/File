@@ -73,6 +73,8 @@ public class Installer {
         ideProp.setProperty("fontsize", "14");
         ideProp.setProperty("theme", "default");
         ideProp.setProperty("lastproject", "");
+        ideProp.setProperty("width", "1280");
+        ideProp.setProperty("height", "720");
         PropertiesUtil.saveProperties(ideProp, idePropFile, null);
 
         jdkList.setProperty(new File(basicJDK).getName(), basicJDK);

@@ -12,18 +12,15 @@ public class InstallingView extends JPanel implements InstallingInterface.View {
     private final JTextField basicOutputField;
     private final JTextField newProjectFolderField;
     private final JTextField newProjectNameField;
-    public final guiView.Dialog parentDialog;
+    public final JDialog parentDialog;
 
     private ActionListener installingViewListener;
 
-    public InstallingView(guiView.Dialog dialog) {
+    public InstallingView(JDialog dialog) {
         parentDialog = dialog;
         new InstallingPresenter(this);
 
         parentDialog.setTitle("Installer");
-        parentDialog.setLocationRelativeTo(null);
-        parentDialog.setModal(true);
-        parentDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(600, 200));
 
