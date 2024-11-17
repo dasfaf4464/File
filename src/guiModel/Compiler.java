@@ -4,7 +4,7 @@ import java.io.*;
 
 /**
  * 컴파일러는 컴파일할 파일을 가지고 컴파일 실행
- * 에러파일과 클래스파일 반환
+ * 컴파일 에러 내용 메세지로 반환.
  */
 public class Compiler {
     public static int errorFlag = 0;

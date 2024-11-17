@@ -13,11 +13,11 @@ public class Dialog extends JDialog {
     private final SettingView settingView;
     private final CheckingView checkingView;
 
-    private JPanel contentPane;
     private JMenuBar dialogMenuBar;
-    private JFrame frame;
+    private final Frame frame;
 
-    public Dialog(JFrame frame) {
+    public Dialog(Frame frame) {
+        super(frame);
         this.frame = frame;
 
         setLayout(new BorderLayout());
@@ -27,15 +27,14 @@ public class Dialog extends JDialog {
         checkingView = new CheckingView();
 
         dialogMenuBar = new SettingMenuBar();
-        contentPane = new JPanel();
 
         setJMenuBar(dialogMenuBar);
-        setContentPane(contentPane);
+        setContentPane(getContentPane());
     }
 
     public void setDialog(JPanel panel, JMenuBar menuBar) {
         this.dialogMenuBar = menuBar;
-        this.contentPane = panel;
+        this.setContentPane(panel);
         this.repaint();
     }
 }
