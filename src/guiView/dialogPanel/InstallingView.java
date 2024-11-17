@@ -1,25 +1,30 @@
 package guiView.dialogPanel;
 
+import GUIInterface.dialog.InstallingInterface;
+import guiPresenter.dialogPresenter.InstallingPresenter;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class InstallingView extends JPanel {
+public class InstallingView extends JPanel implements InstallingInterface.View {
     private final JTextField basicJDKField;
     private final JTextField basicOutputField;
     private final JTextField newProjectFolderField;
     private final JTextField newProjectNameField;
 
-    private ActionListener installerListener;
+    private ActionListener installingViewListener;
 
     public InstallingView(JDialog dialog) {
+        new InstallingPresenter(this);
+
         dialog.setTitle("Installer");
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(600, 200));
 
         JButton saveButton = new JButton("Save");
         saveButton.setPreferredSize(new Dimension(100, 30));
-        saveButton.addActionListener(installerListener);
+        saveButton.addActionListener(installingViewListener);
 
         JPanel valuePanel = new JPanel();
         valuePanel.setLayout(new GridLayout(8, 1, 0, 0));
@@ -36,4 +41,28 @@ public class InstallingView extends JPanel {
         add(saveButton, BorderLayout.SOUTH);
     }
 
+    @Override
+    public void setInstallingViewListener(ActionListener installingViewListener) {
+
+    }
+
+    @Override
+    public String getBasicJDKField() {
+        return "";
+    }
+
+    @Override
+    public String getBasicOutputField() {
+        return "";
+    }
+
+    @Override
+    public String getFirstProjectField() {
+        return "";
+    }
+
+    @Override
+    public String getProjectNameField() {
+        return "";
+    }
 }

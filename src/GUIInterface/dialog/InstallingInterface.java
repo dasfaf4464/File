@@ -1,22 +1,22 @@
 package GUIInterface.dialog;
 
-import javax.swing.*;
+import guiView.dialogPanel.InstallingView;
 
-public interface InstallerInterface {
+import javax.swing.*;
+import java.awt.event.ActionListener;
+
+public interface InstallingInterface {
 
     interface View {
-        void setPanel(JPanel panel);
+        void setInstallingViewListener(ActionListener installingViewListener);
 
         String getBasicJDKField();
-
         String getBasicOutputField();
-
         String getFirstProjectField();
-
         String getProjectNameField();
     }
 
     interface Presenter {
-
+        void saveButtonPressed();
     }
 }
