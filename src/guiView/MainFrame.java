@@ -1,7 +1,7 @@
 package guiView;
 
 import guiView.MenubarPanel.FrameMenubar;
-import guiView.framePanel.FileHistoryView;
+import guiView.framePanel.HistoryView;
 import guiView.framePanel.FileTreeView;
 import guiView.framePanel.ResultView;
 import guiView.framePanel.TextEditorView;
@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         JSplitPane horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
-        horizontalSplitPane.setDividerLocation(300);
+        horizontalSplitPane.setResizeWeight(0.25);
         horizontalSplitPane.setContinuousLayout(true);
         horizontalSplitPane.setDividerSize(3);
 
@@ -46,7 +46,6 @@ public class MainFrame extends JFrame {
             setLayout(new BorderLayout());
 
             JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textEditorView, resultView);
-            verticalSplitPane.setDividerLocation(400);
             verticalSplitPane.setResizeWeight(0.7);
             verticalSplitPane.setOneTouchExpandable(true);
             verticalSplitPane.setDividerSize(8);
@@ -57,17 +56,16 @@ public class MainFrame extends JFrame {
 
     public static class LeftPanel extends JPanel {
         private final FileTreeView fileTreeView;
-        private final FileHistoryView fileHistoryView;
+        private final HistoryView historyView;
 
         public LeftPanel() {
             fileTreeView = new FileTreeView();
-            fileHistoryView = new FileHistoryView();
+            historyView = new HistoryView();
 
             setLayout(new BorderLayout());
 
-            JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileTreeView, fileHistoryView);
-            verticalSplitPane.setDividerLocation(400);
-            verticalSplitPane.setResizeWeight(0.7);
+            JSplitPane verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, fileTreeView, historyView);
+            verticalSplitPane.setResizeWeight(0.5);
             verticalSplitPane.setOneTouchExpandable(true);
             verticalSplitPane.setDividerSize(8);
 

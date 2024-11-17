@@ -12,7 +12,7 @@ public class TextEditorPresenter implements TextEditorInterface.Presenter {
     public TextEditorPresenter(TextEditorView textEditorView) {
         this.textEditorView = textEditorView;
         TextEditorViewListener textEditorViewListener = new TextEditorViewListener();
-        textEditorView.setTextEditorViewListener(textEditorViewListener);
+        this.textEditorView.setTextEditorViewListener(textEditorViewListener);
     }
 
     public class TextEditorViewListener implements ActionListener {

@@ -12,7 +12,7 @@ public class ResultPresenter implements ResultInterface.Presenter {
     public ResultPresenter(ResultView resultView) {
         this.resultView = resultView;
         ResultViewListener resultViewListener = new ResultViewListener();
-        resultView.setResultViewListener(resultViewListener);
+        this.resultView.setResultViewListener(resultViewListener);
     }
 
     public class ResultViewListener implements ActionListener {

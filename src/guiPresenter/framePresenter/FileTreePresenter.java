@@ -1,4 +1,4 @@
 package guiPresenter.framePresenter;
 
-public class FilleHistroyPresenter {
+public class FileTreePresenter {
 }

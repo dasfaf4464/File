@@ -23,7 +23,11 @@ public class TextEditorView extends JPanel implements TextEditorInterface.View {
 
         tabbedPane = new JTabbedPane();
         editorTextAreas = new ArrayList<>();
-
+        //###############테스트코드
+        JTextArea test = new JTextArea("내용");
+        test.setName("testname");
+        editorTextAreas.add(test);
+        //##############테스트코드
         font = new Font("Arial", Font.PLAIN, 12);
         color = Color.white;
 
@@ -40,12 +44,14 @@ public class TextEditorView extends JPanel implements TextEditorInterface.View {
             tabbedPane.addTab(textArea.getName(), scrollPane);
         }
 
+        //tabbedPane.addChangeListener(textEditorViewListener);
+
         add(tabbedPane, BorderLayout.CENTER);
     }
 
     @Override
     public void setTextEditorViewListener(EventListener textEditorViewListener) {
-        this.textEditorViewListener = this.textEditorViewListener;
+        this.textEditorViewListener = textEditorViewListener;
     }
 
     @Override
