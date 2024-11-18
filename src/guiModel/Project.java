@@ -28,34 +28,33 @@ public class Project {
     public static Project makeProject(String projectMakePath, String projectName) {
         File projectFile = new File(projectMakePath + "\\" + projectName);
         projectFile.mkdirs();
-        File propertiesFile = new File(projectFile.getAbsolutePath() + "\\" + projectName + ".properties");
-        File outFile = new File(projectFile.getAbsolutePath() + "\\out");
-        File srcFile = new File(projectFile.getAbsolutePath() + "\\src");
-        File srcListFile = new File(projectFile.getAbsolutePath() + "\\srclist.txt");
-        File logFile = new File(projectFile.getAbsolutePath() + "\\log.txt");
 
         try{
-            propertiesFile.createNewFile();
-            outFile.mkdirs();
-            srcFile.mkdirs();
-            srcListFile.createNewFile();
-            logFile.createNewFile();
+            new File(projectFile.getAbsolutePath() + "\\" + projectName + ".properties").createNewFile();
+            new File(projectFile.getAbsolutePath() + "\\out").mkdirs();
+            new File(projectFile.getAbsolutePath() + "\\src").mkdirs();
+            new File(projectFile.getAbsolutePath() + "\\srclist.txt").createNewFile();
+            new File(projectFile.getAbsolutePath() + "\\log.txt").createNewFile();
+
         } catch (IOException e) {
             return null;
         }
 
+        File propertiesFile = new File(projectFile.getAbsolutePath() + "\\" + projectName + ".properties");
         Properties projectProp = new Properties();
         Properties jdkProp = new Properties();
+        Properties ideProp = new Properties();
         Properties projectListProp = new Properties();
 
         PropertiesUtil.loadProperties(projectProp, propertiesFile);
         PropertiesUtil.loadProperties(jdkProp, new File(jdkListFilePath));
+        PropertiesUtil.loadProperties(ideProp, new File(Installer.idePropFolder + Installer.idePropName));
         PropertiesUtil.loadProperties(projectListProp, new File(projectListFilePath));
 
         projectListProp.setProperty(projectName, projectMakePath + "\\" + projectName);
         PropertiesUtil.saveProperties(projectListProp, new File(projectListFilePath), null);
 
-        projectProp.setProperty("jdk", jdkProp.getProperty("basicjdk"));
+        projectProp.setProperty("jdk", ideProp.getProperty("basicjdk"));
         projectProp.setProperty("mainclass", "");
         projectProp.setProperty("lastedit", "");
         PropertiesUtil.saveProperties(projectProp, propertiesFile, null);
@@ -75,7 +74,7 @@ public class Project {
         PropertiesUtil.loadProperties(projListProp, new File(projectListFilePath));
 
         String ProjectPath = projListProp.getProperty(Name);
-
+        openedProject.projectProperties = new Properties();
         openedProject.path = ProjectPath;
         openedProject.projectName = Name;
         PropertiesUtil.loadProperties(openedProject.projectProperties, new File(openedProject.path + "\\" + openedProject.projectName + ".properties"));

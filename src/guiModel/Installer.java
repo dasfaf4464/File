@@ -48,7 +48,9 @@ public class Installer {
      */
     public static void installBasic(String basicJDK, String basicOutput) {
         File ideFolder = new File(idePropFolder);
+        File outFolder = new File(basicOutput);
         ideFolder.mkdirs();
+        outFolder.mkdirs();
         File idePropFile = new File(idePropFolder + idePropName);
         File projectListFile = new File(idePropFolder + projectListFileName);
         File jdkListFile = new File(idePropFolder + JDKListFileName);
@@ -63,10 +65,6 @@ public class Installer {
 
         Properties ideProp = new Properties();
         Properties jdkList = new Properties();
-
-        PropertiesUtil.loadProperties(ideProp, idePropFile);
-        PropertiesUtil.loadProperties(jdkList, jdkListFile);
-
         ideProp.setProperty("basicjdk", basicJDK);
         ideProp.setProperty("out", basicOutput);
         ideProp.setProperty("font", Font.DIALOG);

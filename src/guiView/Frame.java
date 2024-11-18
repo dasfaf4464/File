@@ -13,13 +13,11 @@ public class Frame extends JFrame {
     private final RightPanel rightPanel;
     private final LeftPanel leftPanel;
     private final FrameMenubar frameMenubar;
-    private final JDialog dialog;
 
     public Frame(int width, int height) {
         rightPanel = new RightPanel();
         leftPanel = new LeftPanel();
         frameMenubar = new FrameMenubar();
-        dialog = new guiView.Dialog(this);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -32,24 +30,12 @@ public class Frame extends JFrame {
         this.setJMenuBar(frameMenubar);
         add(horizontalSplitPane, BorderLayout.CENTER);
 
-        //######### 임시 지정
-        width = 1280;
-        height = 720;
-        //#########
         setSize(width, height);
         setLocationRelativeTo(null);
     }
 
-    public JDialog getDialog() {
-        return dialog;
-    }
-
     public void setFrameVisible(boolean visible) {
         this.setVisible(visible);
-    }
-
-    public void setDialogVisible(boolean visible) {
-        dialog.setVisible(visible);
     }
 
     public static class RightPanel extends JPanel {

@@ -9,17 +9,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Dialog extends JDialog {
-    public final InstallingView installingView;
+    private final InstallingView installingView;
     private final SettingView settingView;
     private final CheckingView checkingView;
 
     private JMenuBar dialogMenuBar;
-    private final Frame frame;
 
     public Dialog(Frame frame) {
         super(frame);
-        this.frame = frame;
         setLayout(new BorderLayout());
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setAlwaysOnTop(true);
 
         installingView = new InstallingView(this);
         settingView = new SettingView();
@@ -31,7 +32,12 @@ public class Dialog extends JDialog {
     }
 
     public void setDialog(JPanel panel) {
-        this.setContentPane(panel);
+        this.add(panel, BorderLayout.CENTER);
+        this.pack();
         this.repaint();
+    }
+
+    public JPanel getInstallingPanel() {
+        return installingView;
     }
 }

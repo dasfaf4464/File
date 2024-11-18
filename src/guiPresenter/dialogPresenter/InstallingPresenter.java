@@ -31,10 +31,10 @@ public class InstallingPresenter implements InstallingInterface.Presenter {
         String projectName = installingView.getProjectNameField();
 
         Installer.installBasic(basicJDK, basicOut);
-        if(projectFolder.isBlank() && projectName.isBlank()) {
+        if(!projectFolder.isBlank() && !projectName.isBlank()) {
             Project.makeProject(projectFolder, projectName);
         }
-
+        installingView.parentDialog.dispose();
     }
 
     public class InstallingViewListener implements ActionListener {

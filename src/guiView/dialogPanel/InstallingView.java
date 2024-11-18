@@ -17,12 +17,14 @@ public class InstallingView extends JPanel implements InstallingInterface.View {
     private ActionListener installingViewListener;
 
     public InstallingView(JDialog dialog) {
-        parentDialog = dialog;
         new InstallingPresenter(this);
 
+        parentDialog = dialog;
         parentDialog.setTitle("Installer");
+        parentDialog.setModal(true);
+        parentDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(600, 200));
+        setPreferredSize(new Dimension(600, 250));
 
         JButton saveButton = new JButton("Save");
         saveButton.setPreferredSize(new Dimension(100, 30));
@@ -45,26 +47,26 @@ public class InstallingView extends JPanel implements InstallingInterface.View {
 
     @Override
     public void setInstallingViewListener(ActionListener installingViewListener) {
-
+        this.installingViewListener = installingViewListener;
     }
 
     @Override
     public String getBasicJDKField() {
-        return "";
+        return basicJDKField.getText();
     }
 
     @Override
     public String getBasicOutputField() {
-        return "";
+        return basicOutputField.getText();
     }
 
     @Override
     public String getFirstProjectField() {
-        return "";
+        return newProjectFolderField.getText();
     }
 
     @Override
     public String getProjectNameField() {
-        return "";
+        return newProjectNameField.getText();
     }
 }

@@ -1,3 +1,4 @@
+import guiPresenter.FramePresenter;
 import guiView.Frame;
 
 import javax.swing.*;
@@ -10,7 +11,6 @@ public class ProjectEntryPoint {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             throw new RuntimeException(ex);
         }
-
-        new Frame(1280, 720);
+        new FramePresenter();
     }
 }
