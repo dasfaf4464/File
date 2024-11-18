@@ -14,7 +14,7 @@ public class Frame extends JFrame {
     private final LeftPanel leftPanel;
     private final FrameMenubar frameMenubar;
 
-    public Frame(int width, int height) {
+    public Frame() {
         rightPanel = new RightPanel();
         leftPanel = new LeftPanel();
         frameMenubar = new FrameMenubar();
@@ -30,8 +30,7 @@ public class Frame extends JFrame {
         this.setJMenuBar(frameMenubar);
         add(horizontalSplitPane, BorderLayout.CENTER);
 
-        setSize(width, height);
-        setLocationRelativeTo(null);
+        setLocation(0,0);
     }
 
     public void setFrameVisible(boolean visible) {

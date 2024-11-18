@@ -2,5 +2,5 @@ package guiView.dialogPanel;
 
 import javax.swing.*;
 
-public class SettingView extends JPanel {
+public class HelpView extends JPanel {
 }

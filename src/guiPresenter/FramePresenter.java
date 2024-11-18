@@ -1,8 +1,12 @@
 package guiPresenter;
 
 import guiModel.Installer;
+import guiModel.PropertiesUtil;
 import guiView.Dialog;
 import guiView.Frame;
+
+import java.io.File;
+import java.util.Properties;
 
 /**
  * 설치되었는지 확인, 다이얼로그와 프레임 관리
@@ -11,12 +15,16 @@ import guiView.Frame;
 public class FramePresenter {
     private final Frame frame;
     private final Dialog dialog;
+    private Properties ideProperties = new Properties();
 
     public FramePresenter() {
-        frame = new Frame(1280, 720);
+        frame = new Frame();
         dialog = new Dialog(frame);
+        PropertiesUtil.loadProperties(ideProperties, new File(Installer.idePropFolder+Installer.idePropName));
 
         if(Installer.isInstalled()) {
+            System.out.println();
+            frame.setSize(Integer.parseInt(ideProperties.getProperty("width")), Integer.parseInt(ideProperties.getProperty("height")));
             frame.setVisible(true);
             dialog.setVisible(false);
         } else {

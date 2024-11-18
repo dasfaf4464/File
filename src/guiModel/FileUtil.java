@@ -12,17 +12,6 @@ public class FileUtil {
 
     }
 
-    /**
-     * 새로운 파일을 열고 파일리스트에 추가한다.
-     * @param file 텍스트 에디터에 여는 파일
-     */
-    public void openFile(File file) {
-        focusedFile = file;
-        if(!editingFile.contains(focusedFile)) {
-            editingFile.add(focusedFile);
-        }
-    }
-
     public  File getFocusedFile() {
         return focusedFile;
     }

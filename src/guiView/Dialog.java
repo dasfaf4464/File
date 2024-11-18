@@ -32,7 +32,6 @@ public class Dialog extends JDialog {
     }
 
     public void setDialog(JPanel panel) {
-        this.removeAll();
         this.add(panel, BorderLayout.CENTER);
         this.pack();
         this.repaint();
@@ -40,5 +39,9 @@ public class Dialog extends JDialog {
 
     public JPanel getInstallingPanel() {
         return installingView;
+    }
+
+    public JPanel getSettingPanel() {
+        return settingView;
     }
 }
