@@ -8,11 +8,15 @@ import java.util.Properties;
  * 프로젝트 정보를 가지고있는 클래스
  */
 public class Project {
-    private final static String projectListFilePath = System.getProperty("user.home") + "\\Downloads\\Java_2024_2_Proj3_setting\\ProjectList.properties";
-    private final static String jdkListFilePath = System.getProperty("user.home") + "\\Downloads\\Java_2024_2_Proj3_setting\\JDKList.properties";
+    private final static String projectListFilePath = Installer.idePropFolder + Installer.projectListFileName;
+    private final static String jdkListFilePath = Installer.idePropFolder + Installer.JDKListFileName;
+
     private String projectName;
     private String path;
     private Properties projectProperties;
+
+    private Project() {
+    }
 
     /**
      * 프로젝트 폴더 및 구성요소 생성(소스리스트파일, 아웃폴더, 소스폴더, 프로퍼티)
@@ -24,16 +28,18 @@ public class Project {
     public static Project makeProject(String projectMakePath, String projectName) {
         File projectFile = new File(projectMakePath + "\\" + projectName);
         projectFile.mkdirs();
-        File projectPropertiesFile = new File(projectFile.getAbsolutePath() + "\\" + projectName + ".properties");
-        File projectOutFile = new File(projectFile.getAbsolutePath() + "\\out");
-        File projectSrcFile = new File(projectFile.getAbsolutePath() + "\\src");
+        File propertiesFile = new File(projectFile.getAbsolutePath() + "\\" + projectName + ".properties");
+        File outFile = new File(projectFile.getAbsolutePath() + "\\out");
+        File srcFile = new File(projectFile.getAbsolutePath() + "\\src");
         File srcListFile = new File(projectFile.getAbsolutePath() + "\\srclist.txt");
+        File logFile = new File(projectFile.getAbsolutePath() + "\\log.txt");
 
         try{
-            projectPropertiesFile.createNewFile();
-            projectOutFile.mkdirs();
-            projectSrcFile.mkdirs();
+            propertiesFile.createNewFile();
+            outFile.mkdirs();
+            srcFile.mkdirs();
             srcListFile.createNewFile();
+            logFile.createNewFile();
         } catch (IOException e) {
             return null;
         }
@@ -42,7 +48,7 @@ public class Project {
         Properties jdkProp = new Properties();
         Properties projectListProp = new Properties();
 
-        PropertiesUtil.loadProperties(projectProp, projectPropertiesFile);
+        PropertiesUtil.loadProperties(projectProp, propertiesFile);
         PropertiesUtil.loadProperties(jdkProp, new File(jdkListFilePath));
         PropertiesUtil.loadProperties(projectListProp, new File(projectListFilePath));
 
@@ -52,7 +58,7 @@ public class Project {
         projectProp.setProperty("jdk", jdkProp.getProperty("basicjdk"));
         projectProp.setProperty("mainclass", "");
         projectProp.setProperty("lastedit", "");
-        PropertiesUtil.saveProperties(projectProp, projectPropertiesFile, null);
+        PropertiesUtil.saveProperties(projectProp, propertiesFile, null);
 
         return Project.open(projectName);
     }
@@ -72,20 +78,30 @@ public class Project {
 
         openedProject.path = ProjectPath;
         openedProject.projectName = Name;
-        PropertiesUtil.loadProperties(openedProject.projectProperties, new File(projectListFilePath + "\\" + openedProject.projectName + ".properties"));
+        PropertiesUtil.loadProperties(openedProject.projectProperties, new File(openedProject.path + "\\" + openedProject.projectName + ".properties"));
         return openedProject;
     }
 
-
     /**
-     * 프로젝트 프로퍼티 저장
-     * @return 성공적으로 저장시 트루
+     * 프로젝트 프로퍼티 변경
      */
-    public boolean saveProjectProperties() {
-            PropertiesUtil.saveProperties(projectProperties, path + "\\" + projectName + ".properties", null);
-            return true;
+    public void changeJDK(String jdkName) {
+        Properties jdkProp = new Properties();
+        PropertiesUtil.loadProperties(jdkProp, new File(jdkListFilePath));
+        String jdkPath = jdkProp.getProperty(jdkName);
+        
+        projectProperties.setProperty("jdk", jdkPath);
+        PropertiesUtil.saveProperties(projectProperties, new File(path + "\\" + projectName + ".properties"), null);
     }
 
+    /**
+     * 프로젝트 메인 클래스 변경
+     * @param mainClassName
+     */
+    public void changeMainClass(String mainClassName) {
+        projectProperties.setProperty("mainclass", mainClassName);
+        PropertiesUtil.saveProperties(projectProperties, new File(path + "\\" + projectName + ".properties"), null);
+    }
 
     /**
      * 프로젝트 전체 컴파일에 사용될 리스트 파일 업데이트
@@ -132,8 +148,8 @@ public class Project {
         }
     }
 
-    public Properties getProjectProperties() {
-        return projectProperties;
+    public String getMainClass () {
+        return projectProperties.getProperty("mainclass");
     }
 
     public String getSourceFolder() {

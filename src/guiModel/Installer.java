@@ -9,10 +9,10 @@ import java.util.Properties;
  * IDE 초기 설정을 담당하는 클래스, 반복되는 스트링 -> 열거나 상수로 만들어서 사용해야함
  */
 public class Installer {
-    private final static String idePropFolder = System.getProperty("user.home") + "\\Downloads\\Java_2024_2_Proj3_setting";
-    private final static String idePropName = "\\Project3.properties";
-    private final static String projectListFileName = "\\ProjectList.properties";
-    private final static String JDKListFileName = "\\JDKList.properties";
+    public final static String idePropFolder = System.getProperty("user.home") + "\\Downloads\\Java_2024_2_Proj3_setting";
+    public final static String idePropName = "\\Project3.properties";
+    public final static String projectListFileName = "\\ProjectList.properties";
+    public final static String JDKListFileName = "\\JDKList.properties";
 
     /**
      * 파일이 존재하는지 확인, 유효성 검사 필요
