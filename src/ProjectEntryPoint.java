@@ -1,5 +1,4 @@
 import guiPresenter.FramePresenter;
-import guiView.Frame;
 
 import javax.swing.*;
 

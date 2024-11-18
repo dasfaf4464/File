@@ -13,7 +13,7 @@ public class Dialog extends JDialog {
     private final SettingView settingView;
     private final CheckingView checkingView;
 
-    private JMenuBar dialogMenuBar;
+    private final JMenuBar dialogMenuBar;
 
     public Dialog(Frame frame) {
         super(frame);
@@ -32,6 +32,7 @@ public class Dialog extends JDialog {
     }
 
     public void setDialog(JPanel panel) {
+        this.removeAll();
         this.add(panel, BorderLayout.CENTER);
         this.pack();
         this.repaint();

@@ -117,8 +117,7 @@ public class Project {
             javaPaths.add(javaFile.getAbsolutePath());
         }
 
-        try {
-            FileWriter sourceListFileWriter = new FileWriter(sourceListFile);
+        try (FileWriter sourceListFileWriter = new FileWriter(sourceListFile)){
             for(String javaPath : javaPaths) {
                 sourceListFileWriter.write(javaPath+"\n");
             }
