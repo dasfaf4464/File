@@ -23,7 +23,6 @@ public class FramePresenter {
         PropertiesUtil.loadProperties(ideProperties, new File(Installer.idePropFolder+Installer.idePropName));
 
         if(Installer.isInstalled()) {
-            System.out.println();
             frame.setSize(Integer.parseInt(ideProperties.getProperty("width")), Integer.parseInt(ideProperties.getProperty("height")));
             frame.setVisible(true);
             dialog.setVisible(false);
@@ -34,5 +33,7 @@ public class FramePresenter {
         }
         frame.setFrameVisible(true);
     }
+
+
 
 }

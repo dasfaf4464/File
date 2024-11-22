@@ -23,7 +23,6 @@ public class FrameMenuBarPresenter {
      */
     public void settingMenuClicked() {
         System.out.println("settingMenuClicked");
-
     }
 
     /**
@@ -95,8 +94,8 @@ public class FrameMenuBarPresenter {
         public void mouseClicked(MouseEvent e) {
             JMenu me = (JMenu) e.getSource();
             switch (me.getText()) {
-                case "Settings": System.out.println("settingMenuClicked"); break;
-                case "Help": System.out.println("helpMenuClicked"); break;
+                case "Settings": settingMenuClicked(); break;
+                case "Help": helpMenuClicked(); break;
             }
         }
     }
@@ -105,7 +104,6 @@ public class FrameMenuBarPresenter {
         @Override
         public void actionPerformed(ActionEvent e) {
             JMenuItem menuItem = (JMenuItem) e.getSource();
-            System.out.println("아이템 클릭");
             switch (menuItem.getText()) {
                 case "Open": openItemClicked(); break;
                 case "Close": closeItemClicked(); break;

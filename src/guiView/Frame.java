@@ -21,7 +21,7 @@ public class Frame extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-
+        setTitle("2024-2 OOP term Project 3rd");
         JSplitPane horizontalSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         horizontalSplitPane.setResizeWeight(0.25);
         horizontalSplitPane.setContinuousLayout(true);

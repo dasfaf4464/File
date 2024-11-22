@@ -76,7 +76,7 @@ public class Compiler {
                 "-d",
                 outputPath, //저장할 폴더 절대경로
                 "@",
-                sourceListFile.getName()
+                sourceListFile.getAbsolutePath()
         };
 
         ProcessBuilder compileBuilder = new ProcessBuilder(compileCommand);
@@ -92,7 +92,24 @@ public class Compiler {
             return false;
         }
 
-        return true;
+        if(exitCode != 0) {
+
+            try {
+                InputStream errorStream = compileProcess.getInputStream();
+                lastErrorContent = new String(errorStream.readAllBytes());
+            }
+            catch (IOException e) {
+                massage = "Failed to read error output: " + e.getMessage();
+                errorFlag = 1;
+                return false;
+            }
+
+            errorFlag = 1;
+            return false;
+        } else {
+            massage = "Compilation completed successfully";
+            return true;
+        }
     }
 
     public String getMassage() {

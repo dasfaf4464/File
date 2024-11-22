@@ -3,6 +3,7 @@ package guiModel;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 /**
  * 프로젝트 정보를 가지고있는 클래스
@@ -14,6 +15,7 @@ public class Project {
     private String projectName;
     private String path;
     private Properties projectProperties;
+    private ArrayList<File> lastOpenedFiles;
 
     private Project() {
     }
@@ -77,7 +79,18 @@ public class Project {
         openedProject.projectProperties = new Properties();
         openedProject.path = ProjectPath;
         openedProject.projectName = Name;
+        openedProject.lastOpenedFiles = new ArrayList<>();
         PropertiesUtil.loadProperties(openedProject.projectProperties, new File(openedProject.path + "\\" + openedProject.projectName + ".properties"));
+
+        String lastEdited = openedProject.projectProperties.getProperty("lastedit");
+        StringTokenizer edit = new StringTokenizer(lastEdited, ",");
+
+        while(edit.hasMoreTokens()) {
+            if(new File(edit.nextToken()).exists()) {
+                openedProject.lastOpenedFiles.add(new File(edit.nextToken()));
+            }
+        }
+
         return openedProject;
     }
 

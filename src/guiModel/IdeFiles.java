@@ -3,16 +3,17 @@ package guiModel;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * ide에서 사용하는 모든 파일, 프로젝트 관리
+ * 디스크 -> ideFiles 등록 -> 등록된걸 보여주는
+ */
 public class IdeFiles {
     private Project openedProject;
     private final ArrayList<File> openedFiles = new ArrayList<>();
 
-    public IdeFiles() {
-        openedProject = null;
-    }
-
     public IdeFiles(Project openedProject) {
         this.openedProject = openedProject;
+
     }
 
     /**
